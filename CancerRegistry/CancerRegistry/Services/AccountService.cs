@@ -12,15 +12,19 @@ namespace CancerRegistry.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
+        public List<string> RegisterErrors { get; private set; }
+
         public AccountService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            RegisterErrors = new List<string>();
         }
 
         public async Task<bool> LoginPatient(string egn, string password)
         {
             var user = await _userManager.FindByNameAsync(egn);
+
             if (user == null)
                 return false;
 
@@ -54,9 +58,21 @@ namespace CancerRegistry.Services
             var roleResult = await _userManager.AddToRoleAsync(user,"Patient");
 
             if (!registerResult.Succeeded || !roleResult.Succeeded)
+            {
+                RegisterErrors.Clear();
+
+                foreach (var err in registerResult.Errors)
+                    RegisterErrors.Add(err.Description);
+
+                foreach (var err in roleResult.Errors)
+                    RegisterErrors.Add(err.Description);
+
                 return false;
+            }
 
             return true;
         }
+
+
     }
 }
