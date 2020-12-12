@@ -8,9 +8,10 @@ namespace CancerRegistry.Models.Accounts.Patient
 {
     public class PatientLoginModel
     {
+        [Required]
         public string EGN { get; set; }
 
-        [DataType(DataType.Password)]
+        [Required, DataType(DataType.Password)]
         public string Password { get; set; }
     }
 }
