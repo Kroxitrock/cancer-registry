@@ -1,8 +1,226 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@{ 
+    Layout = "";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>Здравен раков регистър</title>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/animate.css">
+    <link rel="stylesheet" href="~/css/owl.carousel.css">
+    <link rel="stylesheet" href="~/css/owl.theme.default.min.css">
+
+
+    <link rel="stylesheet" href="~/css/tooplate-style.css">
+
+</head>
+<body id="top" data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
+
+
+    <section class="preloader">
+        <div class="spinner">
+
+            <span class="spinner-rotate"></span>
+
+        </div>
+    </section>
+
+
+    <!-- HEADER -->
+    <header>
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-4 col-sm-5">
+                    <p>Добре дошли в Здравния Раков Регистър за рак на гърдата</p>
+                </div>
+
+                <div class="col-md-8 col-sm-7 text-align-right">
+
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+
+    <!-- MENU -->
+    <section class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="container">
+
+            <div class="navbar-header">
+                <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon icon-bar"></span>
+                    <span class="icon icon-bar"></span>
+                    <span class="icon icon-bar"></span>
+                </button>
+
+                <!-- lOGO TEXT HERE -->
+                <a asp-controller="Home" asp-action="Index"><img src="~/images/logo_transparent.png"></a>
+            </div>
+
+            <!-- MENU LINKS -->
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#top" class="smoothScroll">Начало</a></li>
+                    <li><a asp-action="Info" class="smoothScroll">Информация за рак на гърдата</a></li>
+                    <li><a href="#google-map" class="smoothScroll">Контакти</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- HOME -->
+    <section id="home" class="slider" data-stellar-background-ratio="0.5">
+        <div class="container">
+            <div class="row">
+
+                <div class="owl-carousel owl-theme">
+                    <div class="item item-first">
+                        <div class="caption">
+                            <div class="col-md-offset-1 col-md-10">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="item item-second">
+                        <div class="caption">
+                            <div class="col-md-offset-1 col-md-10">
+                                <h3>Пълна информация на пациента в реално време. Статистика за процеса на лечение.</h3>
+                                <h1>ЗА ДОКТОРИТЕ</h1>
+                                <a href="#about" class="section-btn btn btn-default btn-gray smoothScroll">ПРОЧЕТИ ПОВЕЧЕ</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="item item-third">
+                        <div class="caption">
+                            <div class="col-md-offset-1 col-md-10">
+                                <h3>Пазене на диагнози, показване на процес на лечение и редактиране на личните данни, в случай на промяна. Всичко това в реално време!</h3>
+                                <h1>ЗА ПАЦИЕНТИТЕ</h1>
+                                <a href="#team" class="section-btn btn btn-default btn-blue smoothScroll">ПРОЧЕТИ ПОВЕЧЕ</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ABOUT -->
+    <section id="about">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-6 col-sm-6">
+                    <div class="about-info">
+                        <h2 class="wow fadeInUp" data-wow-delay="0.6s">Доктор си и искаш да ти е по-лесно?</h2>
+                        <div class="wow fadeInUp" data-wow-delay="0.8s">
+                            <p>Във раковия регистър ти ще имаш пълната информация за пациента в реално време. Статистика за неговото лечение и епикриза на едно място.</p>
+                            <p>Въведи резултатите от изследването на пациента, провери процеса на лечение във всеки един момент.</p>
+                        </div>
+                        <a href="signIn-doctor.html" class="section-btn btn btn-default btn-blue smoothScroll">ЗАПОЧНИ СЕГА</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- TEAM -->
+    <section id="team" data-stellar-background-ratio="1">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-6 col-sm-6">
+                    <div class="about-info">
+                        <h2 class="wow fadeInUp" data-wow-delay="0.6s">Писнало ти е от хвърчащи листове и постоянния стрес?</h2>
+                        <div class="wow fadeInUp" data-wow-delay="0.8s">
+                            <p>Във раковия регистър ти ще достъп до процеса на лечение и развитието му.</p>
+                            <p>След извършване на преглед и регистрация на данните от страна на доктора, ти ще можеш автоматично да получаваш своята епикриза и да ги съхраняваш в системата.</p>
+                            <p>Ние гарантираме защита на твоите лични данни, до тях ще има достъп само лекуващия лекар.</p>
+                        </div>
+                        <a href="signIn-patient.html" class="section-btn btn btn-default btn-blue smoothScroll">ЗАПОЧНИ СЕГА</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- NEWS -->
+    <section id="news" data-stellar-background-ratio="1">
+
+
+        <img src="~/images/new.png" width="100%" height="350" frameborder="0" style="border:0" allowfullscreen class="img-responsive" alt="">
+
+    </section>
+
+
+
+
+    <!-- GOOGLE MAP -->
+    <section id="google-map">
+
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2934.0324338320916!2d23.35810176546592!3d42.660668079167834!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x9001cc5d9545d9ae!2z0KPQodCR0JDQmyDQv9C-INC-0L3QutC-0LvQvtCz0LjRjyDQldCQ0JQsINCz0YAuINCh0L7RhNC40Y8!5e0!3m2!1sbg!2sbg!4v1606312866404!5m2!1sbg!2sbg" width="100%" height="350" frameborder="0" style="border:0" allowfullscreen></iframe>
+    </section>
+    <!-- FOOTER -->
+    <footer data-stellar-background-ratio="5">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="footer-thumb">
+                        <h4 class="wow fadeInUp" data-wow-delay="0.4s">Контакти</h4>
+                        <p>Имате въпроси относно здравния раков регистър за рак на гърдата? Свържете се с нас!</p>
+
+                        <div class="contact-info">
+                            <p><i class="fa fa-phone"></i> 010-070-0170</p>
+                            <p><i class="fa fa-envelope-o"></i> <a href="#">info@zdravenrakovregister.com</a></p>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="col-md-2 col-sm-2 text-align-center">
+                    <div class="angle-up-btn">
+                        <a href="#top" class="smoothScroll wow fadeInUp" data-wow-delay="1.2s"><i class="fa fa-angle-up"></i></a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.sticky.js"></script>
+    <script src="~/js/jquery.stellar.min.js"></script>
+    <script src="~/js/wow.min.js"></script>
+    <script src="~/js/smoothscroll.js"></script>
+    <script src="~/js/owl.carousel.min.js"></script>
+    <script src="~/js/custom.js"></script>
+</body>
+</html>

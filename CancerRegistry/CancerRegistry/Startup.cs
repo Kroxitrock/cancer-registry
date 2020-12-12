@@ -36,7 +36,7 @@ namespace CancerRegistry
 
             services.AddControllersWithViews();
 
-            services.AddRazorPages();
+            services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
