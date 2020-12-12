@@ -28,7 +28,7 @@ namespace CancerRegistry
         {
             services.AddDbContext<AccountDbContext>(options => 
                 options.UseSqlServer(
-                    Configuration.GetConnectionString(Configuration["ConnectionStrings:AccountDbConnection"])));
+                    Configuration.GetConnectionString("AccountDbConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<AccountDbContext>()
