@@ -37,6 +37,16 @@ namespace CancerRegistry
             services.AddControllersWithViews();
 
             services.AddRazorPages().AddRazorRuntimeCompilation();
+
+            services.AddAuthorization(options => 
+            {
+                options.AddPolicy("RequireAdministratorRole",
+                    policy => policy.RequireRole("Administrator"));
+                options.AddPolicy("RequireDoctorRole",
+                    policy => policy.RequireRole("Doctor"));
+                options.AddPolicy("RequirePatientRole",
+                    policy => policy.RequireRole("Patient"));
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

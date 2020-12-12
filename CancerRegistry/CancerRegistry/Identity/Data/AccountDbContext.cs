@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CancerRegistry.Identity.Data
 {
-    public class AccountDbContext : IdentityDbContext
+    public class AccountDbContext : IdentityDbContext<ApplicationUser>
     {
         public AccountDbContext(DbContextOptions<AccountDbContext> options)
             : base(options) { }
