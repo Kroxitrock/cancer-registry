@@ -21,9 +21,9 @@ namespace CancerRegistry.Services
             RegisterErrors = new List<string>();
         }
 
-        public async Task<bool> LoginPatient(string egn, string password)
+        public async Task<bool> LoginUser(string username, string password)
         {
-            var user = await _userManager.FindByNameAsync(egn);
+            var user = await _userManager.FindByNameAsync(username);
 
             if (user == null)
                 return false;

@@ -1,0 +1,67 @@
+﻿@model CancerRegistry.Models.Accounts.Doctor.DoctorLoginModel;
+@{ 
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ВХОД ЗА ДОКТОРИ</title>
+
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
+    <link rel="stylesheet" href="~/css/style.css">
+
+</head>
+<body id="top" data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
+
+
+    <section class="preloader">
+        <div class="spinner">
+
+            <span class="spinner-rotate"></span>
+
+        </div>
+    </section>
+
+
+    <div class="login-wrap">
+        <a asp-controller="Home" asp-action="Index"><img src="~/images/logo_transparent.png" p></a>
+        <div class="login-html">
+            <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Вход</label>
+            <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab"></label>
+            <div class="login-form">
+                    <div class="sign-in-htm">
+                        <div class="group"></div>
+                        <form>
+                            <div class="group">
+                                <label asp-for="UID" class="label">УИН</label>
+                                <input asp-for="UID" type="text" class="input">
+                            </div>
+                            <div class="group">
+                                <label asp-for="Password" class="label">Парола</label>
+                                <input asp-for="Password" type="password" class="input" data-type="password">
+                            </div>
+                            <div class="group">
+                                <input id="check" type="checkbox" class="check" checked>
+                                <label for="check"><span class="icon"></span>    Запомни ме</label>
+                            </div>
+                            <div class="group">
+                                <button class="button" type ="submit">Вход</button>
+                                <!-- dashboard.html -->
+                            </div>
+                        </form>
+                        <div class="hr"></div>
+                        <div class="foot-lnk">
+                            <a href="#forgot">Забравена парола?</a>
+                        </div>
+                    </div>
+
+
+            </div>
+            <div class="foot-lnk">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
