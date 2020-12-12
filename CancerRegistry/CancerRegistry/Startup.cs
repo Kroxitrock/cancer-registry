@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CancerRegistry.Identity;
 using CancerRegistry.Identity.Data;
+using CancerRegistry.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,6 +34,8 @@ namespace CancerRegistry
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<AccountDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddTransient<AccountService>();
 
             services.AddControllersWithViews();
 
