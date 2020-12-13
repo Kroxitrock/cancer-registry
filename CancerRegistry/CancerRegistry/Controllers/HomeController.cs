@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CancerRegistry.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CancerRegistry.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -18,16 +20,21 @@ namespace CancerRegistry.Controllers
             _logger = logger;
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
         }
-
+        [AllowAnonymous]
         public IActionResult Info()
         {
             return View();
         }
 
+        public IActionResult UserDashboard()
+            => View("/Views/Dashboard/Patient/PatientDashboardIndex.cshtml");
+
+        [AllowAnonymous]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

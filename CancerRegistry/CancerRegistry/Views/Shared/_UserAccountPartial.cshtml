@@ -3,7 +3,6 @@
 @inject SignInManager<ApplicationUser> signInManager;
 @inject UserManager<ApplicationUser> userManager;
 @{
-    var userIs = User.Identity.IsAuthenticated;
     var userId = userManager.GetUserId(User);
     var user = await userManager.FindByIdAsync(userId);
     var userFirstName = user.FirstName;
@@ -29,8 +28,9 @@
         @if (User.IsInRole("Patient"))
         {
             <div class="dropdown-menu">
-                <a asp-controller="Account" asp-action="GetPatient" asp-route-id="@@userManager.GetUserAsync(User).Result.FirstName @userManager.GetUserAsync(User).Result.Id" class="dropdown-item">Моят профил</a>
-                <a class="dropdown-item" href="edit-profile-patient.html">Редактирай профила</a>
+                <a asp-controller="Account" asp-action="Patient" asp-route-id="@user.Id" class="dropdown-item">Моят профил</a>
+                <a asp-controller="Account" asp-action="Edit" asp-route-id="@user.Id" class="dropdown-item">Редактирай профила</a>
+                <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Излез</a>
             </div>
         }
         else
@@ -38,10 +38,10 @@
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="profile-patient.html">Моят профил</a>
                 <a class="dropdown-item" href="edit-profile-patient.html">Редактирай профила</a>
-
+                <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Излез</a>
             </div>
         }
-        <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Излез</a>
+
     </li>
 </ul>
 <div class="dropdown mobile-user-menu float-right">
