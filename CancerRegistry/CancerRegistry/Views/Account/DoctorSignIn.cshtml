@@ -33,7 +33,7 @@
             <div class="login-form">
                     <div class="sign-in-htm">
                         <div class="group"></div>
-                        <form>
+                        <form asp-controller="Account" asp-action="LoginDoctor" method="post">
                             <div class="group">
                                 <label asp-for="UID" class="label">УИН</label>
                                 <input asp-for="UID" type="text" class="input">

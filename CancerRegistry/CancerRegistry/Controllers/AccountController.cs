@@ -35,7 +35,7 @@ namespace CancerRegistry.Controllers
             var loginResult = await _accountService.LoginUser(model.LoginModel.EGN, model.LoginModel.Password);
 
             if (loginResult)
-                return RedirectToAction("UserDashboard","Home"); 
+                return RedirectToAction("PatientDashboard","Home"); 
 
             ModelState.AddModelError("", "Login failed: EGN or password invalid.");
             return View("PatientSignInUp");
@@ -55,7 +55,7 @@ namespace CancerRegistry.Controllers
             var loginResult = await _accountService.LoginUser(doctor.UID, doctor.Password);
 
             if (loginResult)
-                return RedirectToAction(); //Must redirect to doctor's dashboard
+                return RedirectToAction("DoctorDashboard", "Home"); //Must redirect to doctor's dashboard
 
             ModelState.AddModelError("", "Login failed: UID or password invalid.");
             return View("DoctorSignIn");
@@ -92,28 +92,35 @@ namespace CancerRegistry.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Patient(string id)
+        public async Task<IActionResult> PatientProfile(string id)
         {
             var patient = await _accountService.GetPatient(id);
             return View("PatientProfile", patient);
         }
+        [HttpGet]
+        public async Task<IActionResult> DoctorProfile(string id)
+        {
+            var doctor = await _accountService.GetDoctor(id);
+            return View("DoctorProfile", doctor);
+        }
 
-        public async Task<IActionResult> Edit(string patientId)
+        [HttpGet]
+        public async Task<IActionResult> EditPatientProfile(string patientId)
         {
             var patient = await _accountService.GetPatient(patientId);
             return View("EditProfilePatient", patient);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(string id, string firstName, string lastName, string egn, string phoneNumber)
+        public async Task<IActionResult> EditPatientProfile(string id, string firstName, string lastName, string egn, string phoneNumber)
         {
             var result = await _accountService.Edit(id, firstName, lastName, egn, phoneNumber);
 
             if (result)
-                return RedirectToAction("Patient", "Account", new { id = id });
+                return RedirectToAction("PatientProfile", "Account", new { id = id });
 
             ModelState.AddModelError("", "There was an error. Please try again!");
-            return RedirectToAction("Edit", id);
+            return RedirectToAction("EditPatientProfile", id);
         }
     }
 }

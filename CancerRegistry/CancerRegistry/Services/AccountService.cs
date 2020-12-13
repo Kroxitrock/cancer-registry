@@ -75,10 +75,15 @@ namespace CancerRegistry.Services
 
         public async Task<ApplicationUser> GetPatient(string id)
         {
-            var user = await _userManager.FindByIdAsync(id);
-            return user;
+            var patient = await _userManager.FindByIdAsync(id);
+            return patient;
         }
 
+        public async Task<ApplicationUser> GetDoctor(string id)
+        {
+            var doctor = await _userManager.FindByIdAsync(id);
+            return doctor;
+        }
         public async Task<bool> Edit(string id, string firstName, string lastName, string egn, string phoneNumber)
         {
             var user = await _userManager.FindByIdAsync(id);
