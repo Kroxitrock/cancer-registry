@@ -34,7 +34,7 @@ namespace CancerRegistry.Controllers
             var loginResult = await _accountService.LoginUser(model.LoginModel.EGN, model.LoginModel.Password);
 
             if (loginResult)
-                return RedirectToAction(); //Must redirect to patient's dashboard
+                return View("/Views/Dashboard/Patient/PatientDashboardIndex.cshtml"); //Must redirect to patient's dashboard
 
             ModelState.AddModelError("", "Login failed: EGN or password invalid.");
             return View("PatientSignInUp");
