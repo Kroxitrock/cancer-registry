@@ -34,7 +34,7 @@ namespace CancerRegistry.Controllers
             var loginResult = await _accountService.LoginUser(model.LoginModel.EGN, model.LoginModel.Password);
 
             if (loginResult)
-                return View("/Views/Dashboard/Patient/PatientDashboardIndex.cshtml"); //Must redirect to patient's dashboard
+                return RedirectToAction("PatientHome"); //Must redirect to patient's dashboard
 
             ModelState.AddModelError("", "Login failed: EGN or password invalid.");
             return View("PatientSignInUp");
@@ -90,5 +90,13 @@ namespace CancerRegistry.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult PatientHome()
+            => View("/Views/Dashboard/Patient/PatientDashboardIndex.cshtml");
+
+        public async Task<IActionResult> GetPatient(string id)
+        {
+            var patient = await _accountService.GetPatient(id);
+            return View("PatientProfile", patient);
+        }
     }
 }

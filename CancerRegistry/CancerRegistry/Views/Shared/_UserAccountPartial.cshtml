@@ -1,12 +1,13 @@
-﻿@using Microsoft.AspNetCore.Identity;
-@using CancerRegistry.Identity;
-@inject UserManager<ApplicationUser> userManager;
+﻿@using CancerRegistry.Identity;
+@using Microsoft.AspNetCore.Identity;
 @inject SignInManager<ApplicationUser> signInManager;
+@inject UserManager<ApplicationUser> userManager;
 @{
+    var userIs = User.Identity.IsAuthenticated;
     var userId = userManager.GetUserId(User);
-    var user = userManager.FindByIdAsync(userId);
-    var userFirstName = user.Result.FirstName;
-    var userLastName = user.Result.LastName;
+    var user = await userManager.FindByIdAsync(userId);
+    var userFirstName = user.FirstName;
+    var userLastName = user.LastName;
     var fullName = userFirstName + " " + userLastName;
 }
 <ul class="nav user-menu float-right">
@@ -18,18 +19,29 @@
             </span>
             @if (User.IsInRole("Doctor"))
             {
-                <span>д-р @fullName</span>
+                <span>д-р @userFirstName @userLastName</span>
             }
             else
             {
-                <span>@fullName</span>
+                <span>@userFirstName @userLastName</span>
             }
         </a>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" href="profile-patient.html">Моят профил</a>
-            <a class="dropdown-item" href="edit-profile-patient.html">Редактирай профила</a>
-            <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Излез</a>
-        </div>
+        @if (User.IsInRole("Patient"))
+        {
+            <div class="dropdown-menu">
+                <a asp-controller="Account" asp-action="GetPatient" asp-route-id="@@userManager.GetUserAsync(User).Result.FirstName @userManager.GetUserAsync(User).Result.Id" class="dropdown-item">Моят профил</a>
+                <a class="dropdown-item" href="edit-profile-patient.html">Редактирай профила</a>
+            </div>
+        }
+        else
+        {
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="profile-patient.html">Моят профил</a>
+                <a class="dropdown-item" href="edit-profile-patient.html">Редактирай профила</a>
+
+            </div>
+        }
+        <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Излез</a>
     </li>
 </ul>
 <div class="dropdown mobile-user-menu float-right">

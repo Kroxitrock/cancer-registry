@@ -73,6 +73,11 @@ namespace CancerRegistry.Services
             return true;
         }
 
+        public async Task<ApplicationUser> GetPatient(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            return user;
 
+        }
     }
 }
