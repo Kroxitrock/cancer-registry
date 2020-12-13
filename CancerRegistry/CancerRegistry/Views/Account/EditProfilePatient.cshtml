@@ -1,0 +1,109 @@
+﻿@model CancerRegistry.Identity.ApplicationUser;
+
+<div class="content">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <h4 class="page-title">Редактирай профила си</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <form asp-controller="Account" asp-action="Edit" method="post">
+                <div class="row">
+                    <input asp-for="@Model.Id" type="hidden" value="@Model.Id" />
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="@Model.FirstName" >Име <span class="text-danger">*</span></label>
+                            <input asp-for="@Model.FirstName" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="@Model.LastName">Фамилия</label>
+                            <input asp-for="@Model.LastName" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="@Model.EGN">ЕГН <span class="text-danger">*</span></label>
+                            <input asp-for="@Model.EGN" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="@Model.PhoneNumber">Тел. номер <span class="text-danger">*</span></label>
+                            <input asp-for="@Model.PhoneNumber" class="form-control" type="tel">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Дата на раждане</label>
+                            <div class="cal-icon">
+                                <input type="text" class="form-control datetimepicker">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group gender-select">
+                            <label class="gen-label">Пол:</label>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" name="gender" class="form-check-input">Мъж
+                                </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" name="gender" class="form-check-input">Жена
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Адрес</label>
+                                    <input type="text" class="form-control ">
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-3">
+                                <div class="form-group">
+                                    <label>Проведени изследвания</label>
+                                    <select class="form-control select">
+                                        <option>ДА</option>
+                                        <option>НЕ</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Качи предишни изследвания</label>
+                                    <div class="document-upload">
+                                        <div class="upload-input">
+                                            <input type="file" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Качи медицинска история</label>
+                                    <div class="document-upload">
+                                        <div class="upload-input">
+                                            <input type="file" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="m-t-20 text-center">
+                            <button class="btn btn-primary submit-btn">Добави пациент</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

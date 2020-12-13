@@ -29,7 +29,7 @@
         {
             <div class="dropdown-menu">
                 <a asp-controller="Account" asp-action="Patient" asp-route-id="@user.Id" class="dropdown-item">Моят профил</a>
-                <a asp-controller="Account" asp-action="Edit" asp-route-id="@user.Id" class="dropdown-item">Редактирай профила</a>
+                <a asp-controller="Account" asp-action="Edit" asp-route-patientId="@user.Id" class="dropdown-item">Редактирай профила</a>
                 <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Излез</a>
             </div>
         }

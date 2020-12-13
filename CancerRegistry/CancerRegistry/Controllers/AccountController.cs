@@ -1,4 +1,5 @@
-﻿using CancerRegistry.Models.Accounts.Doctor;
+﻿using CancerRegistry.Identity;
+using CancerRegistry.Models.Accounts.Doctor;
 using CancerRegistry.Models.Accounts.Patient;
 using CancerRegistry.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -97,9 +98,22 @@ namespace CancerRegistry.Controllers
             return View("PatientProfile", patient);
         }
 
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(string patientId)
         {
+            var patient = await _accountService.GetPatient(patientId);
+            return View("EditProfilePatient", patient);
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> Edit(string id, string firstName, string lastName, string egn, string phoneNumber)
+        {
+            var result = await _accountService.Edit(id, firstName, lastName, egn, phoneNumber);
+
+            if (result)
+                return RedirectToAction("Patient", "Account", new { id = id });
+
+            ModelState.AddModelError("", "There was an error. Please try again!");
+            return RedirectToAction("Edit", id);
         }
     }
 }
