@@ -10,7 +10,8 @@ using Microsoft.AspNetCore.Authorization;
 using CancerRegistry.Models.Admin;
 
 namespace CancerRegistry.Controllers
-{   [Authorize(Policy ="RequireAdministrationPolicy")]
+{   
+    [Authorize(Policy ="RequireAdministrationPolicy")]
     public class AdminController : Controller
     {
         private readonly AdministratorService _adminService;
@@ -18,6 +19,10 @@ namespace CancerRegistry.Controllers
         public AdminController(AdministratorService adminService) 
             => _adminService = adminService;
 
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Login() => View();
+        
         public async Task<IActionResult> Login(AdminLoginModel admin)
         {
             if (!ModelState.IsValid)
@@ -32,7 +37,8 @@ namespace CancerRegistry.Controllers
             return View(admin);
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Home()
         {
             var users = _adminService.GetAllUsers();
             return View(users);
@@ -41,7 +47,7 @@ namespace CancerRegistry.Controllers
         public IActionResult RegisterDoctor() => View();
 
         [HttpPost]
-        public async Task<IActionResult> Create(DoctorRegisterModel doctor)
+        public async Task<IActionResult> CreateDoctor(DoctorRegisterModel doctor)
         {
             if (!ModelState.IsValid)
                 return View(doctor);
@@ -53,17 +59,17 @@ namespace CancerRegistry.Controllers
                     doctor.EGN,
                     doctor.UID);
 
-            if (!result)
-            {
-                foreach (var error in _adminService.RegisterErrors)
-                    ModelState.AddModelError("", error);
-                return View(doctor);
-            }
-
-            return RedirectToAction("Index");
+            if (result) 
+                return RedirectToAction("Index");
+            
+            foreach (var error in _adminService.RegisterErrors)
+                ModelState.AddModelError("", error);
+            
+            return View(doctor);
         }
 
-        public async Task<IActionResult> Delete(string id)
+        [HttpPost]
+        public async Task<IActionResult> DeleteDoctor(string id)
         {
             var result = await _adminService.DeleteUser(id);
 
