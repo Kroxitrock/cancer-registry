@@ -59,10 +59,10 @@ namespace CancerRegistry.Controllers
                     doctor.EGN,
                     doctor.UID);
 
-            if (result) 
+            if (result.Succeeded) 
                 return RedirectToAction("Index");
             
-            foreach (var error in _adminService.RegisterErrors)
+            foreach (var error in result.Errors)
                 ModelState.AddModelError("", error);
             
             return View(doctor);

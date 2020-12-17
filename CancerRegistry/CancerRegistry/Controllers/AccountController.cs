@@ -81,9 +81,9 @@ namespace CancerRegistry.Controllers
                 model.RegisterModel.PhoneNumber,
                 model.RegisterModel.Password);
 
-            if (!result)
+            if (!result.Succeeded)
             {
-                foreach (var err in _accountService.RegisterErrors)
+                foreach (var err in result.Errors)
                     ModelState.AddModelError("", err);
                 return View("PatientSignInUp", model);
             }

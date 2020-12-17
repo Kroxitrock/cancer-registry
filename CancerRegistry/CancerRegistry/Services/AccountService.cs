@@ -12,8 +12,6 @@ namespace CancerRegistry.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public List<string> RegisterErrors { get; private set; }
-
         public AccountService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
@@ -38,13 +36,15 @@ namespace CancerRegistry.Services
         public async Task LogoutUser()
          => await _signInManager.SignOutAsync();
 
-        public async Task<bool> RegisterPatient(
+        public async Task<RegistrationResult> RegisterPatient(
             string firstName,
             string lastName,
             string egn,
             string phoneNumber,
             string password)
         {
+            RegistrationResult registrationResult = new RegistrationResult();
+            
             ApplicationUser user = new ApplicationUser()
             {
                 UserName = egn,
@@ -57,20 +57,18 @@ namespace CancerRegistry.Services
             var registerResult = await _userManager.CreateAsync(user, password);
             var roleResult = await _userManager.AddToRoleAsync(user,"Patient");
 
-            if (!registerResult.Succeeded || !roleResult.Succeeded)
-            {
-                RegisterErrors.Clear();
+            if (registerResult.Succeeded && roleResult.Succeeded) 
+                return registrationResult;
 
-                foreach (var err in registerResult.Errors)
-                    RegisterErrors.Add(err.Description);
+            registrationResult.Succeeded = false;
+            registrationResult.Errors = new List<string>();
+            foreach (var err in registerResult.Errors)
+                registrationResult.Errors.Add(err.Description);
 
-                foreach (var err in roleResult.Errors)
-                    RegisterErrors.Add(err.Description);
+            foreach (var err in roleResult.Errors)
+                registrationResult.Errors.Add(err.Description);
 
-                return false;
-            }
-
-            return true;
+            return registrationResult;
         }
 
         public async Task<ApplicationUser> GetPatient(string id)

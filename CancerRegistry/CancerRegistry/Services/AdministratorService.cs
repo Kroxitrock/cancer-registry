@@ -12,13 +12,10 @@ namespace CancerRegistry.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public List<String> RegisterErrors { get; private set; }
-
         public AdministratorService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            RegisterErrors = new List<string>();
         }
 
         public IEnumerable<ApplicationUser> GetAllUsers()
@@ -53,12 +50,14 @@ namespace CancerRegistry.Services
             return result.Succeeded;
         }
 
-        public async Task<Boolean> RegisterDoctor(
+        public async Task<RegistrationResult> RegisterDoctor(
             string firstName,
             string lastName,
             string egn,
             string uid)
         {
+            RegistrationResult registrationResult = new RegistrationResult();
+            
             var doctorPassword = string.Concat(
                 char.ToUpper(
                     firstName[0]),
@@ -78,19 +77,18 @@ namespace CancerRegistry.Services
             var registerResult = await _userManager.CreateAsync(appUser, doctorPassword);
             var roleResult = await _userManager.AddToRoleAsync(appUser, "Doctor");
 
-            if (!registerResult.Succeeded || !roleResult.Succeeded)
-            {
-                RegisterErrors.Clear();
-                foreach (var error in registerResult.Errors)
-                    RegisterErrors.Add(error.Description);
+            if (registerResult.Succeeded && roleResult.Succeeded)
+                return registrationResult;
 
-                foreach (var error in roleResult.Errors)
-                    RegisterErrors.Add(error.Description);
+            registrationResult.Succeeded = false;
+            registrationResult.Errors = new List<string>();
+            foreach (var error in registerResult.Errors)
+                registrationResult.Errors.Add(error.Description);
 
-                return false;
-            }
+            foreach (var error in roleResult.Errors)
+                registrationResult.Errors.Add(error.Description);
 
-            return true;
+            return registrationResult;
         }
     }
 }
