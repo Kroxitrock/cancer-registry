@@ -25,19 +25,13 @@ namespace CancerRegistry.Controllers
         {
             return View();
         }
+        
         [AllowAnonymous]
         public IActionResult Info()
         {
             return View();
         }
-
-        public IActionResult PatientDashboard()
-            => View("/Views/Dashboard/Patient/PatientDashboardIndex.cshtml");
-
-        [AllowAnonymous]
-        public IActionResult DoctorDashboard()
-            => View("/Views/Dashboard/Doctor/DoctorDashboardIndex.cshtml");
-
+        
         [AllowAnonymous]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
