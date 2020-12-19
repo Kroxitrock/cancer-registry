@@ -16,7 +16,6 @@ namespace CancerRegistry.Services
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            RegisterErrors = new List<string>();
         }
 
         public async Task<bool> LoginUser(string username, string password)
