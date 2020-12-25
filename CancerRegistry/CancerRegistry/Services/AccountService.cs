@@ -81,7 +81,7 @@ namespace CancerRegistry.Services
             var doctor = await _userManager.FindByIdAsync(id);
             return doctor;
         }
-        public async Task<bool> Edit(string id, string firstName, string lastName, string egn, string phoneNumber)
+        public async Task<bool> Edit(string id, string firstName, string lastName, string egn, string phoneNumber, DateTime birthDate, string gender)
         {
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
@@ -92,6 +92,8 @@ namespace CancerRegistry.Services
             user.EGN = egn;
             user.PhoneNumber = phoneNumber;
             user.UserName = egn;
+            user.BirthDate = birthDate;
+            user.Gender = gender;
 
             await _userManager.UpdateAsync(user);
             return true;

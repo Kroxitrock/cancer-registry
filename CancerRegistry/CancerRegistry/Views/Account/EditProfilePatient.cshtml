@@ -1,5 +1,7 @@
-﻿@model CancerRegistry.Identity.ApplicationUser;
-
+﻿@model CancerRegistry.Models.Accounts.Patient.PatientEditProfileModel;
+@{
+    Layout = "_LayoutPatient";
+}
 <div class="content">
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
@@ -37,69 +39,27 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Дата на раждане</label>
+                            <label asp-for="@Model.BirthDate">Дата на раждане</label>
                             <div class="cal-icon">
-                                <input type="text" class="form-control datetimepicker">
+                                <input asp-for="@Model.BirthDate" type="text" class="form-control datetimepicker">
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <div class="form-group gender-select">
-                            <label class="gen-label">Пол:</label>
-                            <div class="form-check-inline">
-                                <label class="form-check-label">
-                                    <input type="radio" name="gender" class="form-check-input">Мъж
-                                </label>
-                            </div>
-                            <div class="form-check-inline">
-                                <label class="form-check-label">
-                                    <input type="radio" name="gender" class="form-check-input">Жена
-                                </label>
-                            </div>
-                        </div>
+                        <label class="gen-label">Пол:</label>
+                            @foreach (var gender in Model.Genders)
+                            {
+                                <div class="form-check-inline">
+                                    <label class="form-check-label">
+                                        <input type="radio" asp-for="Gender" value="@gender" class="form-check-input">@gender
+                                    </label>
+                                </div>
+                            }
                     </div>
                     <div class="col-sm-12">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label>Адрес</label>
-                                    <input type="text" class="form-control ">
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-6 col-lg-3">
-                                <div class="form-group">
-                                    <label>Проведени изследвания</label>
-                                    <select class="form-control select">
-                                        <option>ДА</option>
-                                        <option>НЕ</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label>Качи предишни изследвания</label>
-                                    <div class="document-upload">
-                                        <div class="upload-input">
-                                            <input type="file" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label>Качи медицинска история</label>
-                                    <div class="document-upload">
-                                        <div class="upload-input">
-                                            <input type="file" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
                         <div class="m-t-20 text-center">
-                            <button class="btn btn-primary submit-btn">Добави пациент</button>
+                            <button class="btn btn-primary submit-btn">Редактирай</button>
                         </div>
                     </div>
                 </div>

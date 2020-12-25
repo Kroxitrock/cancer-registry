@@ -15,5 +15,9 @@ namespace CancerRegistry.Identity
         public String EGN { get; set; }
 
         public String UID { get; set; }
+        
+        public DateTime BirthDate { get; set; }
+        
+        public String Gender { get; set; }
     }
 }

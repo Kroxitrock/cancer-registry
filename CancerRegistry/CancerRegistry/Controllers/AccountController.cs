@@ -109,19 +109,30 @@ namespace CancerRegistry.Controllers
         public async Task<IActionResult> EditPatientProfile(string patientId)
         {
             var patient = await _accountService.GetPatient(patientId);
-            return View("EditProfilePatient", patient);
+            var model = new PatientEditProfileModel()
+                { 
+                    Id = patient.Id,
+                    FirstName = patient.FirstName,
+                    LastName = patient.LastName,
+                    EGN = patient.EGN, 
+                    PhoneNumber = patient.PhoneNumber, 
+                    Gender = patient.Gender,
+                    BirthDate = patient.BirthDate,
+                    Genders = new string[] {"Mъж", "Жена"}
+                };
+            return View("EditProfilePatient", model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditPatientProfile(string id, string firstName, string lastName, string egn, string phoneNumber)
+        public async Task<IActionResult> EditPatientProfile(PatientEditProfileModel model)
         {
-            var result = await _accountService.Edit(id, firstName, lastName, egn, phoneNumber);
+            var result = await _accountService.Edit(model.Id, model.FirstName, model.LastName, model.EGN, model.PhoneNumber, model.BirthDate, model.Gender);
 
             if (result)
-                return RedirectToAction("PatientProfile", "Account", new { id = id });
+                return RedirectToAction("PatientProfile", "Account", new { id = model.Id });
 
             ModelState.AddModelError("", "There was an error. Please try again!");
-            return RedirectToAction("EditPatientProfile", id);
+            return RedirectToAction("EditPatientProfile", model.Id);
         }
     }
 }

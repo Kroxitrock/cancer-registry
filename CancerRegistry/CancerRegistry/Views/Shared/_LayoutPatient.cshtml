@@ -8,12 +8,14 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="~/assets/css-dashboards/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="~/assets/css-dashboards/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/css-dashboards/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" type="text/css" href="~/assets/css-dashboards/style.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/css-dashboards/bootstrap-datetimepicker.min.css">
 </head>
 <body>
     <div class="header">
         <div class="header-left">
-            <a asp-controller="Home" asp-action="PatientDashboard" class="logo">
+            <a asp-controller="PatientDashboard" asp-action="Home" class="logo">
                 <img src="~/images/logo_transparent_circle.png" width="35" height="35" alt=""> <span>Здравен раков регистър</span>
             </a>
         </div>
@@ -27,7 +29,7 @@
                 <ul>
                     <li class="menu-title">Добре дошли</li>
                     <li class="active">
-                        <a asp-controller="Home" asp-action="PatientDashboard"><i class="fa fa-dashboard"></i> <span>Начало</span></a>
+                        <a asp-controller="PatientDashboard" asp-action="Home"><i class="fa fa-dashboard"></i> <span>Начало</span></a>
                     </li>
                     <li>
                         <a href="current-diagnosis-patient.html"><i class="fa fa-wheelchair"></i> <span>Виж диагноза</span></a>

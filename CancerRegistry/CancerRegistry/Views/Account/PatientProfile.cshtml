@@ -1,5 +1,7 @@
 ﻿@model CancerRegistry.Identity.ApplicationUser;
-
+@{
+    Layout = "_LayoutPatient";
+}
 <div class="row">
     <div class="col-sm-7 col-6">
         <h4 class="page-title">Моят профил</h4>
@@ -39,8 +41,9 @@
                                 </li>
                                 <li>
                                     <span class="title">Година на раждане:</span>
-                                    <span class="text">1977</span>
+                                    <span class="text">@Model.BirthDate.ToShortDateString()</span>
                                 </li>
+
                                 <li>
                                     <span class="title">Име</span>
                                     <span class="text">@Model.FirstName</span>
