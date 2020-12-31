@@ -131,7 +131,7 @@ namespace CancerRegistry.Controllers
             if (result)
                 return RedirectToAction("PatientProfile", "Account", new { id = model.Id });
 
-            ModelState.AddModelError("", "There was an error. Please try again!");
+            ModelState.AddModelError("", "The EGN is already in use!");
             return RedirectToAction("EditPatientProfile", model.Id);
         }
     }
