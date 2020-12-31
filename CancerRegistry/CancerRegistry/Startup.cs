@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CancerRegistry.Identity;
 using CancerRegistry.Identity.Data;
+using CancerRegistry.Models.Diagnoses;
 using CancerRegistry.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,6 +29,10 @@ namespace CancerRegistry
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AccountDbContext>(options => 
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("AccountDbConnection")));
+
+            services.AddDbContext<DiagnoseContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("AccountDbConnection")));
 
