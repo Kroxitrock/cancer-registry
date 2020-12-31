@@ -67,6 +67,7 @@ namespace CancerRegistry.Services
             foreach (var err in roleResult.Errors)
                 registrationResult.Errors.Add(err.Description);
 
+            registrationResult.Errors = registrationResult.Errors.Distinct().ToList();
             return registrationResult;
         }
 
@@ -95,8 +96,9 @@ namespace CancerRegistry.Services
             user.BirthDate = birthDate;
             user.Gender = gender;
 
-            await _userManager.UpdateAsync(user);
-            return true;
+            var result = await _userManager.UpdateAsync(user);
+            
+            return result.Succeeded;
         }
 
     }
