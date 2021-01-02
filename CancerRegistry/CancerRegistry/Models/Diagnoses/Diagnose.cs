@@ -1,8 +1,11 @@
-﻿using CancerRegistry.Models.Diagnoses.HealthChecks;
+﻿using CancerRegistry.Models.Accounts.Doctor;
+using CancerRegistry.Models.Accounts.Patient;
+using CancerRegistry.Models.Diagnoses.HealthChecks;
 using CancerRegistry.Models.Diagnoses.Treatments;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -36,6 +39,12 @@ namespace CancerRegistry.Models.Diagnoses
         [Required]
         public long Id { get; set; }
 
+        [Required]
+        public Doctor Doctor { get; set; }
+
+        [Required]
+        public Patient Patient { get; set; }
+        
         [Required]
         public short Stage { get; set; }
 

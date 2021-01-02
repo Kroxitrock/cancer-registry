@@ -1,4 +1,6 @@
-﻿using CancerRegistry.Models.Diagnoses.HealthChecks;
+﻿using CancerRegistry.Models.Accounts.Doctor;
+using CancerRegistry.Models.Accounts.Patient;
+using CancerRegistry.Models.Diagnoses.HealthChecks;
 using CancerRegistry.Models.Diagnoses.Treatments;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -20,5 +22,9 @@ namespace CancerRegistry.Models.Diagnoses
         public DbSet<HealthCheck> HealthChecks { get; set; } 
 
         public DbSet<Treatment> Treatments { get; set; }
+
+        public DbSet<Doctor> Doctors { get; set; }
+
+        public DbSet<Patient> Patients { get; set; }
     }
 }

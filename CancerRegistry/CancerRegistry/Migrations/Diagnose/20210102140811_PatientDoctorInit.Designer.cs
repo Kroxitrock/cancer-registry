@@ -4,14 +4,16 @@ using CancerRegistry.Models.Diagnoses;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CancerRegistry.Migrations.Diagnose
 {
     [DbContext(typeof(DiagnoseContext))]
-    partial class DiagnoseContextModelSnapshot : ModelSnapshot
+    [Migration("20210102140811_PatientDoctorInit")]
+    partial class PatientDoctorInit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
