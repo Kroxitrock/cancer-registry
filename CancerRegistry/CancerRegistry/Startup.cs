@@ -8,6 +8,7 @@ using CancerRegistry.Models.Diagnoses;
 using CancerRegistry.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +47,11 @@ namespace CancerRegistry
 
             services.AddRazorPages().AddRazorRuntimeCompilation();
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = new PathString("/Account/AccessDenied");
+            });
+            
             services.AddAuthorization(options => 
             {
                 options.AddPolicy("RequireAdministratorRole",

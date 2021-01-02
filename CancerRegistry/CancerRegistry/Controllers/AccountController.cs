@@ -134,5 +134,8 @@ namespace CancerRegistry.Controllers
             ModelState.AddModelError("", "The EGN is already in use!");
             return RedirectToAction("EditPatientProfile", model.Id);
         }
+
+        public IActionResult AccessDenied()
+            => View();
     }
 }
