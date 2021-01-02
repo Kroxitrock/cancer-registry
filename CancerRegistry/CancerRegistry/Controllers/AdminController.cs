@@ -11,7 +11,7 @@ using CancerRegistry.Models.Admin;
 
 namespace CancerRegistry.Controllers
 {   
-    [Authorize(Policy ="RequireAdministrationPolicy")]
+    [Authorize(Policy = "RequireAdministratorRole")]
     public class AdminController : Controller
     {
         private readonly AdministratorService _adminService;
