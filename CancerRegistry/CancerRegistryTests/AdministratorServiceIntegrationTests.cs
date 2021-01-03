@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CancerRegistry.Identity;
 using CancerRegistry.Services;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using NUnit.Framework;
@@ -95,7 +96,17 @@ namespace CancerRegistryTests
             Assert.IsTrue(users.Count == 3);
         }
 
-
+        [Test]
+        public async Task GetAllUsers_ReturnsOnlyDoctorsAndPatients()
+        {
+            var adminService = new AdministratorService(_services.UserManager, _services.SignInManager);
+            var users = await adminService.GetAllUsers();
+            var usersRoles = 
+                users.Select(async x => await _services.UserManager.GetRolesAsync(x))
+                .Select(t=>t.Result.First());
+            Assert.That(usersRoles.All(x=> x == "Doctor" || x == "Patient"));
+        }
+        
         [SetUp]
         public async Task Setup()
         {
