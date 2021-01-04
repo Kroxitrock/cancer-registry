@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using CancerRegistry.Models.Accounts;
 
 namespace CancerRegistry.Controllers
 {
@@ -134,6 +136,55 @@ namespace CancerRegistry.Controllers
             ModelState.AddModelError("", "The EGN is already in use!");
             return RedirectToAction("EditPatientProfile", model.Id);
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ForgotPassword() => View();
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPassword([Required] string username)
+        {
+            if (!ModelState.IsValid)
+                return View(username);
+
+            var token = await _accountService.ForgotPassword(username);
+
+            if (token == null)
+            {
+                ModelState.AddModelError("","Username couldn't be found.");
+                return RedirectToAction("ForgotPassword");
+            }
+                
+
+            return RedirectToAction("PasswordReset", new {token, username});
+        }
+
+        public IActionResult PasswordReset(string token, string username)
+            => View(new PasswordReset() {Token = token, Username = username});
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> PasswordReset(PasswordReset passwordReset)
+        {
+            if (!ModelState.IsValid)
+                return View(passwordReset);
+
+            var pswResetResult = await _accountService.ResetPassword(
+                passwordReset.Token,
+                passwordReset.Username,
+                passwordReset.Password);
+
+            if (!pswResetResult)
+            {
+                ModelState.AddModelError("", "We couldn't reset your password. Please, try again!");
+                return View();
+            }
+
+            return View("PasswordResetSuccess");
+
+        }
+
 
         public IActionResult AccessDenied()
             => View();

@@ -101,5 +101,25 @@ namespace CancerRegistry.Services
             return result.Succeeded;
         }
 
+        public async Task<string> ForgotPassword(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user == null)
+                return null;
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            return token;
+        }
+
+        public async Task<bool> ResetPassword(String token, String username, String newPassword)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            var pswResetResult = await _userManager.ResetPasswordAsync(user, token, newPassword);
+
+            return pswResetResult.Succeeded;
+        }
+
     }
 }
