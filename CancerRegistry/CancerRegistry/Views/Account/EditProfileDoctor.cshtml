@@ -1,0 +1,76 @@
+﻿@model CancerRegistry.Models.Accounts.Patient.PatientEditProfileModel;
+@{
+    Layout = "_LayoutDoctor";
+}
+<div class="content">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <h4 class="page-title">Редактирай профила си</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <form asp-controller="Account" asp-action="EditDoctorProfile" method="post">
+                <div class="row">
+                    <input asp-for="@Model.Id" type="hidden" value="@Model.Id" />
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="@Model.FirstName">Име <span class="text-danger">*</span></label>
+                            <input asp-for="@Model.FirstName" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="@Model.LastName">Фамилия</label>
+                            <input asp-for="@Model.LastName" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="@Model.EGN">ЕГН <span class="text-danger">*</span></label>
+                            <input asp-for="@Model.EGN" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="@Model.PhoneNumber">Тел. номер <span class="text-danger">*</span></label>
+                            <input asp-for="@Model.PhoneNumber" class="form-control" type="tel">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="@Model">Тел. номер <span class="text-danger">*</span></label>
+                            <input asp-for="@Model.PhoneNumber" class="form-control" type="tel">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="@Model.BirthDate">Дата на раждане</label>
+                            <div class="cal-icon">
+                                <input asp-for="@Model.BirthDate" type="text" class="form-control datetimepicker">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="gen-label">Пол:</label>
+                        @foreach (var gender in Model.Genders)
+                        {
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" asp-for="Gender" value="@gender" class="form-check-input">@gender
+                                </label>
+                            </div>
+                        }
+                    </div>
+                    <div class="col-sm-12">
+
+                        <div class="m-t-20 text-center">
+                            <button class="btn btn-primary submit-btn">Запази</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div asp-validation-summary="All"></div>
+        </div>
+    </div>
+</div>

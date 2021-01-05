@@ -7,7 +7,6 @@
     var user = await userManager.FindByIdAsync(userId);
     var userFirstName = user.FirstName;
     var userLastName = user.LastName;
-    var fullName = userFirstName + " " + userLastName;
 }
 <ul class="nav user-menu float-right">
     <li class="nav-item dropdown has-arrow">
@@ -37,18 +36,32 @@
         {
             <div class="dropdown-menu">
                 <a asp-controller="Account" asp-action="DoctorProfile" asp-route-id="@user.Id" class="dropdown-item">Моят профил</a>
-                <a class="dropdown-item">Редактирай профила</a>
+                <a asp-controller="Account" asp-action="EditDoctorProfile" asp-route-patientId="@user.Id" class="dropdown-item">Редактирай профила</a>
                 <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Излез</a>
             </div>
         }
 
     </li>
 </ul>
-<div class="dropdown mobile-user-menu float-right">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-    <div class="dropdown-menu dropdown-menu-right">
-        <a  asp-controller="Account" asp-action="PatientProfile" asp-route-id="@user.Id" class="dropdown-item" >Моят профил</a>
-        <a class="dropdown-item" >Редактирай профила</a>
-        <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Излез</a>
+@if (User.IsInRole("Patient"))
+{
+    <div class="dropdown mobile-user-menu float-right">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+        <div class="dropdown-menu dropdown-menu-right">
+            <a  asp-controller="Account" asp-action="PatientProfile" asp-route-id="@user.Id" class="dropdown-item" >Моят профил</a>
+            <a  asp-controller="Account" asp-action="EditPatientProfile" asp-route-patientId="@user.Id" class="dropdown-item" >Редактирай профила</a>
+            <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Излез</a>
+        </div>
     </div>
-</div>
+}
+else
+{
+    <div class="dropdown mobile-user-menu float-right">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+        <div class="dropdown-menu dropdown-menu-right">
+            <a  asp-controller="Account" asp-action="DoctorProfile" asp-route-id="@user.Id" class="dropdown-item" >Моят профил</a>
+            <a asp-controller="Account" asp-action="EditDoctorProfile" asp-route-patientId="@user.Id" class="dropdown-item" >Редактирай профила</a>
+            <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Излез</a>
+        </div>
+    </div>
+}

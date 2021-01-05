@@ -1,12 +1,14 @@
 ﻿@model CancerRegistry.Identity.ApplicationUser;
-
+@{
+    Layout = "_LayoutDoctor";
+}
 <div class="row">
     <div class="col-sm-7 col-6">
         <h4 class="page-title">Моят профил</h4>
     </div>
 
     <div class="col-sm-5 col-6 text-right m-b-30">
-        <a  class="btn btn-primary btn-rounded"><i class="fa fa-plus"></i> Редактирай профила</a>
+        <a asp-controller="Account" asp-action="EditDoctorProfile" asp-route-patientId="@Model.Id"  class="btn btn-primary btn-rounded"><i class="fa fa-plus"></i> Редактирай профила</a>
     </div>
 </div>
 
@@ -16,7 +18,7 @@
             <div class="profile-view">
                 <div class="profile-img-wrap">
                     <div class="profile-img">
-                        <a href="#"><img class="avatar" src="~/assets/img/doctor-03.jpg" alt=""></a>
+                        <a href="#"><img class="avatar" src="~/assets/img/doctor-thumb-06.jpg" alt=""></a>
                     </div>
                 </div>
                 <div class="profile-basic">
@@ -34,12 +36,8 @@
                                     <span class="text"><a href="#">@Model.PhoneNumber</a></span>
                                 </li>
                                 <li>
-                                    <span class="title">Булстат леч.заведение:</span>
-                                    <span class="text">8764784</span>
-                                </li>
-                                <li>
                                     <span class="title">Година на раждане</span>
-                                    <span class="text">3rd March</span>
+                                    <span class="text">@Model.BirthDate.ToShortDateString()</span>
                                 </li>
                                 <li>
                                     <span class="title">УИН</span>

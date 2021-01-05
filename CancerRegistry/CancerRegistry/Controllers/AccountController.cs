@@ -111,6 +111,7 @@ namespace CancerRegistry.Controllers
         public async Task<IActionResult> EditPatientProfile(string patientId)
         {
             var patient = await _accountService.GetPatient(patientId);
+            
             var model = new PatientEditProfileModel()
                 { 
                     Id = patient.Id,
@@ -122,6 +123,7 @@ namespace CancerRegistry.Controllers
                     BirthDate = patient.BirthDate,
                     Genders = new string[] {"Mъж", "Жена"}
                 };
+            
             return View("EditProfilePatient", model);
         }
 
@@ -132,6 +134,38 @@ namespace CancerRegistry.Controllers
 
             if (result)
                 return RedirectToAction("PatientProfile", "Account", new { id = model.Id });
+
+            ModelState.AddModelError("", "The EGN is already in use!");
+            return RedirectToAction("EditPatientProfile", model.Id);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditDoctorProfile(string doctorId)
+        {
+            var doctor = await _accountService.GetDoctor(doctorId);
+            
+            var model = new PatientEditProfileModel()
+            {
+                Id = doctor.Id,
+                FirstName = doctor.FirstName,
+                LastName = doctor.LastName,
+                EGN = doctor.EGN,
+                PhoneNumber = doctor.PhoneNumber,
+                Gender = doctor.Gender,
+                BirthDate = doctor.BirthDate,
+                Genders = new string[] { "Mъж", "Жена" }
+            };
+            
+            return View("EditProfileDoctor", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditDoctorProfile(DoctorEditProfileModel model)
+        {
+            var result = await _accountService.Edit(model.Id, model.FirstName, model.LastName, model.EGN, model.PhoneNumber, model.BirthDate, model.Gender);
+
+            if (result)
+                return RedirectToAction("DoctorProfile", "Account", new { id = model.Id });
 
             ModelState.AddModelError("", "The EGN is already in use!");
             return RedirectToAction("EditPatientProfile", model.Id);
