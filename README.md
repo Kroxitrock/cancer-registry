@@ -1,3 +1,3 @@
 # cancer-registry 
 
-test
+test viki chuvash li me
