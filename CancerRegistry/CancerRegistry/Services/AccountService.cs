@@ -113,7 +113,7 @@ namespace CancerRegistry.Services
             return token;
         }
 
-        public async Task<bool> ResetPassword(String token, String username, String newPassword)
+        public async Task<bool> ResetPassword(string token, string username, string newPassword)
         {
             var user = await _userManager.FindByNameAsync(username);
             var pswResetResult = await _userManager.ResetPasswordAsync(user, token, newPassword);
@@ -121,5 +121,17 @@ namespace CancerRegistry.Services
             return pswResetResult.Succeeded;
         }
 
+        public async Task<bool> ChangePassword(string accountId, string newPassword)
+        {
+            var user = await _userManager.FindByIdAsync(accountId);
+
+            if (user == null)
+                return false;
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var pswResetResult = await _userManager.ResetPasswordAsync(user, token, newPassword);
+
+            return pswResetResult.Succeeded;
+        }
     }
 }
