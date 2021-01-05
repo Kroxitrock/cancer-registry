@@ -72,14 +72,14 @@ namespace CancerRegistry.Identity.Data
                         var diagnoseContext = serviceProvider.GetRequiredService<DiagnoseContext>();
                          doctor = await userManager.FindByEmailAsync(config["DoctorCredentials:Email"]);
 
-                         diagnoseContext.Doctors.Add(new Doctor()
+                         await diagnoseContext.Doctors.AddAsync(new Doctor()
                          {
                              UserId = doctor.Id,
                              EIK = "123456786",
                              EGN = "0047099888",
                              DiplomaNum = "D12345678"
                          });
-                         diagnoseContext.SaveChanges();
+                         await diagnoseContext.SaveChangesAsync();
                     }
                 }
 

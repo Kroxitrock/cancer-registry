@@ -8,7 +8,7 @@
     </div>
 
     <div class="col-sm-5 col-6 text-right m-b-30">
-        <a asp-controller="Account" asp-action="EditDoctorProfile" asp-route-patientId="@Model.Id"  class="btn btn-primary btn-rounded"><i class="fa fa-plus"></i> Редактирай профила</a>
+        <a asp-controller="Account" asp-action="EditDoctorProfile" asp-route-doctorId="@Model.Id"  class="btn btn-primary btn-rounded"><i class="fa fa-plus"></i> Редактирай профила</a>
     </div>
 </div>
 
@@ -46,6 +46,10 @@
                                 <li>
                                     <span class="title">Фамилия</span>
                                     <span class="text">@Model.LastName</span>
+                                </li>
+                                <li>
+                                    <span class="title">Име</span>
+                                    <span class="text">@Model.FirstName</span>
                                 </li>
                             </ul>
                         </div>

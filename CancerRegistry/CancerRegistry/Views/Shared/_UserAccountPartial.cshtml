@@ -36,7 +36,7 @@
         {
             <div class="dropdown-menu">
                 <a asp-controller="Account" asp-action="DoctorProfile" asp-route-id="@user.Id" class="dropdown-item">Моят профил</a>
-                <a asp-controller="Account" asp-action="EditDoctorProfile" asp-route-patientId="@user.Id" class="dropdown-item">Редактирай профила</a>
+                <a asp-controller="Account" asp-action="EditDoctorProfile" asp-route-doctorId="@user.Id" class="dropdown-item">Редактирай профила</a>
                 <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Излез</a>
             </div>
         }
@@ -60,7 +60,7 @@ else
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
         <div class="dropdown-menu dropdown-menu-right">
             <a  asp-controller="Account" asp-action="DoctorProfile" asp-route-id="@user.Id" class="dropdown-item" >Моят профил</a>
-            <a asp-controller="Account" asp-action="EditDoctorProfile" asp-route-patientId="@user.Id" class="dropdown-item" >Редактирай профила</a>
+            <a asp-controller="Account" asp-action="EditDoctorProfile" asp-route-doctorId="@user.Id" class="dropdown-item" >Редактирай профила</a>
             <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Излез</a>
         </div>
     </div>

@@ -82,7 +82,7 @@ namespace CancerRegistry.Services
             var doctor = await _userManager.FindByIdAsync(id);
             return doctor;
         }
-        public async Task<bool> Edit(string id, string firstName, string lastName, string egn, string phoneNumber, DateTime birthDate, string gender)
+        public async Task<bool> EditPatient(string id, string firstName, string lastName, string egn, string phoneNumber, DateTime birthDate, string gender)
         {
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
@@ -98,6 +98,24 @@ namespace CancerRegistry.Services
 
             var result = await _userManager.UpdateAsync(user);
             
+            return result.Succeeded;
+        }
+
+        public async Task<bool> EditDoctor(string id, string firstName, string lastName, string egn, string phoneNumber, DateTime birthDate, string gender)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+                return false;
+
+            user.FirstName = firstName;
+            user.LastName = lastName;
+            user.EGN = egn;
+            user.PhoneNumber = phoneNumber;
+            user.BirthDate = birthDate;
+            user.Gender = gender;
+
+            var result = await _userManager.UpdateAsync(user);
+
             return result.Succeeded;
         }
 

@@ -1,4 +1,4 @@
-﻿@model CancerRegistry.Models.Accounts.Patient.PatientEditProfileModel;
+﻿@model CancerRegistry.Models.Accounts.Doctor.DoctorEditProfileModel;
 @{
     Layout = "_LayoutDoctor";
 }
@@ -34,12 +34,6 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label asp-for="@Model.PhoneNumber">Тел. номер <span class="text-danger">*</span></label>
-                            <input asp-for="@Model.PhoneNumber" class="form-control" type="tel">
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label asp-for="@Model">Тел. номер <span class="text-danger">*</span></label>
                             <input asp-for="@Model.PhoneNumber" class="form-control" type="tel">
                         </div>
                     </div>

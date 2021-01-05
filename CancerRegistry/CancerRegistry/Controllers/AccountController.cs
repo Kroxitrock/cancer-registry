@@ -130,13 +130,13 @@ namespace CancerRegistry.Controllers
         [HttpPost]
         public async Task<IActionResult> EditPatientProfile(PatientEditProfileModel model)
         {
-            var result = await _accountService.Edit(model.Id, model.FirstName, model.LastName, model.EGN, model.PhoneNumber, model.BirthDate, model.Gender);
+            var result = await _accountService.EditPatient(model.Id, model.FirstName, model.LastName, model.EGN, model.PhoneNumber, model.BirthDate, model.Gender);
 
             if (result)
                 return RedirectToAction("PatientProfile", "Account", new { id = model.Id });
 
             ModelState.AddModelError("", "The EGN is already in use!");
-            return RedirectToAction("EditPatientProfile", model.Id);
+            return RedirectToAction("EditPatientProfile","Account" ,model.Id);
         }
 
         [HttpGet]
@@ -144,7 +144,7 @@ namespace CancerRegistry.Controllers
         {
             var doctor = await _accountService.GetDoctor(doctorId);
             
-            var model = new PatientEditProfileModel()
+            var model = new DoctorEditProfileModel()
             {
                 Id = doctor.Id,
                 FirstName = doctor.FirstName,
@@ -162,13 +162,13 @@ namespace CancerRegistry.Controllers
         [HttpPost]
         public async Task<IActionResult> EditDoctorProfile(DoctorEditProfileModel model)
         {
-            var result = await _accountService.Edit(model.Id, model.FirstName, model.LastName, model.EGN, model.PhoneNumber, model.BirthDate, model.Gender);
+            var result = await _accountService.EditDoctor(model.Id, model.FirstName, model.LastName, model.EGN, model.PhoneNumber, model.BirthDate, model.Gender);
 
             if (result)
                 return RedirectToAction("DoctorProfile", "Account", new { id = model.Id });
 
             ModelState.AddModelError("", "The EGN is already in use!");
-            return RedirectToAction("EditPatientProfile", model.Id);
+            return RedirectToAction("EditDoctorProfile", "Account" ,new {doctorId = model.Id});
         }
 
         [HttpGet]

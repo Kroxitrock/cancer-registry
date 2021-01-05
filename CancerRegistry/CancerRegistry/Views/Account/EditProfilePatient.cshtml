@@ -47,14 +47,14 @@
                     </div>
                     <div class="col-sm-6">
                         <label class="gen-label">Пол:</label>
-                            @foreach (var gender in Model.Genders)
-                            {
-                                <div class="form-check-inline">
-                                    <label class="form-check-label">
-                                        <input type="radio" asp-for="Gender" value="@gender" class="form-check-input">@gender
-                                    </label>
-                                </div>
-                            }
+                        @foreach (var gender in Model.Genders)
+                        {
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" asp-for="Gender" value="@gender" class="form-check-input">@gender
+                                </label>
+                            </div>
+                        }
                     </div>
                     <div class="col-sm-12">
 
@@ -64,6 +64,7 @@
                     </div>
                 </div>
             </form>
+            <div asp-validation-summary="All"></div>
         </div>
     </div>
 </div>
