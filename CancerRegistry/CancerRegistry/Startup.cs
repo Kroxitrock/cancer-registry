@@ -42,6 +42,7 @@ namespace CancerRegistry
                 .AddDefaultTokenProviders();
 
             services.AddTransient<AccountService>();
+            services.AddTransient<DoctorService>();
 
             services.AddControllersWithViews();
 
