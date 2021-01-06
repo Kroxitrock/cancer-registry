@@ -10,7 +10,7 @@
     </div>
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
-            <form asp-controller="Account" asp-action="EditDoctorProfile" method="post">
+            <form id="formSubmit" asp-controller="Account" asp-action="EditDoctorProfile" method="post">
                 <div class="row">
                     <input asp-for="@Model.Id" type="hidden" value="@Model.Id" />
                     <div class="col-sm-6">
@@ -57,9 +57,9 @@
                         }
                     </div>
                     <div class="col-sm-12">
-
                         <div class="m-t-20 text-center">
-                            <button class="btn btn-primary submit-btn">Запази</button>
+                            <button for="formSubmit" class="btn btn-primary submit-btn">Запази</button>
+                            <a class="btn btn-primary submit-btn" asp-controller="Account" asp-action="ChangePassword" asp-route-accountId="@Model.Id">Смени парола</a>
                         </div>
                     </div>
                 </div>

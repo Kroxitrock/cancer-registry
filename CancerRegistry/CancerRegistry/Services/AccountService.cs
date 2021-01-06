@@ -139,17 +139,29 @@ namespace CancerRegistry.Services
             return pswResetResult.Succeeded;
         }
 
-        public async Task<bool> ChangePassword(string accountId, string newPassword)
+        public async Task<IdentityResult> ChangePassword(string accountId, string currentPassword, string newPassword)
         {
             var user = await _userManager.FindByIdAsync(accountId);
 
-            if (user == null)
-                return false;
+            var res = _userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, currentPassword);
+            if (user == null || res == PasswordVerificationResult.Failed)
+                return IdentityResult.Failed();
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var pswResetResult = await _userManager.ResetPasswordAsync(user, token, newPassword);
 
-            return pswResetResult.Succeeded;
+            return pswResetResult;
+        }
+
+        public async Task<string> GetUserRole(string accountId)
+        {
+            var user = await _userManager.FindByIdAsync(accountId);
+            
+            if (user == null) return null;
+            
+            var roles = await _userManager.GetRolesAsync(user);
+
+            return roles.First();
         }
     }
 }

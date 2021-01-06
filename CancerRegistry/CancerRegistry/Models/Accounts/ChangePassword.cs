@@ -9,11 +9,14 @@ namespace CancerRegistry.Models.Accounts
     public class ChangePassword
     {
         [Required, DataType(DataType.Password)]
-        public String Password { get; set; }
+        public string CurrentPassword { get; set; }
 
-        [DataType(DataType.Password), Compare(nameof(Password))]
-        public String ConfirmPassword { get; set; }
+        [Required, DataType(DataType.Password)]
+        public string NewPassword { get; set; }
 
-        public String AccountId { get; set; }
+        [DataType(DataType.Password), Compare(nameof(NewPassword))]
+        public string ConfirmNewPassword { get; set; }
+
+        public string AccountId { get; set; }
     }
 }

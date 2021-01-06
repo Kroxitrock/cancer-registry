@@ -37,7 +37,7 @@ namespace CancerRegistry.Controllers
             var loginResult = await _accountService.LoginUser(model.LoginModel.EGN, model.LoginModel.Password);
 
             if (loginResult)
-                return RedirectToAction("Home","PatientDashboard"); 
+                return RedirectToAction("Home", "PatientDashboard");
 
             ModelState.AddModelError("", "Login failed: EGN or password invalid.");
             return View("PatientSignInUp");
@@ -99,7 +99,7 @@ namespace CancerRegistry.Controllers
             var patient = await _accountService.GetPatient(id);
             return View("PatientProfile", patient);
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> DoctorProfile(string id)
         {
@@ -111,19 +111,19 @@ namespace CancerRegistry.Controllers
         public async Task<IActionResult> EditPatientProfile(string patientId)
         {
             var patient = await _accountService.GetPatient(patientId);
-            
+
             var model = new PatientEditProfileModel()
-                { 
-                    Id = patient.Id,
-                    FirstName = patient.FirstName,
-                    LastName = patient.LastName,
-                    EGN = patient.EGN, 
-                    PhoneNumber = patient.PhoneNumber, 
-                    Gender = patient.Gender,
-                    BirthDate = patient.BirthDate,
-                    Genders = new string[] {"Mъж", "Жена"}
-                };
-            
+            {
+                Id = patient.Id,
+                FirstName = patient.FirstName,
+                LastName = patient.LastName,
+                EGN = patient.EGN,
+                PhoneNumber = patient.PhoneNumber,
+                Gender = patient.Gender,
+                BirthDate = patient.BirthDate,
+                Genders = new string[] { "Mъж", "Жена" }
+            };
+
             return View("EditProfilePatient", model);
         }
 
@@ -136,14 +136,14 @@ namespace CancerRegistry.Controllers
                 return RedirectToAction("PatientProfile", "Account", new { id = model.Id });
 
             ModelState.AddModelError("", "The EGN is already in use!");
-            return RedirectToAction("EditPatientProfile","Account" ,model.Id);
+            return RedirectToAction("EditPatientProfile", "Account", model.Id);
         }
 
         [HttpGet]
         public async Task<IActionResult> EditDoctorProfile(string doctorId)
         {
             var doctor = await _accountService.GetDoctor(doctorId);
-            
+
             var model = new DoctorEditProfileModel()
             {
                 Id = doctor.Id,
@@ -155,7 +155,7 @@ namespace CancerRegistry.Controllers
                 BirthDate = doctor.BirthDate,
                 Genders = new string[] { "Mъж", "Жена" }
             };
-            
+
             return View("EditProfileDoctor", model);
         }
 
@@ -168,8 +168,38 @@ namespace CancerRegistry.Controllers
                 return RedirectToAction("DoctorProfile", "Account", new { id = model.Id });
 
             ModelState.AddModelError("", "The EGN is already in use!");
-            return RedirectToAction("EditDoctorProfile", "Account" ,new {doctorId = model.Id});
+            return RedirectToAction("EditDoctorProfile", "Account", new { doctorId = model.Id });
         }
+
+
+
+        [HttpGet]
+        public IActionResult ChangePassword(string accountId)
+        {
+            var model = new ChangePassword { AccountId = accountId };
+            return View("ChangePassword", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePassword model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var result = await _accountService.ChangePassword(model.AccountId, model.CurrentPassword, model.NewPassword);
+
+            if (result.Succeeded)
+            {
+                var userRole = await _accountService.GetUserRole(model.AccountId);
+                return RedirectToAction(userRole == "Patient" ? "PatientProfile" : "DoctorProfile", new {id = model.AccountId});
+            }
+
+            foreach (var error in result.Errors)
+                ModelState.AddModelError("", error.Description);
+
+            return View(model);
+        }
+
 
         [HttpGet]
         [AllowAnonymous]
@@ -186,16 +216,16 @@ namespace CancerRegistry.Controllers
 
             if (token == null)
             {
-                ModelState.AddModelError("","Username couldn't be found.");
+                ModelState.AddModelError("", "Username couldn't be found.");
                 return RedirectToAction("ForgotPassword");
             }
-                
 
-            return RedirectToAction("PasswordReset", new {token, username});
+
+            return RedirectToAction("PasswordReset", new { token, username });
         }
 
         public IActionResult PasswordReset(string token, string username)
-            => View(new PasswordReset() {Token = token, Username = username});
+            => View(new PasswordReset() { Token = token, Username = username });
 
         [HttpPost]
         [AllowAnonymous]
@@ -218,7 +248,6 @@ namespace CancerRegistry.Controllers
             return View("PasswordResetSuccess");
 
         }
-
 
         public IActionResult AccessDenied()
             => View();

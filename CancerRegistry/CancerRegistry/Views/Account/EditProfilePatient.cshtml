@@ -15,7 +15,7 @@
                     <input asp-for="@Model.Id" type="hidden" value="@Model.Id" />
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label asp-for="@Model.FirstName" >Име <span class="text-danger">*</span></label>
+                            <label asp-for="@Model.FirstName">Име <span class="text-danger">*</span></label>
                             <input asp-for="@Model.FirstName" class="form-control" type="text">
                         </div>
                     </div>
@@ -57,9 +57,10 @@
                         }
                     </div>
                     <div class="col-sm-12">
-
                         <div class="m-t-20 text-center">
-                            <button class="btn btn-primary submit-btn">Редактирай</button>
+                            <button for="formSubmit" class="btn btn-primary submit-btn">Запази</button>
+                            <a class="btn btn-primary submit-btn" asp-controller="Account" asp-action="ChangePassword" asp-route-accountId="@Model.Id">Смени парола
+                            </a>
                         </div>
                     </div>
                 </div>
