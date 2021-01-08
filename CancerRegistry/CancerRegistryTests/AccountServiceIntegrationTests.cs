@@ -87,7 +87,7 @@ namespace CancerRegistryTests
         {
             var accountService = new AccountService(_services.UserManager, _services.SignInManager);
 
-            var result = await accountService.Edit(id, firstName, lastName, egn, phoneNumber, birthDate, gender);
+            var result = await accountService.EditPatient(id, firstName, lastName, egn, phoneNumber, birthDate, gender);
             
             Assert.IsTrue(result);
         }
@@ -105,11 +105,33 @@ namespace CancerRegistryTests
         {
             var accountService = new AccountService(_services.UserManager, _services.SignInManager);
 
-            var result = await accountService.Edit(id, firstName, lastName, egn, phoneNumber, birthDate, gender);
+            var result = await accountService.EditPatient(id, firstName, lastName, egn, phoneNumber, birthDate, gender);
 
             Assert.IsFalse(result);
         }
         
+        [Test]
+        [TestCase("1234")]
+        public async Task ForgotPassword_WhenUserIsFound_ReturnsToken(string username)
+        {
+            var accountService = new AccountService(_services.UserManager, _services.SignInManager);
+
+            var token = await accountService.ForgotPassword(username);
+            
+            Assert.IsNotNull(token);
+        }
+
+        [Test]
+        [TestCase("123467")]
+        public async Task ForgotPassword_WhenUserIsNotFound_ReturnsNull(string username)
+        {
+            var accountService = new AccountService(_services.UserManager, _services.SignInManager);
+
+            var token = await accountService.ForgotPassword(username);
+
+            Assert.IsNull(token);
+        }
+
         [SetUp]
         public async Task Setup()
         {
