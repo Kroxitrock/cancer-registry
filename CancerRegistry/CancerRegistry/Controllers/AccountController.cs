@@ -188,14 +188,13 @@ namespace CancerRegistry.Controllers
 
             var result = await _accountService.ChangePassword(model.AccountId, model.CurrentPassword, model.NewPassword);
 
-            if (result.Succeeded)
+            if (result)
             {
                 var userRole = await _accountService.GetUserRole(model.AccountId);
                 return RedirectToAction(userRole == "Patient" ? "PatientProfile" : "DoctorProfile", new {id = model.AccountId});
             }
 
-            foreach (var error in result.Errors)
-                ModelState.AddModelError("", error.Description);
+            ModelState.AddModelError("", "We couldn't change your password. Please try again.");
 
             return View(model);
         }
