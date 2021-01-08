@@ -135,7 +135,7 @@ namespace CancerRegistryTests
 
         [Test]
         [TestCase("1234", "Password123!")]
-        public async Task ResetPassword(string username, string newPassword)
+        public async Task ResetPassword_SuccessfullPasswordReset_ReturnsTrue(string username, string newPassword)
         {
             var accountService = new AccountService(_services.UserManager, _services.SignInManager);
             var token = await accountService.ForgotPassword(username);
@@ -149,13 +149,28 @@ namespace CancerRegistryTests
 
         [Test]
         [TestCase("1", "qwer", "Password123!")]
-        public async Task ChangePassword(string accountId, string currentPassword, string newPassword)
+        public async Task ChangePassword_SuccessfulPasswordChange_ReturnsTrue(string accountId, string currentPassword, string newPassword)
         {
             var accountService = new AccountService(_services.UserManager, _services.SignInManager);
             var result = await accountService.ChangePassword(accountId, currentPassword, newPassword);
+            
             var user = await _services.UserManager.FindByIdAsync(accountId);
             var isPasswordChanged = _services.UserManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, newPassword);
+            
             Assert.IsTrue(isPasswordChanged == PasswordVerificationResult.Success && result);
+        }
+
+        [Test]
+        [TestCase("1", "123", "Password123!")]
+        public async Task ChangePassword_CurrentPasswordIsWrong_ReturnsFalse(string accountId, string currentPassword, string newPassword)
+        {
+            var accountService = new AccountService(_services.UserManager, _services.SignInManager);
+            var result = await accountService.ChangePassword(accountId, currentPassword, newPassword);
+            
+            var user = await _services.UserManager.FindByIdAsync(accountId);
+            var isPasswordChanged = _services.UserManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, newPassword);
+            
+            Assert.IsFalse(isPasswordChanged == PasswordVerificationResult.Success && result);
         }
 
         [SetUp]
