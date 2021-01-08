@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CancerRegistry.Services;
+using Microsoft.AspNetCore.Identity;
 using NUnit.Framework;
 
 namespace CancerRegistryTests
@@ -21,7 +22,7 @@ namespace CancerRegistryTests
             var result = await accountService.LoginUser(username, password);
             var user = await _services.UserManager.FindByNameAsync(username);
             var isPatient = await _services.UserManager.IsInRoleAsync(user, "Patient");
-            
+
             Assert.True(isPatient);
             Assert.IsTrue(result);
         }
@@ -73,9 +74,9 @@ namespace CancerRegistryTests
             Assert.IsNotNull(result.Errors);
             Assert.IsFalse(result.Succeeded);
         }
-        
+
         [Test]
-        [TestCase("1","Kamen", "Ivanov","1234","0878992254", "12/05/1999","Мъж")]
+        [TestCase("1", "Kamen", "Ivanov", "1234", "0878992254", "12/05/1999", "Мъж")]
         public async Task EditPatientProfile_SuccessfullEdit_ReturnsTrue(
             string id,
             string firstName,
@@ -88,12 +89,12 @@ namespace CancerRegistryTests
             var accountService = new AccountService(_services.UserManager, _services.SignInManager);
 
             var result = await accountService.EditPatient(id, firstName, lastName, egn, phoneNumber, birthDate, gender);
-            
+
             Assert.IsTrue(result);
         }
 
         [Test]
-        [TestCase("1","Kamen", "Ivanov", "5678", "0878992254", "12/05/1999", "Мъж")]
+        [TestCase("1", "Kamen", "Ivanov", "5678", "0878992254", "12/05/1999", "Мъж")]
         public async Task EditPatientProfile_FailedEdit_ReturnsFalse(
             string id,
             string firstName,
@@ -109,7 +110,7 @@ namespace CancerRegistryTests
 
             Assert.IsFalse(result);
         }
-        
+
         [Test]
         [TestCase("1234")]
         public async Task ForgotPassword_WhenUserIsFound_ReturnsToken(string username)
@@ -117,7 +118,7 @@ namespace CancerRegistryTests
             var accountService = new AccountService(_services.UserManager, _services.SignInManager);
 
             var token = await accountService.ForgotPassword(username);
-            
+
             Assert.IsNotNull(token);
         }
 
@@ -130,6 +131,31 @@ namespace CancerRegistryTests
             var token = await accountService.ForgotPassword(username);
 
             Assert.IsNull(token);
+        }
+
+        [Test]
+        [TestCase("1234", "Password123!")]
+        public async Task ResetPassword(string username, string newPassword)
+        {
+            var accountService = new AccountService(_services.UserManager, _services.SignInManager);
+            var token = await accountService.ForgotPassword(username);
+            var result = await accountService.ResetPassword(token, username, newPassword);
+
+            var user = await _services.UserManager.FindByNameAsync(username);
+            var isPasswordChanged = _services.UserManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, newPassword);
+
+            Assert.IsTrue(isPasswordChanged == PasswordVerificationResult.Success && result);
+        }
+
+        [Test]
+        [TestCase("1", "qwer", "Password123!")]
+        public async Task ChangePassword(string accountId, string currentPassword, string newPassword)
+        {
+            var accountService = new AccountService(_services.UserManager, _services.SignInManager);
+            var result = await accountService.ChangePassword(accountId, currentPassword, newPassword);
+            var user = await _services.UserManager.FindByIdAsync(accountId);
+            var isPasswordChanged = _services.UserManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, newPassword);
+            Assert.IsTrue(isPasswordChanged == PasswordVerificationResult.Success && result);
         }
 
         [SetUp]
