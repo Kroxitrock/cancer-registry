@@ -17,6 +17,35 @@ namespace CancerRegistry.Models.Diagnoses
 
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.HasSequence<long>("Diagnoses_seq", schema: "dbo")
+                .StartsAt(1)
+                .IncrementsBy(1);
+
+            modelBuilder.Entity<Diagnose>()
+                .Property(d => d.Id)
+                .HasDefaultValueSql("NEXT VALUE FOR dbo.Diagnoses_seq");
+
+
+            modelBuilder.HasSequence<long>("HealthChecks_seq", schema: "dbo")
+                .StartsAt(1)
+                .IncrementsBy(1);
+
+            modelBuilder.Entity<HealthCheck>()
+                .Property(d => d.Id)
+                .HasDefaultValueSql("NEXT VALUE FOR dbo.HealthChecks_seq");
+
+
+            modelBuilder.HasSequence<long>("Treatments_seq", schema: "dbo")
+                .StartsAt(1)
+                .IncrementsBy(1);
+
+            modelBuilder.Entity<Treatment>()
+                .Property(d => d.Id)
+                .HasDefaultValueSql("NEXT VALUE FOR dbo.Treatments_seq");
+        }
+
         public DbSet<Diagnose> Diagnoses { get; set; }
 
         public DbSet<HealthCheck> HealthChecks { get; set; } 
