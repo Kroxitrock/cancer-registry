@@ -1,4 +1,6 @@
-﻿using CancerRegistry.Models.Diagnoses;
+﻿using CancerRegistry.Models.Accounts.Patient;
+using CancerRegistry.Models.Diagnoses;
+using CancerRegistry.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,19 +12,18 @@ namespace CancerRegistry.Controllers
 {
     public class DoctorDashboardController : Controller
     {
-        private readonly DiagnoseContext _diagnoseContext;
+        private readonly PatientService _patientsService;
 
-        public DoctorDashboardController(DiagnoseContext diagnoseContext)
+        public DoctorDashboardController(PatientService patientsService)
         {
-            _diagnoseContext = diagnoseContext;
+            _patientsService = patientsService;
         }
-
-        public IActionResult Home()
-            => View("/Views/Dashboard/Doctor/DoctorDashboardHome.cshtml");
         
-        [AllowAnonymous]
-        public IActionResult Index()
+        [Authorize(Roles = "Doctor")]
+        public IActionResult Index(string doctorUID)
         {
+            List<Patient> patients = _patientsService.selectForDoctorUID(doctorUID);
+
             return View("/Views/Dashboard/Doctor/DoctorDashboardHome.cshtml");
         }
     }
