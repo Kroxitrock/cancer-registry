@@ -173,6 +173,27 @@ namespace CancerRegistryTests
             Assert.IsFalse(isPasswordChanged == PasswordVerificationResult.Success && result);
         }
 
+        [Test]
+        [TestCase("1")]
+        public async Task GetUserRole_UserIsOfRolePatient(string accountId)
+        {
+            var accountService = new AccountService(_services.UserManager, _services.SignInManager);
+
+            var userRole = await accountService.GetUserRole(accountId);
+            
+            Assert.IsTrue(userRole == "Patient");
+        }
+
+        [Test]
+        [TestCase("2")]
+        public async Task GetUserRole_UserIsOfRoleDoctor(string accountId)
+        {
+            var accountService = new AccountService(_services.UserManager, _services.SignInManager);
+
+            var userRole = await accountService.GetUserRole(accountId);
+
+            Assert.IsTrue(userRole == "Doctor");
+        }
         [SetUp]
         public async Task Setup()
         {
