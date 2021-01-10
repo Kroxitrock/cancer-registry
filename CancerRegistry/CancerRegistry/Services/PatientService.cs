@@ -17,7 +17,7 @@ namespace CancerRegistry.Services
             _diagnoseContext = diagnoseContext;
         }
 
-        public List<Patient> selectForDoctorUID(string doctorUID)
+        public List<Patient> SelectForDoctorUID(string doctorUID)
         {
             return _diagnoseContext.Doctors
                 .Where(doctor => doctor.UserId == doctorUID)

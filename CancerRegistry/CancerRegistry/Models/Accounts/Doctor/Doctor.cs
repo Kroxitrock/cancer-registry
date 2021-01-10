@@ -14,9 +14,6 @@ namespace CancerRegistry.Models.Accounts.Doctor
         public string  UserId { get; set; }
 
         [Required]
-        public string EGN { get; set; }
-
-        [Required]
         public string DiplomaNum { get; set; }
 
         [Required]

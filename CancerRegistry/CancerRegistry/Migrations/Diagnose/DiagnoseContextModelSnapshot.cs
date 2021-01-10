@@ -19,16 +19,18 @@ namespace CancerRegistry.Migrations.Diagnose
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.1");
 
+            modelBuilder.HasSequence("Diagnoses_seq", "dbo");
+
+            modelBuilder.HasSequence("HealthChecks_seq", "dbo");
+
+            modelBuilder.HasSequence("Treatments_seq", "dbo");
+
             modelBuilder.Entity("CancerRegistry.Models.Accounts.Doctor.Doctor", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("DiplomaNum")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EGN")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -49,8 +51,8 @@ namespace CancerRegistry.Migrations.Diagnose
                     b.Property<long>("ActiveDiagnoseId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("PhoneNumber")
-                        .HasColumnType("int");
+                    b.Property<long>("PhoneNumber")
+                        .HasColumnType("bigint");
 
                     b.HasKey("UserId");
 
@@ -62,7 +64,7 @@ namespace CancerRegistry.Migrations.Diagnose
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .UseIdentityColumn();
+                        .HasDefaultValueSql("NEXT VALUE FOR dbo.Diagnoses_seq");
 
                     b.Property<int>("DistantMetastasis")
                         .HasColumnType("int");
@@ -98,7 +100,7 @@ namespace CancerRegistry.Migrations.Diagnose
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .UseIdentityColumn();
+                        .HasDefaultValueSql("NEXT VALUE FOR dbo.HealthChecks_seq");
 
                     b.Property<long>("DiagnoseId")
                         .HasColumnType("bigint");
@@ -118,7 +120,7 @@ namespace CancerRegistry.Migrations.Diagnose
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .UseIdentityColumn();
+                        .HasDefaultValueSql("NEXT VALUE FOR dbo.Treatments_seq");
 
                     b.Property<DateTime>("Beginning")
                         .HasColumnType("datetime2");

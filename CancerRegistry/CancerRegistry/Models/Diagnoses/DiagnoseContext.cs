@@ -44,6 +44,10 @@ namespace CancerRegistry.Models.Diagnoses
             modelBuilder.Entity<Treatment>()
                 .Property(d => d.Id)
                 .HasDefaultValueSql("NEXT VALUE FOR dbo.Treatments_seq");
+
+            modelBuilder.Entity<Diagnose>()
+                .HasMany(diagnose => diagnose.HealthChecks)
+                .WithOne(healthCheck => healthCheck.Diagnose);
         }
 
         public DbSet<Diagnose> Diagnoses { get; set; }

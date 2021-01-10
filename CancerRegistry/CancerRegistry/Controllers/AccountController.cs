@@ -57,7 +57,7 @@ namespace CancerRegistry.Controllers
             var loginResult = await _accountService.LoginUser(doctor.UID, doctor.Password);
 
             if (loginResult)
-                return RedirectToAction("", "DoctorDashboard", new { doctorUID = doctor.UID} ); //Must redirect to doctor's dashboard
+                return RedirectToAction("", "DoctorDashboard"); //Must redirect to doctor's dashboard
 
             ModelState.AddModelError("", "Login failed: UID or password invalid.");
             return View("DoctorSignIn");
