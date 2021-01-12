@@ -8,13 +8,13 @@ namespace CancerRegistry.Models.Accounts
 {
     public class ChangePassword
     {
-        [Required, DataType(DataType.Password)]
+        [Required(ErrorMessage = "Полето \"Текуща парола\" е задължително."), DataType(DataType.Password)]
         public string CurrentPassword { get; set; }
 
-        [Required, DataType(DataType.Password)]
+        [Required(ErrorMessage = "Полето \"Нова парола\" е задължително."), DataType(DataType.Password)]
         public string NewPassword { get; set; }
 
-        [DataType(DataType.Password), Compare(nameof(NewPassword))]
+        [Required(ErrorMessage = "Нужно е да потвърдите паролата."),DataType(DataType.Password), Compare(nameof(NewPassword), ErrorMessage = "Паролите не съвпадат")]
         public string ConfirmNewPassword { get; set; }
 
         public string AccountId { get; set; }

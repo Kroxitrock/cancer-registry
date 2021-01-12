@@ -39,6 +39,7 @@ namespace CancerRegistry
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<AccountDbContext>()
+                .AddErrorDescriber<BulgarianLanguageIdentityErrorDescriber>()
                 .AddDefaultTokenProviders();
 
             services.AddTransient<AccountService>();

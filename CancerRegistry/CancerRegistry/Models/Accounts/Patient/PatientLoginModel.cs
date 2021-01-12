@@ -8,10 +8,10 @@ namespace CancerRegistry.Models.Accounts.Patient
 {
     public class PatientLoginModel
     {
-        [Required]
+        [Required(ErrorMessage = "Полето ЕГН е задължително.")]
         public string EGN { get; set; }
 
-        [Required, DataType(DataType.Password)]
+        [Required(ErrorMessage = "Необходима е парола."), DataType(DataType.Password)]
         public string Password { get; set; }
     }
 }

@@ -8,10 +8,10 @@ namespace CancerRegistry.Models.Accounts
 {
     public class PasswordReset
     {
-        [Required, DataType(DataType.Password)]
+        [Required(ErrorMessage = "Полето \"Парола\" е задължително."), DataType(DataType.Password)]
         public String Password { get; set; }
         
-        [DataType(DataType.Password), Compare(nameof(Password))]
+        [Required(ErrorMessage = "Нужно е да потвърдите паролата."), DataType(DataType.Password), Compare(nameof(Password), ErrorMessage = "Паролите не съвпадат.")]
         public String ConfirmPassword { get; set; }
         
         public String Username { get; set; }

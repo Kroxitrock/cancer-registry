@@ -8,19 +8,19 @@ namespace CancerRegistry.Models.Accounts.Patient
 {
     public class PatientRegisterModel
     {
-        [Required]
+        [Required(ErrorMessage = "Полето \"Име\" е задължнително.")]
         public string FirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето \"Фамилия\" е задължително.")]
         public string LastName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето \"ЕГН\" е задължително.")]
         public string EGN { get; set; }
 
-        [Required, DataType(DataType.PhoneNumber)]
+        [Required(ErrorMessage = "Полето \"Телефонен номер\" е задължително."), DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }
 
-        [Required, DataType(DataType.Password)]
+        [Required(ErrorMessage = "Паролата е задължителна."), DataType(DataType.Password)]
         public string Password { get; set; }
 
         [DataType(DataType.Password), Compare(nameof(Password))]

@@ -8,9 +8,10 @@ namespace CancerRegistry.Models.Accounts.Doctor
 {
     public class DoctorLoginModel
     {
+        [Required(ErrorMessage = "Полето \"УИН\" е задължително.")]
         public string UID { get; set; }
 
-        [DataType(DataType.Password)]
+        [Required(ErrorMessage = "Полето \"УИН\" е задължително."), DataType(DataType.Password)]
         public string Password { get; set; }
     }
 }

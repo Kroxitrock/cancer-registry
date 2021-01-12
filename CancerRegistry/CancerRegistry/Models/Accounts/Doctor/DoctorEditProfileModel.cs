@@ -10,12 +10,16 @@ namespace CancerRegistry.Models.Accounts.Doctor
     {
         public String Id { get; set; }
 
+        [Required(ErrorMessage = "Полето \"Име\" е задължнително.")]
         public String FirstName { get; set; }
-
+        
+        [Required(ErrorMessage = "Полето \"Фамилия\" е задължително.")]
         public String LastName { get; set; }
 
+        [Required(ErrorMessage = "Полето \"ЕГН\" е задължително.")]
         public String EGN { get; set; }
 
+        [Required(ErrorMessage = "Полето \"Телефонен номер\" е задължително."), DataType(DataType.PhoneNumber)]
         public String PhoneNumber { get; set; }
 
         [DataType(DataType.Date)]
