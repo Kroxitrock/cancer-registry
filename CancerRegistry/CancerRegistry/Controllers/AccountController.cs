@@ -39,7 +39,7 @@ namespace CancerRegistry.Controllers
             if (loginResult)
                 return RedirectToAction("Home", "PatientDashboard");
 
-            ModelState.AddModelError("", "Login failed: EGN or password invalid.");
+            ModelState.AddModelError("", "Влизането неуспешно: грешно ЕГН или парола.");
             return View("PatientSignInUp");
         }
 
@@ -59,7 +59,7 @@ namespace CancerRegistry.Controllers
             if (loginResult)
                 return RedirectToAction("", "DoctorDashboard"); //Must redirect to doctor's dashboard
 
-            ModelState.AddModelError("", "Login failed: UID or password invalid.");
+            ModelState.AddModelError("", "Влизането неуспешно: грешен УИН или парола.");
             return View("DoctorSignIn");
         }
 
@@ -83,14 +83,12 @@ namespace CancerRegistry.Controllers
                 model.RegisterModel.PhoneNumber,
                 model.RegisterModel.Password);
 
-            if (!result.Succeeded)
-            {
-                foreach (var err in result.Errors)
-                    ModelState.AddModelError("", err);
-                return View("PatientSignInUp", model);
-            }
-
-            return RedirectToAction("Index", "Home");
+            if (result.Succeeded) return RedirectToAction("Index", "Home");
+            
+            foreach (var err in result.Errors)
+                ModelState.AddModelError("", err);
+            
+            return View("PatientSignInUp", model);
         }
 
         [HttpGet]
@@ -130,12 +128,17 @@ namespace CancerRegistry.Controllers
         [HttpPost]
         public async Task<IActionResult> EditPatientProfile(PatientEditProfileModel model)
         {
+            if (!ModelState.IsValid)
+                return View("EditProfilePatient", model);
+            
             var result = await _accountService.EditPatient(model.Id, model.FirstName, model.LastName, model.EGN, model.PhoneNumber, model.BirthDate, model.Gender);
 
-            if (result)
+            if (result.Succeeded)
                 return RedirectToAction("PatientProfile", "Account", new { id = model.Id });
 
-            ModelState.AddModelError("", "The EGN is already in use!");
+            foreach (var err in result.Errors)
+                ModelState.AddModelError("", err);
+            
             return RedirectToAction("EditPatientProfile", "Account", model.Id);
         }
 
@@ -164,14 +167,14 @@ namespace CancerRegistry.Controllers
         {
             var result = await _accountService.EditDoctor(model.Id, model.FirstName, model.LastName, model.EGN, model.PhoneNumber, model.BirthDate, model.Gender);
 
-            if (result)
+            if (result.Succeeded)
                 return RedirectToAction("DoctorProfile", "Account", new { id = model.Id });
-
-            ModelState.AddModelError("", "The EGN is already in use!");
+            
+            foreach (var err in result.Errors)
+                ModelState.AddModelError("", err);
+            
             return RedirectToAction("EditDoctorProfile", "Account", new { doctorId = model.Id });
         }
-
-
 
         [HttpGet]
         public IActionResult ChangePassword(string accountId)
@@ -188,17 +191,17 @@ namespace CancerRegistry.Controllers
 
             var result = await _accountService.ChangePassword(model.AccountId, model.CurrentPassword, model.NewPassword);
 
-            if (result)
+            if (result.Succeeded)
             {
                 var userRole = await _accountService.GetUserRole(model.AccountId);
                 return RedirectToAction(userRole == "Patient" ? "PatientProfile" : "DoctorProfile", new {id = model.AccountId});
             }
 
-            ModelState.AddModelError("", "We couldn't change your password. Please try again.");
+            foreach (var err in result.Errors)
+                ModelState.AddModelError("", err);
 
             return View(model);
         }
-
 
         [HttpGet]
         [AllowAnonymous]
@@ -238,13 +241,11 @@ namespace CancerRegistry.Controllers
                 passwordReset.Username,
                 passwordReset.Password);
 
-            if (!pswResetResult)
-            {
-                ModelState.AddModelError("", "We couldn't reset your password. Please, try again!");
-                return View();
-            }
-
-            return View("PasswordResetSuccess");
+            if (pswResetResult.Succeeded) return View("PasswordResetSuccess");
+            
+            foreach (var err in pswResetResult.Errors)
+                ModelState.AddModelError("", err);
+            return View();
 
         }
 

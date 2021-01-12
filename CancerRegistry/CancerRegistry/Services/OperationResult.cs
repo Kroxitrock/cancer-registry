@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace CancerRegistry.Services
 {
-    public class RegistrationResult
+    public class OperationResult
     {
         public bool Succeeded { get; set; } = true;
 
-        public List<string> Errors { get; set; } 
+        public List<string> Errors { get; set; }
     }
 }

@@ -90,7 +90,7 @@ namespace CancerRegistryTests
 
             var result = await accountService.EditPatient(id, firstName, lastName, egn, phoneNumber, birthDate, gender);
 
-            Assert.IsTrue(result);
+            Assert.IsTrue(result.Succeeded);
         }
 
         [Test]
@@ -108,7 +108,7 @@ namespace CancerRegistryTests
 
             var result = await accountService.EditPatient(id, firstName, lastName, egn, phoneNumber, birthDate, gender);
 
-            Assert.IsFalse(result);
+            Assert.IsFalse(result.Succeeded);
         }
 
         [Test]
@@ -144,7 +144,7 @@ namespace CancerRegistryTests
             var user = await _services.UserManager.FindByNameAsync(username);
             var isPasswordChanged = _services.UserManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, newPassword);
 
-            Assert.IsTrue(isPasswordChanged == PasswordVerificationResult.Success && result);
+            Assert.IsTrue(isPasswordChanged == PasswordVerificationResult.Success && result.Succeeded);
         }
 
         [Test]
@@ -157,7 +157,7 @@ namespace CancerRegistryTests
             var user = await _services.UserManager.FindByIdAsync(accountId);
             var isPasswordChanged = _services.UserManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, newPassword);
             
-            Assert.IsTrue(isPasswordChanged == PasswordVerificationResult.Success && result);
+            Assert.IsTrue(isPasswordChanged == PasswordVerificationResult.Success && result.Succeeded);
         }
 
         [Test]
@@ -170,7 +170,7 @@ namespace CancerRegistryTests
             var user = await _services.UserManager.FindByIdAsync(accountId);
             var isPasswordChanged = _services.UserManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, newPassword);
             
-            Assert.IsFalse(isPasswordChanged == PasswordVerificationResult.Success && result);
+            Assert.IsFalse(isPasswordChanged == PasswordVerificationResult.Success && result.Succeeded);
         }
 
         [Test]

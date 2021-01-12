@@ -28,23 +28,20 @@ namespace CancerRegistry.Services
             await _signInManager.SignOutAsync();
 
             var signInResult = await _signInManager.PasswordSignInAsync(user, password, false, true);
-
             return signInResult.Succeeded;
         }
 
         public async Task LogoutUser()
          => await _signInManager.SignOutAsync();
 
-        public async Task<RegistrationResult> RegisterPatient(
+        public async Task<OperationResult> RegisterPatient(
             string firstName,
             string lastName,
             string egn,
             string phoneNumber,
             string password)
         {
-            RegistrationResult registrationResult = new RegistrationResult();
-            
-            ApplicationUser user = new ApplicationUser()
+            var user = new ApplicationUser()
             {
                 UserName = egn,
                 FirstName = firstName,
@@ -56,19 +53,7 @@ namespace CancerRegistry.Services
             var registerResult = await _userManager.CreateAsync(user, password);
             var roleResult = await _userManager.AddToRoleAsync(user,"Patient");
 
-            if (registerResult.Succeeded && roleResult.Succeeded) 
-                return registrationResult;
-
-            registrationResult.Succeeded = false;
-            registrationResult.Errors = new List<string>();
-            foreach (var err in registerResult.Errors)
-                registrationResult.Errors.Add(err.Description);
-
-            foreach (var err in roleResult.Errors)
-                registrationResult.Errors.Add(err.Description);
-
-            registrationResult.Errors = registrationResult.Errors.Distinct().ToList();
-            return registrationResult;
+            return RegistrationResult(registerResult, roleResult);
         }
 
         public async Task<ApplicationUser> GetPatient(string id)
@@ -82,11 +67,12 @@ namespace CancerRegistry.Services
             var doctor = await _userManager.FindByIdAsync(id);
             return doctor;
         }
-        public async Task<bool> EditPatient(string id, string firstName, string lastName, string egn, string phoneNumber, DateTime birthDate, string gender)
+        
+        public async Task<OperationResult> EditPatient(string id, string firstName, string lastName, string egn, string phoneNumber, DateTime birthDate, string gender)
         {
             var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
-                return false;
+
+            if (user == null) return UserNotFoundResult();
 
             user.FirstName = firstName;
             user.LastName = lastName;
@@ -96,17 +82,17 @@ namespace CancerRegistry.Services
             user.BirthDate = birthDate;
             user.Gender = gender;
 
-            var result = await _userManager.UpdateAsync(user);
+            var updateResult = await _userManager.UpdateAsync(user);
             
-            return result.Succeeded;
+            return EditResult(updateResult);
         }
 
-        public async Task<bool> EditDoctor(string id, string firstName, string lastName, string egn, string phoneNumber, DateTime birthDate, string gender)
+        public async Task<OperationResult> EditDoctor(string id, string firstName, string lastName, string egn, string phoneNumber, DateTime birthDate, string gender)
         {
             var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
-                return false;
-
+            
+            if (user == null) return UserNotFoundResult();
+            
             user.FirstName = firstName;
             user.LastName = lastName;
             user.EGN = egn;
@@ -114,9 +100,9 @@ namespace CancerRegistry.Services
             user.BirthDate = birthDate;
             user.Gender = gender;
 
-            var result = await _userManager.UpdateAsync(user);
+            var updateResult = await _userManager.UpdateAsync(user);
 
-            return result.Succeeded;
+            return EditResult(updateResult);
         }
 
         public async Task<string> ForgotPassword(string username)
@@ -131,28 +117,28 @@ namespace CancerRegistry.Services
             return token;
         }
 
-        public async Task<bool> ResetPassword(string token, string username, string newPassword)
+        public async Task<OperationResult> ResetPassword(string token, string username, string newPassword)
         {
             var user = await _userManager.FindByNameAsync(username);
             var pswResetResult = await _userManager.ResetPasswordAsync(user, token, newPassword);
 
-            return pswResetResult.Succeeded;
+            return PasswordResetResult(pswResetResult);
         }
 
-        public async Task<bool> ChangePassword(string accountId, string currentPassword, string newPassword)
+        public async Task<OperationResult> ChangePassword(string accountId, string currentPassword, string newPassword)
         {
             var user = await _userManager.FindByIdAsync(accountId);
             
-            if (user == null) return false;
+            if (user == null) return UserNotFoundResult();
             
             var res = _userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, currentPassword);
             
-            if (res == PasswordVerificationResult.Failed) return false;
+            if (res == PasswordVerificationResult.Failed) return PasswordIsIncorrectResult();
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var pswResetResult = await _userManager.ResetPasswordAsync(user, token, newPassword);
 
-            return pswResetResult.Succeeded;
+            return PasswordResetResult(pswResetResult);
         }
 
         public async Task<string> GetUserRole(string accountId)
@@ -165,5 +151,79 @@ namespace CancerRegistry.Services
 
             return roles.First();
         }
+
+        #region PrivateMethods
+
+        private OperationResult RegistrationResult(IdentityResult registerResult, IdentityResult roleResult)
+        {
+            var registrationResult = new OperationResult();
+
+            if (registerResult.Succeeded && roleResult.Succeeded)
+                return registrationResult;
+
+            registrationResult.Succeeded = false;
+            registrationResult.Errors = new List<string>();
+            foreach (var err in registerResult.Errors)
+                registrationResult.Errors.Add(err.Description);
+
+            foreach (var err in roleResult.Errors)
+                registrationResult.Errors.Add(err.Description);
+
+            registrationResult.Errors = registrationResult.Errors.Distinct().ToList();
+            return registrationResult;
+        }
+
+        private OperationResult EditResult(IdentityResult editResult)
+        {
+            var result = new OperationResult();
+
+            if (editResult.Succeeded)
+                return result;
+
+            result.Succeeded = false;
+            result.Errors = new List<string>();
+
+            foreach (var err in editResult.Errors)
+                result.Errors.Add(err.Description);
+
+            return result;
+        }
+
+        private OperationResult UserNotFoundResult()
+        {
+            var operationResult = new OperationResult();
+            operationResult.Succeeded = false;
+            operationResult.Errors = new List<string>();
+            operationResult.Errors.Add("Потребителят не съществува.");
+            return operationResult;
+        }
+
+        private OperationResult PasswordIsIncorrectResult()
+        {
+            var operationResult = new OperationResult();
+            operationResult.Errors = new List<string>();
+            operationResult.Succeeded = false;
+            operationResult.Errors.Add("Грешна парола.");
+            return operationResult;
+        }
+
+        private OperationResult PasswordResetResult(IdentityResult pswResetResult)
+        {
+            var result = new OperationResult();
+
+            if (pswResetResult.Succeeded)
+                return result;
+
+            result.Succeeded = false;
+            result.Errors = new List<string>();
+
+            foreach (var err in pswResetResult.Errors)
+                result.Errors.Add(err.Description);
+
+            return result;
+        }
+        
+        #endregion
+
     }
 }
