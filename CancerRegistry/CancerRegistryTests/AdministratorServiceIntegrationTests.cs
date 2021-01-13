@@ -39,24 +39,26 @@ namespace CancerRegistryTests
         }
         [Test]
         [TestCase("2")]
-        public async Task DeleteUser_ReturnsTrue(string id)
+        public async Task DeleteUser_NoErrors(string id)
         {
             var adminService = new AdministratorService(_services.UserManager, _services.SignInManager);
             var result = await adminService.DeleteUser(id);
             
             Assert.IsTrue(_services.UserManager.Users.Count() < 3);
-            Assert.IsTrue(result);
+            Assert.IsNull(result.Errors);
+            Assert.IsTrue(result.Succeeded);
         }
 
         [Test]
         [TestCase("4")]
-        public async Task DeleteUser_ReturnsFalse(string id)
+        public async Task DeleteUser_WithErrors(string id)
         {
             var adminService = new AdministratorService(_services.UserManager, _services.SignInManager);
             var result = await adminService.DeleteUser(id);
 
             Assert.IsTrue(_services.UserManager.Users.Count() == 3);
-            Assert.IsFalse(result);
+            Assert.IsNotNull(result.Errors);
+            Assert.IsFalse(result.Succeeded);
         }
 
         [Test]

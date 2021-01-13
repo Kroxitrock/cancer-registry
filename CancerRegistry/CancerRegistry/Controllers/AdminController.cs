@@ -73,10 +73,11 @@ namespace CancerRegistry.Controllers
         {
             var result = await _adminService.DeleteUser(id);
 
-            if (result)
+            if (result.Succeeded)
                 return RedirectToAction("Index");
 
-            ModelState.AddModelError("", "User not found!");
+            foreach(var err in result.Errors)
+                ModelState.AddModelError("", err);
             //should redirect to view
             return RedirectToAction("Index");
         }
