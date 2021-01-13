@@ -31,7 +31,7 @@ namespace CancerRegistry.Services
         {
             var user = await _userManager.FindByNameAsync(username);
             if (user == null) return false;
-            
+
             var isAdmin = await _userManager.IsInRoleAsync(user, "Administrator");
             if (!isAdmin) return false;
 
@@ -41,26 +41,22 @@ namespace CancerRegistry.Services
             return signInResult.Succeeded;
         }
 
-        public async Task<bool> DeleteUser(string id)
+        public async Task<OperationResult> DeleteUser(string id)
         {
             ApplicationUser user = await _userManager.FindByIdAsync(id);
 
-            if (user == null)
-                return false;
+            if (user == null) return UserNotFoundResult();
 
             var result = await _userManager.DeleteAsync(user);
-
-            return result.Succeeded;
+            return DeleteUserResult(result);
         }
 
-        public async Task<RegistrationResult> RegisterDoctor(
+        public async Task<OperationResult> RegisterDoctor(
             string firstName,
             string lastName,
             string egn,
             string uid)
         {
-            RegistrationResult registrationResult = new RegistrationResult();
-            
             var doctorPassword = string.Concat(
                 char.ToUpper(
                     firstName[0]),
@@ -80,6 +76,37 @@ namespace CancerRegistry.Services
             var registerResult = await _userManager.CreateAsync(appUser, doctorPassword);
             var roleResult = await _userManager.AddToRoleAsync(appUser, "Doctor");
 
+            return RegistrationResult(registerResult, roleResult);
+        }
+
+        #region Private methods
+
+        private OperationResult UserNotFoundResult()
+        {
+            var operationResult = new OperationResult();
+            operationResult.Succeeded = false;
+            operationResult.Errors = new List<string>();
+            operationResult.Errors.Add("Потребителят не съществува.");
+            return operationResult;
+        }
+
+        private static OperationResult DeleteUserResult(IdentityResult result)
+        {
+            OperationResult oResult = new OperationResult();
+            if (result.Succeeded)
+                return oResult;
+
+            oResult.Succeeded = false;
+            oResult.Errors = new List<string>();
+
+            foreach (var err in result.Errors)
+                oResult.Errors.Add(err.Description);
+
+            return oResult;
+        }
+        private OperationResult RegistrationResult(IdentityResult registerResult, IdentityResult roleResult)
+        {
+            var registrationResult = new OperationResult();
             if (registerResult.Succeeded && roleResult.Succeeded)
                 return registrationResult;
 
@@ -91,7 +118,10 @@ namespace CancerRegistry.Services
             foreach (var error in roleResult.Errors)
                 registrationResult.Errors.Add(error.Description);
 
+            registrationResult.Errors = registrationResult.Errors.Distinct().ToList();
             return registrationResult;
         }
+
+        #endregion
     }
 }
