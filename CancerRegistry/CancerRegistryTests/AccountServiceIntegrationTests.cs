@@ -40,7 +40,7 @@ namespace CancerRegistryTests
         [Test]
         [TestCase("Qnko", "Qnkov", "9505131234", "0965342312", "Password123!")]
         [TestCase("Ivaylo", "Petrov", "9302236456", "0965235132", "Password456!")]
-        public async Task RegisterPatient_WhenPatientSuccessfullyRegisters_NoRegistrationErrors(
+        public async Task RegisterPatient_WhenPatientSuccessfullyRegisters_NoErrors(
             string firstName,
             string lastName,
             string egn,
@@ -50,17 +50,17 @@ namespace CancerRegistryTests
             var accountService = new AccountService(_services.UserManager, _services.SignInManager);
 
             var result = await accountService.RegisterPatient(firstName, lastName, egn, phoneNumber, password);
-            var users = _services.UserManager.Users.ToList();
+            var user = await _services.UserManager.FindByNameAsync(egn);
 
             Assert.IsNull(result.Errors);
             Assert.IsTrue(result.Succeeded);
-            Assert.IsTrue(users.Count > 3);
+            Assert.IsTrue(user.UserName == egn);
         }
 
         [Test]
         [TestCase("Qnko", "Qnkov", "1234", "0965342312", "Password123!")]
         [TestCase("Ivaylo", "Petrov", "5678", "0965235132", "Password456!")]
-        public async Task RegisterPatient_WhenPatientFailsToRegister_WithRegistrationErrors(
+        public async Task RegisterPatient_WhenPatientFailsToRegister_WithErrors(
             string firstName,
             string lastName,
             string egn,
@@ -68,16 +68,18 @@ namespace CancerRegistryTests
             string password)
         {
             var accountService = new AccountService(_services.UserManager, _services.SignInManager);
-
             var result = await accountService.RegisterPatient(firstName, lastName, egn, phoneNumber, password);
 
+            var users = _services.UserManager.Users.ToList();
+
+            Assert.IsTrue(users.Count == 3);
             Assert.IsNotNull(result.Errors);
             Assert.IsFalse(result.Succeeded);
         }
 
         [Test]
         [TestCase("1", "Kamen", "Ivanov", "1234", "0878992254", "12/05/1999", "Мъж")]
-        public async Task EditPatientProfile_SuccessfullEdit_ReturnsTrue(
+        public async Task EditPatientProfile_SuccessfullEdit_NoErrors(
             string id,
             string firstName,
             string lastName,
@@ -90,12 +92,13 @@ namespace CancerRegistryTests
 
             var result = await accountService.EditPatient(id, firstName, lastName, egn, phoneNumber, birthDate, gender);
 
+            Assert.IsNull(result.Errors);
             Assert.IsTrue(result.Succeeded);
         }
 
         [Test]
         [TestCase("1", "Kamen", "Ivanov", "5678", "0878992254", "12/05/1999", "Мъж")]
-        public async Task EditPatientProfile_FailedEdit_ReturnsFalse(
+        public async Task EditPatientProfile_FailedEdit_WithErrors(
             string id,
             string firstName,
             string lastName,
@@ -108,6 +111,7 @@ namespace CancerRegistryTests
 
             var result = await accountService.EditPatient(id, firstName, lastName, egn, phoneNumber, birthDate, gender);
 
+            Assert.IsNotNull(result.Errors);
             Assert.IsFalse(result.Succeeded);
         }
 
@@ -135,7 +139,7 @@ namespace CancerRegistryTests
 
         [Test]
         [TestCase("1234", "Password123!")]
-        public async Task ResetPassword_SuccessfullPasswordReset_ReturnsTrue(string username, string newPassword)
+        public async Task ResetPassword_SuccessfullPasswordReset_NoErrors(string username, string newPassword)
         {
             var accountService = new AccountService(_services.UserManager, _services.SignInManager);
             var token = await accountService.ForgotPassword(username);
@@ -144,32 +148,35 @@ namespace CancerRegistryTests
             var user = await _services.UserManager.FindByNameAsync(username);
             var isPasswordChanged = _services.UserManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, newPassword);
 
+            Assert.IsNull(result.Errors);
             Assert.IsTrue(isPasswordChanged == PasswordVerificationResult.Success && result.Succeeded);
         }
 
         [Test]
         [TestCase("1", "qwer", "Password123!")]
-        public async Task ChangePassword_SuccessfulPasswordChange_ReturnsTrue(string accountId, string currentPassword, string newPassword)
+        public async Task ChangePassword_SuccessfulPasswordChange_NoErrors(string accountId, string currentPassword, string newPassword)
         {
             var accountService = new AccountService(_services.UserManager, _services.SignInManager);
             var result = await accountService.ChangePassword(accountId, currentPassword, newPassword);
             
             var user = await _services.UserManager.FindByIdAsync(accountId);
             var isPasswordChanged = _services.UserManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, newPassword);
-            
+
+            Assert.IsNull(result.Errors);
             Assert.IsTrue(isPasswordChanged == PasswordVerificationResult.Success && result.Succeeded);
         }
 
         [Test]
         [TestCase("1", "123", "Password123!")]
-        public async Task ChangePassword_CurrentPasswordIsWrong_ReturnsFalse(string accountId, string currentPassword, string newPassword)
+        public async Task ChangePassword_CurrentPasswordIsWrong_WithErros(string accountId, string currentPassword, string newPassword)
         {
             var accountService = new AccountService(_services.UserManager, _services.SignInManager);
             var result = await accountService.ChangePassword(accountId, currentPassword, newPassword);
             
             var user = await _services.UserManager.FindByIdAsync(accountId);
             var isPasswordChanged = _services.UserManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, newPassword);
-            
+
+            Assert.IsNotNull(result.Errors);
             Assert.IsFalse(isPasswordChanged == PasswordVerificationResult.Success && result.Succeeded);
         }
 
