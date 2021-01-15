@@ -8,10 +8,10 @@ namespace CancerRegistry.Models.Admin
 {
     public class AdminLoginModel
     {
-        [Required(ErrorMessage = "Полето \"Потребителско име\" е задължително.")]
+        [Required(ErrorMessage = "Field \"Username\" is required.")]
         public string UserName { get; set; }
         
-        [Required(ErrorMessage = "Паролата е задължителна."), DataType(DataType.Password)]
+        [Required(ErrorMessage = "Password is required."), DataType(DataType.Password)]
         public string Password { get; set; }
     }
 }

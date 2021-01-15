@@ -11,7 +11,7 @@ using CancerRegistry.Models.Admin;
 
 namespace CancerRegistry.Controllers
 {   
-    [Authorize(Policy = "RequireAdministratorRole")]
+    [Authorize(Roles = "Administrator")]
     public class AdminController : Controller
     {
         private readonly AdministratorService _adminService;
@@ -23,6 +23,8 @@ namespace CancerRegistry.Controllers
         [AllowAnonymous]
         public IActionResult Login() => View();
         
+        [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(AdminLoginModel admin)
         {
             if (!ModelState.IsValid)
@@ -38,16 +40,25 @@ namespace CancerRegistry.Controllers
         }
 
         [HttpGet]
-        public IActionResult Home()
+        public IActionResult Index()
         {
-            var users = _adminService.GetAllUsers();
-            return View(users);
+            return View();
+        }
+        
+        public async Task<IActionResult> Logout()
+        {
+            await _adminService.Logout();
+            return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult RegisterDoctor() => View();
+        public IActionResult CreateDoctor()
+        {
+            CreateDoctorModel model = new CreateDoctorModel();
+            return View(model);
+        }
 
         [HttpPost]
-        public async Task<IActionResult> CreateDoctor(DoctorRegisterModel doctor)
+        public async Task<IActionResult> CreateDoctor(CreateDoctorModel doctor)
         {
             if (!ModelState.IsValid)
                 return View(doctor);
@@ -57,7 +68,9 @@ namespace CancerRegistry.Controllers
                     doctor.FirstName,
                     doctor.LastName,
                     doctor.EGN,
-                    doctor.UID);
+                    doctor.UID,
+                    doctor.Gender,
+                    doctor.Bulstat);
 
             if (result.Succeeded) 
                 return RedirectToAction("Index");
@@ -68,8 +81,23 @@ namespace CancerRegistry.Controllers
             return View(doctor);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> AllPatient()
+        {
+            var patients = await _adminService.GetAllPatients();
+            return View("Patients", patients);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AllDoctors()
+        {
+            var doctors = await _adminService.GetAllDoctors();
+            return View("Doctors", doctors);
+        }
+
+
         [HttpPost]
-        public async Task<IActionResult> DeleteDoctor(string id)
+        public async Task<IActionResult> DeleteUser(string id)
         {
             var result = await _adminService.DeleteUser(id);
 

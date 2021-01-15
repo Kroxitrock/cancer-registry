@@ -1,0 +1,58 @@
+﻿@model IEnumerable<CancerRegistry.Identity.ApplicationUser>;
+@{
+    Layout = "_LayoutAdmin";
+}
+
+<div class="row">
+    <div class="col-sm-4 col-3">
+        <h4 class="page-title">Всички пациенти</h4>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-border table-striped custom-table datatable mb-0">
+                <thead>
+                <tr>
+                    <th>Име</th>
+                    <th>ЕГН</th>
+                    <th>Тел.номер</th>
+                    <th class="text-right">Действие</th>
+                </tr>
+                </thead>
+                <tbody>
+                
+                @foreach (var patient in Model)
+                {
+                    <tr>
+                        <td><img width="28" height="28" src="~/assets/img/user.jpg" class="rounded-circle m-r-5" alt="">@patient.FirstName @patient.LastName</td>
+                        <td>@patient.EGN</td>
+                        <td>@patient.PhoneNumber</td>
+                        <td><button type="button"  class="btn btn-primary btn-primary-one float-right"  data-toggle="modal" data-target="#delete_patient_@patient.Id">ИЗТРИЙ</button></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@foreach (var patient in Model)
+{
+    <div id="delete_patient_@patient.Id" class="modal fade delete-modal" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <img src="~/assets/img/sent.png" alt="" width="50" height="46">
+                    <h3>Сигурни ли сте, че искате да изтриете този пациент?</h3>
+                    <div class="m-t-20">
+                        <a href="#" class="btn btn-white" data-dismiss="modal">ЗАТВОРИ</a>
+                        <form asp-controller="Admin" asp-action="DeleteUser" asp-route-id="@patient.Id" method="post">
+                            <button type="submit" class="btn btn-danger">ИЗТРИЙ</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

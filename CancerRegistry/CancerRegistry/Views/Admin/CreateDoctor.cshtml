@@ -1,0 +1,67 @@
+﻿@model CancerRegistry.Models.Admin.CreateDoctorModel;
+@{
+    Layout = "_LayoutAdmin";
+}
+
+<div class="row">
+    <div class="col-lg-8 offset-lg-2">
+        <h4 class="page-title">Добави доктор</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-8 offset-lg-2">
+        <form asp-controller="Admin" asp-action="CreateDoctor" method="post">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label asp-for="FirstName">Име <span class="text-danger">*</span></label>
+                        <input asp-for="FirstName" class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label asp-for="LastName">Фамилия <span class="text-danger">*</span></label>
+                        <input asp-for="LastName" class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label asp-for="EGN">ЕГН <span class="text-danger">*</span></label>
+                        <input asp-for="EGN" class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label asp-for="UID">УИН<span class="text-danger">*</span></label>
+                        <input asp-for="UID" class="form-control" type="tel">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label asp-for="Bulstat">БУЛСТАТ на лечебно заведение<span class="text-danger">*</span></label>
+                        <input asp-for="Bulstat" class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group gender-select">
+                        <label class="gen-label">Пол:</label>
+                        @foreach (var gender in Model.Genders)
+                        {
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" asp-for="Gender" value="@gender" class="form-check-input">@gender
+                                </label>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="m-t-20 text-center">
+                    <button class="btn btn-primary submit-btn">Добави доктор</button>
+                </div>
+            </div>
+        </form>
+        <div asp-validation-summary="All"></div>
+    </div>
+</div>
+

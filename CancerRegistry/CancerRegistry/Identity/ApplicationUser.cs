@@ -16,6 +16,8 @@ namespace CancerRegistry.Identity
 
         public String UID { get; set; }
         
+        public String HospitalBulstat { get; set; }
+        
         public DateTime BirthDate { get; set; }
         
         public String Gender { get; set; }

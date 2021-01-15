@@ -1,0 +1,59 @@
+﻿@model IEnumerable<CancerRegistry.Identity.ApplicationUser>;
+@{
+    Layout = "_LayoutAdmin";
+}
+<div class="row">
+    <div class="col-sm-4 col-3">
+        <h4 class="page-title">Всички доктори</h4>
+    </div>
+    <div class="col-sm-8 col-9 text-right m-b-20">
+        <a asp-action="CreateDoctor" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Добави доктор</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-border table-striped custom-table datatable mb-0">
+                <thead>
+                    <tr>
+                        <th>Име</th>
+                        <th>ЕГН</th>
+                        <th>УИН</th>
+                        <th class="text-right">Действие</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var doctor in Model)
+                    {
+                        <tr>
+                            <td><img width="28" height="28" src="~/assets/img/user.jpg" class="rounded-circle m-r-5" alt=""> @doctor.FirstName @doctor.LastName</td>
+                            <td>@doctor.EGN</td>
+                            <td>@doctor.UID</td>
+                            <td><button type="button"  class="btn btn-primary btn-primary-one float-right"  data-toggle="modal" data-target="#delete_patient_@doctor.Id">ИЗТРИЙ</button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@foreach (var doctor in Model)
+{
+    <div id="delete_patient_@doctor.Id" class="modal fade delete-modal" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <img src="~/assets/img/sent.png" alt="" width="50" height="46">
+                    <h3>Сигурни ли сте, че искате да изтриете този пациент?</h3>
+                    <div class="m-t-20">
+                        <a href="#" class="btn btn-white" data-dismiss="modal">ЗАТВОРИ</a>
+                        <form asp-controller="Admin" asp-action="DeleteUser" asp-route-id="@doctor.Id" method="post">
+                            <button type="submit" class="btn btn-danger">ИЗТРИЙ</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

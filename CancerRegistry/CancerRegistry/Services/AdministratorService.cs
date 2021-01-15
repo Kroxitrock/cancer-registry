@@ -18,14 +18,20 @@ namespace CancerRegistry.Services
             _signInManager = signInManager;
         }
 
-        public async Task<IEnumerable<ApplicationUser>> GetAllUsers()
+        public async Task<IEnumerable<ApplicationUser>> GetAllPatients()
+        {
+            var patients = await _userManager.GetUsersInRoleAsync("Patient");
+            return patients;
+        }
+
+        public async Task<IEnumerable<ApplicationUser>> GetAllDoctors()
         {
             var doctors = await _userManager.GetUsersInRoleAsync("Doctor");
-            var patients = await _userManager.GetUsersInRoleAsync("Patient");
-            var users = new List<ApplicationUser>(doctors);
-            users.AddRange(patients);
-            return users;
+            return doctors;
         }
+
+        public async Task Logout()
+            => await _signInManager.SignOutAsync();
 
         public async Task<bool> LoginAdmin(string username, string password)
         {
@@ -55,7 +61,9 @@ namespace CancerRegistry.Services
             string firstName,
             string lastName,
             string egn,
-            string uid)
+            string uid,
+            string gender,
+            string bulstat)
         {
             var doctorPassword = string.Concat(
                 char.ToUpper(
@@ -70,7 +78,9 @@ namespace CancerRegistry.Services
                 FirstName = firstName,
                 LastName = lastName,
                 EGN = egn,
-                UID = uid
+                UID = uid,
+                Gender = gender,
+                HospitalBulstat = bulstat
             };
 
             var registerResult = await _userManager.CreateAsync(appUser, doctorPassword);

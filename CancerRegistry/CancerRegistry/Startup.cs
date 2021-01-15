@@ -43,6 +43,7 @@ namespace CancerRegistry
                 .AddDefaultTokenProviders();
 
             services.AddTransient<AccountService>();
+            services.AddTransient<AdministratorService>();
             services.AddTransient<DoctorService>();
             services.AddTransient<PatientService>();
             services.AddTransient<DiagnoseService>();
