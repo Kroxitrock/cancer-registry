@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CancerRegistry.Models.Accounts.Doctor;
 
 namespace CancerRegistry.Controllers
 {
@@ -19,13 +20,15 @@ namespace CancerRegistry.Controllers
         private readonly DiagnoseService _diagnoseService;
         private readonly HealthCheckService _healthCheckService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly DoctorService _doctorService;
 
         public DoctorDashboardController(PatientService patientsService, DiagnoseService diagnoseService,
-            HealthCheckService healthCheckService, UserManager<ApplicationUser> userManager)
+            HealthCheckService healthCheckService, UserManager<ApplicationUser> userManager, DoctorService doctorService)
         {
             _patientsService = patientsService;
             _diagnoseService = diagnoseService;
             _healthCheckService = healthCheckService;
+            _doctorService = doctorService;
             _userManager = userManager;
         }
         
@@ -73,6 +76,29 @@ namespace CancerRegistry.Controllers
             
 
             return View("/Views/Dashboard/Doctor/DoctorDashboardHome.cshtml", patientsOutput);
+        }
+
+        [HttpGet]
+        public IActionResult AddPatient()
+        {
+            var model = new AddPatientModel();
+            return View("/Views/Dashboard/Doctor/AddPatient.cshtml", model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddPatient(AddPatientModel model)
+        {
+            if (!ModelState.IsValid)
+                return View("/Views/Dashboard/Doctor/AddPatient.cshtml", model);
+
+            var result = await _doctorService.AddPatient(model.FirstName, model.LastName, model.EGN, model.PhoneNumber, model.BirthDate, model.Gender);
+
+            if (result)
+                return RedirectToAction("Index");
+
+            ModelState.AddModelError("", "Something went wrong. Try again!");
+            return View("/Views/Dashboard/Doctor/AddPatient.cshtml", model);
         }
     }
 }

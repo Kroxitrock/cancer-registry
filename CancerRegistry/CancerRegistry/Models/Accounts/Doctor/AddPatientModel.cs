@@ -8,24 +8,23 @@ namespace CancerRegistry.Models.Accounts.Doctor
 {
     public class AddPatientModel
     {
-        [Required]
-        public string FirstName { get; set; }
-        
-        [Required]
-        public string LastName { get; set; }
-        
-        [Required]
-        public string EGN { get; set; }
+        [Required(ErrorMessage = "Полето \"Име\" е задължнително.")]
+        public String FirstName { get; set; }
 
-        [Required]
-        public string PhoneNumber { get; set; }
+        [Required(ErrorMessage = "Полето \"Фамилия\" е задължително.")]
+        public String LastName { get; set; }
+
+        [Required(ErrorMessage = "Полето \"ЕГН\" е задължително.")]
+        public String EGN { get; set; }
+
+        [Required(ErrorMessage = "Полето \"Телефонен номер\" е задължително."), DataType(DataType.PhoneNumber)]
+        public String PhoneNumber { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
 
-        public string Gender { get; set; }
+        public String Gender { get; set; }
 
-        public string[] Genders = new String[] { "Мъж", "Жена" };
-
+        public String[] Genders = new String[] { "Мъж", "Жена" };
     }
 }
