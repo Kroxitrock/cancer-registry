@@ -58,6 +58,7 @@ namespace CancerRegistry.Services
             if (!result.Succeeded) return false;
             
             await _diagnoseContext.Patients.AddAsync(patient);
+            await _diagnoseContext.SaveChangesAsync();
             
             return true;
         }
