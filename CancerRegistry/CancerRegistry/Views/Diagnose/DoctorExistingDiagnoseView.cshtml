@@ -1,0 +1,159 @@
+﻿@{
+Layout = "_LayoutDoctor";
+}
+
+<div class="main-wrapper">
+    <div class="header">
+        <div class="header-left">
+            <a href="index-dashboard.html" class="logo">
+                <img src="images/logo_transparent_circle.png" width="35" height="35" alt=""> <span>Здравен раков регистър</span>
+            </a>
+        </div>
+        <a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
+        <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
+        <ul class="nav user-menu float-right">
+            <li class="nav-item dropdown has-arrow">
+                <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                    <span class="user-img">
+                        <img class="rounded-circle" src="assets/img/user.jpg" width="24" alt="Admin">
+                        <span class="status online"></span>
+                    </span>
+                    <span>д-р Стефанов</span>
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="profile.html">Моят профил</a>
+                    <a class="dropdown-item" href="edit-profile.html">Редактирай профила</a>
+                    <a class="dropdown-item" href="index.html">Излез</a>
+                </div>
+            </li>
+        </ul>
+        <div class="dropdown mobile-user-menu float-right">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="profile.html">Моят профил</a>
+                <a class="dropdown-item" href="edit-profile.html">Редактирай профила</a>
+                <a class="dropdown-item" href="index.html">Излез</a>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-inner slimscroll">
+            <div id="sidebar-menu" class="sidebar-menu">
+                <ul>
+                    <li class="menu-title">Добре дошли</li>
+                    <li class="active">
+                        <a href="index-dashboard.html"><i class="fa fa-dashboard"></i> <span>Начало</span></a>
+                    </li>
+
+                    <li>
+                        <a href="patients.html"><i class="fa fa-wheelchair"></i> <span>Пациенти</span></a>
+                    </li>
+                    <li>
+                        <a href="add-patient.html"><i class="fa fa-edit"></i> <span>Добави пациент</span></a>
+                    </li>
+
+
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="page-wrapper">
+        <div class="content">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <h4 class="page-title">Поставена диагноза</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <form>
+                        <div class="form-group">
+                            <label>Име на пациент</label>
+                            <input type="text" class="form-control" value="Име на пациент" readonly="readonly">
+                        </div>
+                        <div class="form-group">
+
+                            <div class="form-group">
+                                <label class="col-form-label col-md-2">Клиничен етап</label>
+                                <div class="col-md-10">
+                                    <select class="form-control">
+                                        <option>-- Избери --</option>
+                                        <option>HR-positive/HER2-negative</option>
+                                        <option>HR-positive/HER2-positive</option>
+                                        <option>
+                                            HR-negative/
+                                            HER2-positive
+                                        </option>
+                                        <option>
+                                            HR-negative/
+                                            HER2-negative (triple
+                                            negative breast cancer)
+                                        </option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-form-label col-md-2">Допълнителен клиничен етап</label>
+                                <div class="col-md-10">
+                                    <select class="form-control">
+                                        <option>-- Избери --</option>
+                                        <option>
+                                            Favorable characteristics
+                                            (grade I/II, strongly ER/PR
+                                            positive, low Ki-67)
+                                        </option>
+                                        <option>
+                                            For adverse features (large
+                                            nodal burden, high Ki-67,
+                                            high grade)
+                                        </option>
+                                        <option>
+                                            Tumor < 2 cm and
+                                            lymph nodes negative
+                                        </option>
+                                        <option>
+                                            Tumor ≥ 2 cm with any
+                                            lymph node status
+                                        </option>
+                                        <option>
+                                            Tumor < 1 cm and
+                                            lymph nodes negative
+                                        </option>
+                                        <option>
+                                            Tumor ≥ 1 cm with any
+                                            lymph node status
+                                        </option>
+                                        <option>
+                                            Tumor < 1 cm and
+                                            lymph nodes negative
+                                        </option>
+                                        <option>
+                                            Tumor ≥ 1 cm with any
+                                            lymph node status
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>Допълнителни данни от диагнозата</label>
+                                <textarea cols="30" rows="6" class="form-control" value=""></textarea>
+
+
+                            </div>
+                            <div class="m-t-20 text-center">
+                                <a href="patients.html" class="btn btn-primary submit-btn">ВРЪЩАНЕ НАЗАД</button></a>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -24,11 +24,11 @@
                                     <td>+@patient.PhoneNumber</td>
                                     @if (patient.DiagnoseId == -1)
                                     {
-                                        <td><a href='add-diagnosis.html'><button class="btn btn-primary btn-primary-one float-right">Добави диагноза</button></a></td>
+                                        <td><a href="@Url.Action("","DoctorExistingDiagnose", new { diagnoseId = patient.DiagnoseId })"><button class="btn btn-primary btn-primary-one float-right">Добави диагноза</button></a></td>
                                     }
                                     else
                                     {
-                                        <td><a href='current-diagnosis.html'><button class="btn btn-primary btn-primary-one float-right">Диагноза</button></a></td>
+                                        <td><a href="@Url.Action("","DoctorExistingDiagnose", new { diagnoseId = patient.DiagnoseId })"><button class="btn btn-primary btn-primary-one float-right">Диагноза</button></a></td>
                                     }
 
                                     @if (patient.LastHealthCheckId == -1)
