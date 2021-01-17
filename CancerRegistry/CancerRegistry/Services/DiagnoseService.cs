@@ -1,9 +1,9 @@
 ﻿using CancerRegistry.Models.Diagnoses;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Data.Entity;
 
 namespace CancerRegistry.Services
 {
@@ -16,11 +16,51 @@ namespace CancerRegistry.Services
             _diagnoseContext = diagnoseContext;
         }
 
-        public Diagnose GetById(long id)
+        public async Task<Diagnose> GetByIdAsync(long id)
         {
-            return _diagnoseContext.Diagnoses
+            return await _diagnoseContext.Diagnoses
+                .Include(d => d.Patient)
                 .Where(d => d.Id == id)
-                .SingleOrDefault();
+                .SingleOrDefaultAsync();
+        }
+
+        /**
+         * A method that allows us to determine the stage of the breast cancer. Stages are computed based on the rules given by Digital Health Assistant.
+         */
+        internal short DetermineStage(DistantMetastasisState distantMetastasis, PrimaryTumorState primaryTumor, RegionalLymphNodesState regionalLymphNodes)
+        {
+
+            // Stage 4 cancer
+            if (distantMetastasis == DistantMetastasisState.M1)
+            {
+                return 4;
+            }
+
+            // Stage 0 cancer
+            if (regionalLymphNodes == RegionalLymphNodesState.N0 && primaryTumor == PrimaryTumorState.T0)
+            {
+                return 0;
+            }
+            
+            // Stage 1 cancer
+            if ((regionalLymphNodes == RegionalLymphNodesState.N1 && primaryTumor == PrimaryTumorState.T0)
+                  || (regionalLymphNodes == RegionalLymphNodesState.N1 && primaryTumor == PrimaryTumorState.T1)
+                  || (regionalLymphNodes == RegionalLymphNodesState.N1 && primaryTumor == PrimaryTumorState.T1))
+            {
+                return 1;
+            }
+            
+            // Stage 2 cancer
+            if ((regionalLymphNodes == RegionalLymphNodesState.N1 && primaryTumor == PrimaryTumorState.T1)
+                  || (regionalLymphNodes == RegionalLymphNodesState.N0 && primaryTumor == PrimaryTumorState.T2)
+                  || (regionalLymphNodes == RegionalLymphNodesState.N1 && primaryTumor == PrimaryTumorState.T2)
+                  || (regionalLymphNodes == RegionalLymphNodesState.N0 && primaryTumor == PrimaryTumorState.T3))
+            {
+                return 2;
+            }
+
+            // Everything inbetween falls into the Stage 3 category
+            return 3;
         }
     }
 }
