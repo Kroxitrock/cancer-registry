@@ -37,6 +37,7 @@ namespace CancerRegistryTests
             var result = await adminService.LoginAdmin(username, password);
             Assert.IsFalse(result);
         }
+        
         [Test]
         [TestCase("2")]
         public async Task DeleteUser_NoErrors(string id)
@@ -62,17 +63,19 @@ namespace CancerRegistryTests
         }
 
         [Test]
-        [TestCase("Qnko", "Qnkov", "9505131234", "F12345")]
-        [TestCase("Ivaylo", "Petrov", "9302236456", "G6R3223")]
+        [TestCase("Qnko", "Qnkov", "9505131234", "F12345","Мъж","437688")]
+        [TestCase("Ivaylo", "Petrov", "9302236456", "G6R3223","Мъж","963456")]
         public async Task RegisterDoctor_SuccessfulRegistration_NoErrors(
             string firstName,
             string lastName,
             string egn,
-            string uid)
+            string uid,
+            string gender,
+            string bulstat)
         {
             var adminService = new AdministratorService(_services.UserManager, _services.SignInManager);
 
-            var result = await adminService.RegisterDoctor(firstName, lastName, egn, uid);
+            var result = await adminService.RegisterDoctor(firstName, lastName, egn, uid, gender, bulstat);
             var users = _services.UserManager.Users.ToList();
 
             Assert.IsNull(result.Errors);
@@ -81,16 +84,18 @@ namespace CancerRegistryTests
         }
 
         [Test]
-        [TestCase("Qnko", "Qnkov", "9505131234", "5678")]
+        [TestCase("Qnko", "Qnkov", "9505131234", "5678", "Мъж","135543465")]
         public async Task RegisterDoctor_RegistrationFails_WithErrors(
             string firstName,
             string lastName,
             string egn,
-            string uid)
+            string uid,
+            string gender,
+            string bulstat)
         {
             var adminService = new AdministratorService(_services.UserManager, _services.SignInManager);
 
-            var result = await adminService.RegisterDoctor(firstName, lastName, egn, uid);
+            var result = await adminService.RegisterDoctor(firstName, lastName, egn, uid, gender, bulstat);
             var users = _services.UserManager.Users.ToList();
 
             Assert.IsNotNull(result.Errors);
@@ -98,17 +103,6 @@ namespace CancerRegistryTests
             Assert.IsTrue(users.Count == 3);
         }
 
-        [Test]
-        public async Task GetAllUsers_ReturnsOnlyDoctorsAndPatients()
-        {
-            var adminService = new AdministratorService(_services.UserManager, _services.SignInManager);
-            var users = await adminService.GetAllUsers();
-            var usersRoles = 
-                users.Select(async x => await _services.UserManager.GetRolesAsync(x))
-                .Select(t=>t.Result.First());
-            Assert.That(usersRoles.All(x=> x == "Doctor" || x == "Patient"));
-        }
-        
         [SetUp]
         public async Task Setup()
         {
