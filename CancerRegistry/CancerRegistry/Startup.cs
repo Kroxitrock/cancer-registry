@@ -6,6 +6,7 @@ using CancerRegistry.Identity;
 using CancerRegistry.Identity.Data;
 using CancerRegistry.Models.Diagnoses;
 using CancerRegistry.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -55,6 +56,28 @@ namespace CancerRegistry
 
             services.ConfigureApplicationCookie(options =>
             {
+                options.Events = new CookieAuthenticationEvents()
+                {
+                    OnRedirectToLogin = context =>
+                    {
+                        var requestedPath = context.Request.Path;
+                        if (requestedPath.Value == "/Admin" || requestedPath.Value == "/admin")
+                        {
+                            context.Response.Redirect("/Admin/Login");
+                        }
+                        else if (requestedPath.Value == "/DoctorDashboard" || requestedPath.Value == "/doctordashboard")
+                        {
+                            context.Response.Redirect("/Account/DoctorSignIn");
+                        }
+                        else if (requestedPath.Value == "/PatientDashboard" || requestedPath.Value == "/patientdashboard")
+                        {
+                            context.Response.Redirect("/Account/LoginPatient");
+                        }
+                        
+                        return Task.CompletedTask;
+                    }
+                };
+                
                 options.AccessDeniedPath = new PathString("/Account/AccessDenied");
             });
             
