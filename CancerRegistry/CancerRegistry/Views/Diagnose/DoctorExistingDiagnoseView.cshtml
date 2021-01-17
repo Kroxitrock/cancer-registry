@@ -1,0 +1,101 @@
+﻿@{
+    Layout = "_LayoutDoctor";
+}
+@model CancerRegistry.Models.Diagnoses.DiagnoseModel;
+<div class="content">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <h4 class="page-title">Поставена диагноза</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <form asp-controller="DoctorExistingDiagnose"
+                  asp-action="Create"
+                  method="post">
+                <div class="form-group">
+                    <label>Име на пациент</label>
+                    <h3>@Model.PatientName</h3>
+                </div>
+                <div class="form-group">
+
+                    @if (!Model.DiagnoseExists)
+                    {
+                        <div class="form-group">
+                            <label class="col-form-label col-md-2">Primary Tumor</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="PrimaryTumor">
+                                    <option>-- Избери --</option>
+                                    <option value="T1">T1</option>
+                                    <option value="T2">T2</option>
+                                    <option value="T3">T3</option>
+                                    <option value="T4">T4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label col-md-2">Distant Metastasis</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="DistantMetastasis">
+                                    <option>-- Избери --</option>
+                                    <option value="M0">M0</option>
+                                    <option value="M1">M1</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label col-md-2">Regional Lymph Nodes</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="RegionalLymphNodes">
+                                    <option>-- Избери --</option>
+                                    <option value="N0">N0</option>
+                                    <option value="N1">N1</option>
+                                    <option value="N2">N2</option>
+                                    <option value="N3">N3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <input type ="hidden" name="PatientId" value="@Model.PatientId"/>
+                        <div class="form-group">
+                            <input type="submit" value="Запази" class="btn btn-primary submit-btn"/>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            <label class="col-form-label col-md-2">Стадий</label>
+                            <div class="col-md-10">
+                                <h3>@Model.Stage</h3>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-form-label col-md-2">Primary Tumor</label>
+                            <div class="col-md-10">
+                                <h3>@Model.PrimaryTumor</h3>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-form-label col-md-2">Regional Lymph Nodes</label>
+                            <div class="col-md-10">
+                                <h3>@Model.RegionalLymphNodes</h3>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-form-label col-md-2">Primary Tumor</label>
+                            <div class="col-md-10">
+                                <h3>@Model.DistantMetastasis</h3>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </form>
+            <div class="m-t-20 text-center">
+                <a href="@Url.Action("","DoctorDashboard")" class="btn btn-primary submit-btn">ВРЪЩАНЕ НАЗАД</button></a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CancerRegistry", "CancerRegistry\CancerRegistry.csproj", "{1FDB70EC-FDFB-4600-AFB1-1CA613D9FCF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CancerRegistryTests", "CancerRegistryTests\CancerRegistryTests.csproj", "{902A7F1C-92A5-4450-89DE-C92FF1B52558}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CancerRegistryTests", "CancerRegistryTests\CancerRegistryTests.csproj", "{902A7F1C-92A5-4450-89DE-C92FF1B52558}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
