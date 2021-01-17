@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace CancerRegistry.Controllers
 {
-    public class DoctorExistingDiagnoseController : Controller
+    public class DiagnoseController : Controller
     {
         private readonly DiagnoseService _diagnoseService;
         private readonly HealthCheckService _healthCheckService;
@@ -22,7 +22,7 @@ namespace CancerRegistry.Controllers
         private readonly PatientService _patientService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public DoctorExistingDiagnoseController(DiagnoseService diagnoseService, HealthCheckService healthCheckService, DoctorService doctorService, PatientService patientService, UserManager<ApplicationUser> userManager)
+        public DiagnoseController(DiagnoseService diagnoseService, HealthCheckService healthCheckService, DoctorService doctorService, PatientService patientService, UserManager<ApplicationUser> userManager)
         {
             _diagnoseService = diagnoseService;
             _healthCheckService = healthCheckService;
