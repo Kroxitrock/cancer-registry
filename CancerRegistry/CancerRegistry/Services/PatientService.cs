@@ -1,6 +1,7 @@
 ﻿using CancerRegistry.Models.Accounts.Doctor;
 using CancerRegistry.Models.Accounts.Patient;
 using CancerRegistry.Models.Diagnoses;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,15 @@ namespace CancerRegistry.Services
             _diagnoseContext = diagnoseContext;
         }
 
-        public List<Patient> SelectForDoctorUID(string doctorUID)
+        public async Task<Patient> GetByIdAsync(string id) {
+            return await _diagnoseContext.Patients
+                .Where(p => p.UserId == id)
+                .SingleOrDefaultAsync();
+        }
+
+        public async Task<List<Patient>> SelectForDoctorUIDAsync(string doctorUID)
         {
-            return _diagnoseContext.Doctors
+            return await _diagnoseContext.Doctors
                 .Where(doctor => doctor.UserId == doctorUID)
                 .Join(_diagnoseContext.Diagnoses,
                     doctor => doctor.UserId,
@@ -29,7 +36,12 @@ namespace CancerRegistry.Services
                     diagnose => diagnose.Id,
                     patient => patient.ActiveDiagnoseId,
                     (diagnose, patient) => patient)
-                .ToList();
+                .ToListAsync();
+        }
+
+        internal async Task UpdateAsync()
+        {
+           await _diagnoseContext.SaveChangesAsync();
         }
     }
 }

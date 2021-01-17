@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CancerRegistry.Identity;
 using CancerRegistry.Models.Accounts.Patient;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace CancerRegistry.Services
 {
@@ -21,9 +22,9 @@ namespace CancerRegistry.Services
             _userManager = userManager;
         }
 
-        public Doctor GetByUserId(string userId)
+        public async Task<Doctor> GetByUserIdAsync(string userId)
         {
-            return _diagnoseContext.Doctors.Where(d => d.UserId == userId).SingleOrDefault();
+            return await _diagnoseContext.Doctors.Where(d => d.UserId == userId).SingleOrDefaultAsync();
         }
 
         public void Create(Doctor doctor)

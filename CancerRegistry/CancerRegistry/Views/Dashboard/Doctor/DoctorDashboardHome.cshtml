@@ -24,20 +24,11 @@
                                     <td>+@patient.PhoneNumber</td>
                                     @if (patient.DiagnoseId == -1)
                                     {
-                                        <td><a href="@Url.Action("","DoctorExistingDiagnose", new { diagnoseId = patient.DiagnoseId })"><button class="btn btn-primary btn-primary-one float-right">Добави диагноза</button></a></td>
+                                        <td><a href="@Url.Action("","DoctorExistingDiagnose", new { diagnoseId = patient.DiagnoseId, patientId = patient.Id, patientName = patient.Name })"><button class="btn btn-primary btn-primary-one float-right">Добави диагноза</button></a></td>
                                     }
                                     else
                                     {
-                                        <td><a href="@Url.Action("","DoctorExistingDiagnose", new { diagnoseId = patient.DiagnoseId })"><button class="btn btn-primary btn-primary-one float-right">Диагноза</button></a></td>
-                                    }
-
-                                    @if (patient.LastHealthCheckId == -1)
-                                    {
-                                        <td><a href='add-exam-results.html'><button class="btn btn-primary btn-primary-two float-right">Добави резултати от преглед</button></a></td>
-                                    }
-                                    else
-                                    {
-                                        <td><a href='see-exam-results.html'><button class="btn btn-primary btn-primary-two float-right">Резултати от преглед</button></a></td>
+                                        <td><a href="@Url.Action("","DoctorExistingDiagnose", new { diagnoseId = patient.DiagnoseId, patientId = patient.Id, patientName = patient.Name })"><button class="btn btn-primary btn-primary-one float-right">Диагноза</button></a></td>
                                     }
 
                                     @if (patient.TreatmentId == -1)

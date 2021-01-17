@@ -35,7 +35,7 @@ namespace CancerRegistry.Controllers
         [Authorize(Roles = "Doctor")]
         public IActionResult Index()
         {
-            List<Patient> patients = _patientsService.SelectForDoctorUID(_userManager.GetUserId(HttpContext.User));
+            List<Patient> patients = _patientsService.SelectForDoctorUIDAsync(_userManager.GetUserId(HttpContext.User)).Result;
 
             List<DoctorDashboardPatientModel> patientsOutput = new List<DoctorDashboardPatientModel>();
 
@@ -46,21 +46,20 @@ namespace CancerRegistry.Controllers
                 long healthCheckId = -1;
                 if (patient.ActiveDiagnoseId > 0)
                 {
-                    Diagnose diagnose = _diagnoseService.GetById(patient.ActiveDiagnoseId);
+                    Diagnose diagnose = _diagnoseService.GetByIdAsync(patient.ActiveDiagnoseId).Result;
                     diagnoseId = diagnose.Id;
                     if (diagnose.Treatment != null)
                     {
                         treatmentId = diagnose.Treatment.Id;
                     }
 
-                    HealthCheck healthCheck = _healthCheckService.getLastForDiagnose(diagnose.Id);
+                    HealthCheck healthCheck = _healthCheckService.getLastForDiagnoseAsync(diagnose.Id).Result;
 
                     if (healthCheck != null)
                     {
                         healthCheckId = healthCheck.Id;
                     }
                 }
-
 
                 ApplicationUser patientPrincipal = _userManager.FindByIdAsync(patient.UserId).Result;
                 patientsOutput.Add(new DoctorDashboardPatientModel()
