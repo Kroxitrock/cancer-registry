@@ -60,6 +60,9 @@ namespace CancerRegistry.Models.Diagnoses.Treatments
         public DiagnosedChemeotherapy Chemeotherapy { get; set; }
 
         [Required]
+        public DiagnosedEndocrineTreatment EndocrineTreatment { get; set; }
+
+        [Required]
         [ForeignKey("Diagnose")]
         public long DiagnoseId { get; set; }
 

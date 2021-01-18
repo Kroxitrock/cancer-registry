@@ -24,23 +24,21 @@
                                     <td>+@patient.PhoneNumber</td>
                                     @if (patient.DiagnoseId == -1)
                                     {
-                                        <td><a href="@Url.Action("","DoctorExistingDiagnose", new { diagnoseId = patient.DiagnoseId, patientId = patient.Id, patientName = patient.Name })"><button class="btn btn-primary btn-primary-one float-right">Добави диагноза</button></a></td>
+                                        <td><a href="@Url.Action("","Diagnose", new { diagnoseId = patient.DiagnoseId, patientId = patient.Id, patientName = patient.Name })"><button class="btn btn-primary btn-primary-one float-right">Добави диагноза</button></a></td>
                                     }
                                     else
                                     {
-                                        <td><a href="@Url.Action("","DoctorExistingDiagnose", new { diagnoseId = patient.DiagnoseId, patientId = patient.Id, patientName = patient.Name })"><button class="btn btn-primary btn-primary-one float-right">Диагноза</button></a></td>
-                                    }
+                                        <td><a href="@Url.Action("","Diagnose", new { diagnoseId = patient.DiagnoseId, patientId = patient.Id, patientName = patient.Name })"><button class="btn btn-primary btn-primary-one float-right">Диагноза</button></a></td>
+                                    }s
 
                                     @if (patient.TreatmentId == -1)
                                     {
-                                        <td><a href='add-treatment.html'><button class="btn btn-primary btn-primary-three float-right">Добави лечение</button></a></td>
+                                        <td><a href="@Url.Action("","Treatment", new { diagnoseId = patient.DiagnoseId, treatmentId = patient.TreatmentId, patientId = patient.Id, patientName = patient.Name })"><button class="btn btn-primary btn-primary-three float-right">Добави лечение</button></a></td>
                                     }
                                     else
                                     {
-                                        <td><a href='current-treatment.html'><button class="btn btn-primary btn-primary-three float-right">Лечение</button></a></td>
+                                        <td><a href="@Url.Action("","Treatment", new { diagnoseId = patient.DiagnoseId, treatmentId = patient.TreatmentId, patientId = patient.Id, patientName = patient.Name })"><button class="btn btn-primary btn-primary-three float-right">Лечение</button></a></td>
                                     }
-
-
                                 </tr>
                                 }
                             </tbody>

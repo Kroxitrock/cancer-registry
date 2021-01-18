@@ -48,6 +48,7 @@ namespace CancerRegistry
             services.AddTransient<DoctorService>();
             services.AddTransient<PatientService>();
             services.AddTransient<DiagnoseService>();
+            services.AddTransient<TreatmentService>();
             services.AddTransient<HealthCheckService>();
 
             services.AddControllersWithViews();

@@ -20,6 +20,7 @@ namespace CancerRegistry.Services
         {
             return await _diagnoseContext.Diagnoses
                 .Include(d => d.Patient)
+                .Include(d => d.Treatment)
                 .Where(d => d.Id == id)
                 .SingleOrDefaultAsync();
         }
@@ -61,6 +62,11 @@ namespace CancerRegistry.Services
 
             // Everything inbetween falls into the Stage 3 category
             return 3;
+        }
+
+        internal async Task updateAsync()
+        {
+            await _diagnoseContext.SaveChangesAsync();
         }
     }
 }
