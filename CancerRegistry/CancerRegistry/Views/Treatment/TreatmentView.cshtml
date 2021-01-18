@@ -1,0 +1,139 @@
+﻿@{
+    Layout = "_LayoutDoctor";
+}
+@model CancerRegistry.Models.Diagnoses.Treatments.TreatmentModel;
+
+<div class="page-wrapper">
+    <div class="content">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <h4 class="page-title">Поставено лечение</h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <form asp-controller="Treatment"
+                      asp-action="Create"
+                      method="post">
+
+                    <div class="form-group">
+                        <label>Име на пациент</label>
+                        <h3>@Model.PatientName</h3>
+                    </div>
+
+
+                    @if (!Model.IsExisting)
+                    {
+                        <div class="form-group">
+                            <label class="col-form-label col-md-2">Chemeotherapy</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="Chemeotherapy">
+                                    <option>-- Избери --</option>
+                                    <option value="C1">C1</option>
+                                    <option value="C2">C2</option>
+                                    <option value="C3">C3</option>
+                                    <option value="C4">C4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label col-md-2">Endocrine Treatment</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="EndocrineTreatment">
+                                    <option>-- Избери --</option>
+                                    <option value="E1">E1</option>
+                                    <option value="E2">E2</option>
+                                    <option value="E3">E3</option>
+                                    <option value="E4">E4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label col-md-2">Radiation Treatment</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="RadiationTreatment">
+                                    <option>-- Избери --</option>
+                                    <option value="R1">R1</option>
+                                    <option value="R2">R2</option>
+                                    <option value="R3">R3</option>
+                                    <option value="R4">R4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label col-md-2">Surgery</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="Surgery">
+                                    <option>-- Избери --</option>
+                                    <option value="S1">S1</option>
+                                    <option value="S2">S2</option>
+                                    <option value="S3">S3</option>
+                                    <option value="S4">S4</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    }
+                    else
+                    {
+
+                        <div class="form-group">
+                            <label class="col-form-label col-md-2">Chemeotherapy</label>
+                            <div class="col-md-10">
+                                <h3>@Model.Chemeotherapy</h3>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-form-label col-md-2">Endocrine Treatment</label>
+                            <div class="col-md-10">
+                                <h3>@Model.EndocrineTreatment</h3>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-form-label col-md-2">Radiation Treatment</label>
+                            <div class="col-md-10">
+                                <h3>@Model.Radiation</h3>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-form-label col-md-2">Surgery</label>
+                            <div class="col-md-10">
+                                <h3>@Model.Surgery</h3>
+                            </div>
+                        </div>
+                    }
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+
+                                <label>Дата</label>
+
+                                <div class="cal-icon">
+                                    <input type="text" class="form-control datetimepicker" value="@Model.End" name="End">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (!Model.IsExisting)
+                    {
+                        <input type="hidden" name="DiagnoseId" value="@Model.DiagnoseId" />
+                        <div class="form-group">
+                            <input type="submit" value="Запази" class="btn btn-primary submit-btn" />
+                        </div>
+                    }
+
+                    <div class="m-t-20 text-center">
+                        <a href="@Url.Action("","DoctorDashboard")" class="btn btn-primary submit-btn">ВРЪЩАНЕ НАЗАД</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

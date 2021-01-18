@@ -34,11 +34,12 @@ namespace CancerRegistry.Controllers
         [Authorize(Roles = "Doctor")]
         public IActionResult Index(long diagnoseId, string patientId, string patientName)
         {
-            Diagnose diagnose = _diagnoseService.GetByIdAsync(diagnoseId).Result;
             
             DiagnoseModel diagnoseModel;
-            if (diagnose != null)
+            if (diagnoseId != -1)
             {
+                Diagnose diagnose = _diagnoseService.GetByIdAsync(diagnoseId).Result;
+                
                 diagnoseModel = new DiagnoseModel
                 {
                     Id = diagnose.Id,
@@ -63,6 +64,7 @@ namespace CancerRegistry.Controllers
             return View("/Views/Diagnose/DoctorExistingDiagnoseView.cshtml", diagnoseModel);
         }
 
+        [HttpPost]
         public async Task<IActionResult> CreateAsync(string patientId, PrimaryTumorState primaryTumor, DistantMetastasisState distantMetastasis, RegionalLymphNodesState regionalLymphNodes)
         {
             Patient patient = _patientService.GetByIdAsync(patientId).Result;

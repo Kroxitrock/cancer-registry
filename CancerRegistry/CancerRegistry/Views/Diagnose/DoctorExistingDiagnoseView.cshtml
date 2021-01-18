@@ -2,6 +2,7 @@
     Layout = "_LayoutDoctor";
 }
 @model CancerRegistry.Models.Diagnoses.DiagnoseModel;
+
 <div class="content">
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
@@ -10,7 +11,7 @@
     </div>
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
-            <form asp-controller="DoctorExistingDiagnose"
+            <form asp-controller="Diagnose"
                   asp-action="Create"
                   method="post">
                 <div class="form-group">
@@ -85,7 +86,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-form-label col-md-2">Primary Tumor</label>
+                            <label class="col-form-label col-md-2">Distant Metastasis</label>
                             <div class="col-md-10">
                                 <h3>@Model.DistantMetastasis</h3>
                             </div>
@@ -94,7 +95,7 @@
                 </div>
             </form>
             <div class="m-t-20 text-center">
-                <a href="@Url.Action("","DoctorDashboard")" class="btn btn-primary submit-btn">ВРЪЩАНЕ НАЗАД</button></a>
+                <a href="@Url.Action("","DoctorDashboard")" class="btn btn-primary submit-btn">ВРЪЩАНЕ НАЗАД</a>
             </div>
         </div>
     </div>
