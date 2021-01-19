@@ -96,7 +96,7 @@ namespace CancerRegistry.Controllers
             if (result)
                 return RedirectToAction("Index");
 
-            ModelState.AddModelError("", "Something went wrong. Try again!");
+            ModelState.AddModelError("", "Възникна грешка. Опитайте отново!");
             return View("/Views/Dashboard/Doctor/AddPatient.cshtml", model);
         }
     }
