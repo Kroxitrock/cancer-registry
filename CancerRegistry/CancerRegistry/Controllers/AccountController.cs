@@ -218,14 +218,16 @@ namespace CancerRegistry.Controllers
 
             if (token == null)
             {
-                ModelState.AddModelError("", "Username couldn't be found.");
-                return RedirectToAction("ForgotPassword");
+                ModelState.AddModelError("", "Потребителят не може да бъде намерен.");
+                return View("ForgotPassword");
             }
 
 
-            return RedirectToAction("PasswordReset", new { token, username });
+            return RedirectToAction("PasswordReset", new { token = token, username = username });
         }
 
+        [HttpGet]
+        [AllowAnonymous]
         public IActionResult PasswordReset(string token, string username)
             => View(new PasswordReset() { Token = token, Username = username });
 
