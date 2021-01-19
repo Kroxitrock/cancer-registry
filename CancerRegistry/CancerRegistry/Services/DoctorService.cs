@@ -55,7 +55,8 @@ namespace CancerRegistry.Services
 
             var temporaryPatientPassword = CreatePatientPassword(firstName, lastName, egn);
             var result = await _userManager.CreateAsync(patientAccount, temporaryPatientPassword);
-
+            var roleResult = await _userManager.AddToRoleAsync(patientAccount, "Patient");
+            
             if (!result.Succeeded) return false;
             
             await _diagnoseContext.Patients.AddAsync(patient);
@@ -64,13 +65,7 @@ namespace CancerRegistry.Services
             return true;
         }
 
-        private string CreatePatientPassword(string firstName, string lastName, string egn)
-        {
-           return string.Concat(
-                char.ToUpper(firstName[0]),
-                lastName.First().ToString().ToUpper() + lastName.Substring(1),
-                "_",
-                egn);
-        }
+        private string CreatePatientPassword(string firstName, string lastName, string egn) 
+            => string.Concat("Patient", "_", egn);
     }
 }
