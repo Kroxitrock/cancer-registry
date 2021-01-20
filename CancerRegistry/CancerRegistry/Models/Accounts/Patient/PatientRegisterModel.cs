@@ -14,7 +14,7 @@ namespace CancerRegistry.Models.Accounts.Patient
         [Required(ErrorMessage = "Полето \"Фамилия\" е задължително.")]
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "Полето \"ЕГН\" е задължително.")]
+        [Required(ErrorMessage = "Полето \"ЕГН\" е задължително."), StringLength(10, MinimumLength = 10, ErrorMessage = "Въведеното ЕГН е невалидно.")]
         public string EGN { get; set; }
 
         [Required(ErrorMessage = "Полето \"Телефонен номер\" е задължително."), DataType(DataType.PhoneNumber)]
