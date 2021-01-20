@@ -79,9 +79,13 @@ namespace CancerRegistry.Services
             };
 
             var registerResult = await _userManager.CreateAsync(appUser, doctorPassword);
+
+            if (!registerResult.Succeeded)
+                return RegistrationResult(registerResult);
+            
             var roleResult = await _userManager.AddToRoleAsync(appUser, "Doctor");
 
-            return RegistrationResult(registerResult, roleResult);
+            return new OperationResult();
         }
 
         #region Private methods
@@ -109,21 +113,15 @@ namespace CancerRegistry.Services
 
             return oResult;
         }
-        private OperationResult RegistrationResult(IdentityResult registerResult, IdentityResult roleResult)
+        private OperationResult RegistrationResult(IdentityResult registerResult)
         {
             var registrationResult = new OperationResult();
-            if (registerResult.Succeeded && roleResult.Succeeded)
-                return registrationResult;
-
+            
             registrationResult.Succeeded = false;
             registrationResult.Errors = new List<string>();
             foreach (var error in registerResult.Errors)
                 registrationResult.Errors.Add(error.Description);
-
-            foreach (var error in roleResult.Errors)
-                registrationResult.Errors.Add(error.Description);
-
-            registrationResult.Errors = registrationResult.Errors.Distinct().ToList();
+            
             return registrationResult;
         }
 

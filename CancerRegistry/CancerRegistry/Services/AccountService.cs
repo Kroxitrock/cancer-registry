@@ -51,9 +51,13 @@ namespace CancerRegistry.Services
             };
 
             var registerResult = await _userManager.CreateAsync(user, password);
+
+            if (!registerResult.Succeeded)
+                return RegistrationResult(registerResult);
+            
             var roleResult = await _userManager.AddToRoleAsync(user,"Patient");
 
-            return RegistrationResult(registerResult, roleResult);
+            return new OperationResult();
         }
 
         public async Task<ApplicationUser> GetPatient(string id)
@@ -154,22 +158,15 @@ namespace CancerRegistry.Services
 
         #region PrivateMethods
 
-        private OperationResult RegistrationResult(IdentityResult registerResult, IdentityResult roleResult)
+        private OperationResult RegistrationResult(IdentityResult registerResult)
         {
             var registrationResult = new OperationResult();
-
-            if (registerResult.Succeeded && roleResult.Succeeded)
-                return registrationResult;
 
             registrationResult.Succeeded = false;
             registrationResult.Errors = new List<string>();
             foreach (var err in registerResult.Errors)
                 registrationResult.Errors.Add(err.Description);
 
-            foreach (var err in roleResult.Errors)
-                registrationResult.Errors.Add(err.Description);
-
-            registrationResult.Errors = registrationResult.Errors.Distinct().ToList();
             return registrationResult;
         }
 
