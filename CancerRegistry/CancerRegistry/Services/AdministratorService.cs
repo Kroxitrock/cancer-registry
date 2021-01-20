@@ -65,12 +65,7 @@ namespace CancerRegistry.Services
             string gender,
             string bulstat)
         {
-            var doctorPassword = string.Concat(
-                char.ToUpper(
-                    firstName[0]),
-                    lastName.First().ToString().ToUpper() + lastName.Substring(1),
-                    "-",
-                    egn);
+            var doctorPassword = string.Concat("Doctor","_", egn);
 
             ApplicationUser appUser = new ApplicationUser()
             {
