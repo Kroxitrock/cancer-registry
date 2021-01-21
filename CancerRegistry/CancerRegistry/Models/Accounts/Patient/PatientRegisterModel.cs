@@ -25,5 +25,7 @@ namespace CancerRegistry.Models.Accounts.Patient
 
         [DataType(DataType.Password), Compare(nameof(Password))]
         public string RepeatPassoword { get; set; }
+        
+        public string TabSelected { get; set; }
     }
 }

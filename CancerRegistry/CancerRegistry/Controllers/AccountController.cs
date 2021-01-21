@@ -74,7 +74,11 @@ namespace CancerRegistry.Controllers
         public async Task<IActionResult> RegisterPatient(PatientAccountWrapperModel model)
         {
             if (!ModelState.IsValid)
+            {
+                model.RegisterModel.TabSelected = "2";
                 return View("PatientSignInUp", model);
+            }
+                
 
             var result = await _accountService.RegisterPatient(
                 model.RegisterModel.FirstName,
@@ -87,8 +91,9 @@ namespace CancerRegistry.Controllers
             
             foreach (var err in result.Errors)
                 ModelState.AddModelError("", err);
+            model.RegisterModel.TabSelected = "2";
             
-            return View("PatientSignInUp", model);
+            return View("PatientSignInUp",  model);
         }
 
         [HttpGet]

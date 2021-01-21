@@ -2,7 +2,6 @@
 @{
     Layout = "";
 }
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,77 +12,87 @@
 
 </head>
 <body>
-    <div class="login-wrap">
-        <a asp-controller="Home" asp-action="Index"><img src="~/images/logo_transparent.png" p></a>
-        <div class="login-html">
-            <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Вход</label>
-            <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Регистрация</label>
-            <div class="login-form">
-                <div class="sign-in-htm">
-                    <form asp-controller="Account" asp-action="LoginPatient" method="post">
-                        <div class="group"></div>
-                        <div class="group">
-                            <label asp-for="LoginModel.EGN" class="label">ЕГН</label>
-                            <input asp-for="LoginModel.EGN" type="text" class="input">
-                        </div>
-                        <div class="group">
-                            <label asp-for="LoginModel.Password" class="label">Парола</label>
-                            <input asp-for="LoginModel.Password" type="password" class="input" data-type="password">
-                        </div>
-                        <div class="group">
-                            <input id="check" type="checkbox" class="check" checked>
-                            <label for="check"><span class="icon"></span>    Запомни ме</label>
-                        </div>
-                        <div class="group">
-                            <button class="button" type="submit">Вход</button>
-                        </div>
-                    </form>
-                    <div asp-validation-summary="All"></div>
-                    <div class="hr"></div>
-                    <div class="foot-lnk">
-                        <a asp-action="ForgotPassword">Забравена парола?</a>
+<div class="login-wrap">
+    <a asp-controller="Home" asp-action="Index"><img src="~/images/logo_transparent.png" p></a>
+    <div class="login-html">
+        <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Вход</label>
+        <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Регистрация</label>
+        <div class="login-form">
+            <div class="sign-in-htm">
+                <form asp-controller="Account" asp-action="LoginPatient" method="post">
+                    <div class="group"></div>
+                    <div class="group">
+                        <label asp-for="LoginModel.EGN" class="label">ЕГН</label>
+                        <input asp-for="LoginModel.EGN" type="text" class="input">
                     </div>
-
+                    <div class="group">
+                        <label asp-for="LoginModel.Password" class="label">Парола</label>
+                        <input asp-for="LoginModel.Password" type="password" class="input" data-type="password">
+                    </div>
+                    <div class="group">
+                        <input id="check" type="checkbox" class="check" checked>
+                        <label for="check"><span class="icon"></span>    Запомни ме</label>
+                    </div>
+                    <div class="group">
+                        <button class="button" type="submit">Вход</button>
+                    </div>
+                </form>
+                <div asp-validation-summary="All"></div>
+                <div class="hr"></div>
+                <div class="foot-lnk">
+                    <a asp-action="ForgotPassword">Забравена парола?</a>
                 </div>
-                <div class="sign-up-htm">
-                    <form asp-controller="Account" asp-action="RegisterPatient" method="post">
-                        <div class="group">
-                            <label asp-for="RegisterModel.FirstName" class="label">Име *</label>
-                            <input asp-for="RegisterModel.FirstName" type="text" class="input">
-                        </div>
-                        <div class="group">
-                            <label asp-for="RegisterModel.LastName" class="label">Фамилия *</label>
-                            <input asp-for="RegisterModel.LastName" type="text" class="input">
-                        </div>
-                        <div class="group">
-                            <label asp-for="RegisterModel.EGN" class="label">ЕГН *</label>
-                            <input asp-for="RegisterModel.EGN" type="text" class="input">
-                        </div>
-                        <div class="group">
-                            <label asp-for="RegisterModel.PhoneNumber" class="label">Телефонен номер *</label>
-                            <input asp-for="RegisterModel.PhoneNumber" type="text" class="input">
-                        </div>
-                        <div class="group">
-                            <label asp-for="RegisterModel.Password" class="label">Парола *</label>
-                            <input asp-for="RegisterModel.Password" type="password" class="input" data-type="password">
-                        </div>
-                        <div class="group">
-                            <label asp-for="RegisterModel.RepeatPassoword" class="label">Повтори парола *</label>
-                            <input asp-for="RegisterModel.RepeatPassoword" type="password" class="input" data-type="password">
-                        </div>
 
-                        <div class="group">
-                            <button class="button" type="submit">Регистрация</button>
-                        </div>
-                    </form>
-                    <div asp-validation-summary="All"></div>
-                    <div class="hr"></div>
-                    <div class="foot-lnk">
-                        <label for="tab-1">Вече имаш профил?</label>
+            </div>
+            <div class="sign-up-htm">
+                <form asp-controller="Account" asp-action="RegisterPatient" method="post">
+                    <div class="group">
+                        <label asp-for="RegisterModel.FirstName" class="label">Име *</label>
+                        <input asp-for="RegisterModel.FirstName" type="text" class="input">
                     </div>
+                    <div class="group">
+                        <label asp-for="RegisterModel.LastName" class="label">Фамилия *</label>
+                        <input asp-for="RegisterModel.LastName" type="text" class="input">
+                    </div>
+                    <div class="group">
+                        <label asp-for="RegisterModel.EGN" class="label">ЕГН *</label>
+                        <input asp-for="RegisterModel.EGN" type="text" class="input">
+                    </div>
+                    <div class="group">
+                        <label asp-for="RegisterModel.PhoneNumber" class="label">Телефонен номер *</label>
+                        <input asp-for="RegisterModel.PhoneNumber" type="text" class="input">
+                    </div>
+                    <div class="group">
+                        <label asp-for="RegisterModel.Password" class="label">Парола *</label>
+                        <input asp-for="RegisterModel.Password" type="password" class="input" data-type="password">
+                    </div>
+                    <div class="group">
+                        <label asp-for="RegisterModel.RepeatPassoword" class="label">Повтори парола *</label>
+                        <input asp-for="RegisterModel.RepeatPassoword" type="password" class="input" data-type="password">
+                    </div>
+
+                    <div class="group">
+                        <button class="button" type="submit">Регистрация</button>
+                    </div>
+                </form>
+                <div asp-validation-summary="All"></div>
+                <div class="hr"></div>
+                <div class="foot-lnk">
+                    <label for="tab-1">Вече имаш профил?</label>
                 </div>
             </div>
         </div>
     </div>
+</div>
+<script src="~/assets/js/jquery-3.2.1.min.js"></script>
+<script>
+    $(function () {
+        @if (Model != null && Model.RegisterModel.TabSelected != null)
+        {
+            @:$('#tab-1').removeProp('checked');
+            @:$('#tab-2').prop('checked', true);
+        }
+    });
+</script>
 </body>
 </html>
