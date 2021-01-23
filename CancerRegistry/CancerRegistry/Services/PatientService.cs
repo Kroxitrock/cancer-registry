@@ -50,15 +50,17 @@ namespace CancerRegistry.Services
             await _diagnoseContext.SaveChangesAsync();
         }
 
-        public async Task<CurrentDiagnoseOutputModel> GetCurrentDiagnose(string patientId)
+        public async Task<CurrentDiagnoseOutputModel> GetActiveDiagnose(string patientId)
         {
+            var p = await _diagnoseContext.Patients
+                .Where(x => x.UserId == patientId)
+                .SingleOrDefaultAsync();
+
             var diagnose = await _diagnoseContext.Diagnoses
+                .Where(d => d.Id == p.ActiveDiagnoseId)
+                .Include(d=> d.Doctor)
                 .Include(d => d.Patient)
-                .Where(x => x.Patient.UserId == patientId)
-                .Include(d => d.HealthChecks.OrderBy(x => x.Timestamp))
-                .Include(d => d.Doctor)
-                .OrderBy(x=> x.HealthChecks.FirstOrDefault().Timestamp)
-                .FirstOrDefaultAsync();
+                .SingleOrDefaultAsync();
 
             if (diagnose == null) return null;
             
@@ -81,7 +83,7 @@ namespace CancerRegistry.Services
             
             return outputModel;
         }
-
+        
         private string TranslateTumorState(PrimaryTumorState state)
         {
             var primaryTumorState = "";

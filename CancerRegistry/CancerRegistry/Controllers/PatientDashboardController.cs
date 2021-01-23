@@ -22,10 +22,10 @@ namespace CancerRegistry.Controllers
         => View("/Views/Dashboard/Patient/PatientDashboardHome.cshtml");
         
         [HttpGet]
-        public async Task<IActionResult> CurrentDiagnose()
+        public async Task<IActionResult> ActiveDiagnose()
         {
             var patientId = _accountService.GetUserId(User);
-            var model = await _patientService.GetCurrentDiagnose(patientId);
+            var model = await _patientService.GetActiveDiagnose(patientId);
 
             return View("/Views/Dashboard/Patient/CurrentDiagnose.cshtml", model);
         }
