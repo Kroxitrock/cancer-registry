@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace CancerRegistry.Services
@@ -155,6 +156,9 @@ namespace CancerRegistry.Services
 
             return roles.First();
         }
+
+        public string GetUserId(ClaimsPrincipal claimsPrincipal) 
+            => _userManager.GetUserId(claimsPrincipal);
 
         #region PrivateMethods
 

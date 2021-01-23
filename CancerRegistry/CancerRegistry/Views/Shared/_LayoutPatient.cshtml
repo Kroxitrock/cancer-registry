@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using CancerRegistry.Identity;
+@using Microsoft.AspNetCore.Identity;
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -32,7 +34,7 @@
                         <a asp-controller="PatientDashboard" asp-action="Home"><i class="fa fa-dashboard"></i> <span>Начало</span></a>
                     </li>
                     <li>
-                        <a href="current-diagnosis-patient.html"><i class="fa fa-wheelchair"></i> <span>Виж диагноза</span></a>
+                        <a asp-controller="PatientDashboard" asp-action="CurrentDiagnose"><i class="fa fa-wheelchair"></i> <span>Виж диагноза</span></a>
                     </li>
                     <li>
                         <a href="current-treatment-patient.html"><i class="fa fa-edit"></i> <span>Виж лечение</span></a>

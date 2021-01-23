@@ -1,0 +1,51 @@
+﻿@model CancerRegistry.Models.Diagnoses.CurrentDiagnoseOutputModel;
+@{
+    Layout = "_LayoutPatient";
+}
+<div class="row">
+    <div class="col-lg-8 offset-lg-2">
+        <h4 class="page-title">Поставена диагноза</h4>
+    </div>
+</div>
+@if (Model == null)
+{
+    <div>Няма поставена диагноза.</div>
+}
+else
+{
+    <text>
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <div class="form-group">
+                    <label>Име на пациент</label>
+                    <input type="text" class="form-control" value="@Model.PatientName" readonly="readonly">
+                </div>
+                <div class="form-group">
+                    <label>Лекуващ доктор</label>
+                    <input type="text" class="form-control" value="@Model.DoctorName" readonly="readonly">
+                </div>
+                <div class="form-group">
+
+                    <div class="form-group">
+                        <label class="col-form-label col-md-2">Клиничен етап</label>
+                        <input type="text" class="form-control" value="@Model.Stage" readonly="readonly">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Допълнителни данни от диагнозата</label>
+                        <textarea cols="30" rows="6" class="form-control" value="" readonly="">
+                    Състояние на тумор: @Model.PrimaryTumorState
+                    Състояние на метастаза: @Model.DistantMetastasisState
+                    Състояние на регионални лимфни възли: @Model.RegionalLymphNodesState
+                    </textarea>
+                    </div>
+
+                </div>
+                <div class="m-t-20 text-center">
+                    <a asp-controller="PatientDashboard" asp-action="Home" class="btn btn-primary submit-btn">ВРЪЩАНЕ НАЗАД</a>
+                </div>
+            </div>
+        </div>
+    </text>
+}
+
