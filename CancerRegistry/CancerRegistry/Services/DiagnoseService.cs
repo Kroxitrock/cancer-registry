@@ -25,6 +25,19 @@ namespace CancerRegistry.Services
                 .SingleOrDefaultAsync();
         }
 
+        public async Task<Diagnose> GetActiveDiagnose(string patientId)
+        {
+            var patient = await _diagnoseContext.Patients
+                .Where(p => p.UserId == patientId)
+                .SingleOrDefaultAsync();
+
+            var diagnose = await _diagnoseContext.Diagnoses
+                .Where(d => d.Id == patient.ActiveDiagnoseId)
+                .SingleOrDefaultAsync();
+
+            return diagnose;
+        }
+        
         /**
          * A method that allows us to determine the stage of the breast cancer. Stages are computed based on the rules given by Digital Health Assistant.
          */
@@ -64,7 +77,7 @@ namespace CancerRegistry.Services
             return 3;
         }
 
-        internal async Task updateAsync()
+        internal async Task UpdateAsync()
         {
             await _diagnoseContext.SaveChangesAsync();
         }

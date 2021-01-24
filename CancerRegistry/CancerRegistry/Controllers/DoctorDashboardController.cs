@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CancerRegistry.Models.Accounts.Doctor;
+using CancerRegistry.Models.Diagnoses.Treatments;
 
 namespace CancerRegistry.Controllers
 {
@@ -21,17 +22,19 @@ namespace CancerRegistry.Controllers
         private readonly HealthCheckService _healthCheckService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly DoctorService _doctorService;
+        private readonly TreatmentService _treatmentService;
 
         public DoctorDashboardController(PatientService patientsService, DiagnoseService diagnoseService,
-            HealthCheckService healthCheckService, UserManager<ApplicationUser> userManager, DoctorService doctorService)
+            HealthCheckService healthCheckService, UserManager<ApplicationUser> userManager, DoctorService doctorService, TreatmentService treatmentService)
         {
             _patientsService = patientsService;
             _diagnoseService = diagnoseService;
             _healthCheckService = healthCheckService;
             _doctorService = doctorService;
             _userManager = userManager;
+            _treatmentService = treatmentService;
         }
-        
+
         [Authorize(Roles = "Doctor")]
         public IActionResult Index()
         {
@@ -72,7 +75,7 @@ namespace CancerRegistry.Controllers
                     Name = patientPrincipal.FirstName + " " + patientPrincipal.LastName
                 });
             });
-            
+
 
             return View("/Views/Dashboard/Doctor/DoctorDashboardHome.cshtml", patientsOutput);
         }
@@ -80,14 +83,29 @@ namespace CancerRegistry.Controllers
         public async Task<IActionResult> AddDiagnose(string patientId)
         {
             var patient = await _userManager.FindByIdAsync(patientId);
+
             var model = new DiagnoseModel()
             {
                 PatientName = patient.FirstName + " " + patient.LastName,
                 PatientId = patientId,
             };
+
             return View("/Views/Diagnose/AddDiagnose.cshtml", model);
         }
-           
+
+        public async Task<IActionResult> AddTreatment(string patientId)
+        {
+            long diagnoseId = -1;
+
+            var diagnose = await _diagnoseService.GetActiveDiagnose(patientId);
+            
+            if(diagnose != null)
+                diagnoseId = diagnose.Id;
+
+            var model = new TreatmentModel() { IsExisting = diagnose != null, PatientId = patientId, DiagnoseId = diagnoseId };
+            return View("/Views/Treatment/AddTreatment.cshtml", model);
+        }
+
         [HttpGet]
         public IActionResult AddPatient()
         {

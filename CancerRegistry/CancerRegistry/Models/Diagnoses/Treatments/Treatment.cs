@@ -17,6 +17,7 @@ namespace CancerRegistry.Models.Diagnoses.Treatments
 
     public enum DiagnosedRadiation
     {
+        R0,
         R1,
         R2,
         R3,
@@ -33,6 +34,7 @@ namespace CancerRegistry.Models.Diagnoses.Treatments
 
     public enum DiagnosedEndocrineTreatment
     {
+        E0,
         E1,
         E2,
         E3,

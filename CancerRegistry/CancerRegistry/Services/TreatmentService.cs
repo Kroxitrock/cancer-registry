@@ -25,11 +25,10 @@ namespace CancerRegistry.Services
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<int> createAsync(Treatment treatment)
+        public async Task<int> CreateAsync(Treatment treatment)
         {
             _diagnoseContext.Treatments.Add(treatment);
             return await _diagnoseContext.SaveChangesAsync();
         }
-
     }
 }

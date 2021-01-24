@@ -62,23 +62,23 @@ namespace CancerRegistry.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(long diagnoseId, DateTime end, DiagnosedChemeotherapy diagnosedChemeotherapy,
-            DiagnosedEndocrineTreatment diagnosedEndocrineTreatment, DiagnosedRadiation diagnosedRadiation, DiagnosedSurgery diagnosedSurgery)
+        public async Task<IActionResult> CreateAsync(long diagnoseId, DateTime end, DiagnosedChemeotherapy Chemeotherapy,
+            DiagnosedEndocrineTreatment EndocrineTreatment, DiagnosedRadiation Radiation, DiagnosedSurgery Surgery)
         {
 
-            Diagnose diagnose = _diagnoseService.GetByIdAsync(diagnoseId).Result;
+            Diagnose diagnose = await _diagnoseService.GetByIdAsync(diagnoseId);
 
             diagnose.Treatment = new Treatment()
             {
                 Beginning = DateTime.Now,
                 End = end,
-                Chemeotherapy = diagnosedChemeotherapy,
-                EndocrineTreatment = diagnosedEndocrineTreatment,
-                Radiation = diagnosedRadiation,
-                Surgery = diagnosedSurgery
+                Chemeotherapy = Chemeotherapy,
+                EndocrineTreatment = EndocrineTreatment,
+                Radiation = Radiation,
+                Surgery = Surgery
             };
 
-            await _diagnoseService.updateAsync();
+            await _diagnoseService.UpdateAsync();
 
             return RedirectToAction("", "DoctorDashboard");
         }
