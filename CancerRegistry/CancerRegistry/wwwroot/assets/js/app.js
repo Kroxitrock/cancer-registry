@@ -144,7 +144,8 @@ $(document).ready(function($) {
 	// Datetimepicker
 	if($('.datetimepicker').length > 0) {
 		$('.datetimepicker').datetimepicker({
-			format: 'DD/MM/YYYY'
+			format: 'DD/MM/YYYY',
+			date: new Date()
 		});
 	}
 	
