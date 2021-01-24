@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace CancerRegistry.Controllers
@@ -67,8 +68,8 @@ namespace CancerRegistry.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAsync(string patientId, PrimaryTumorState primaryTumor, DistantMetastasisState distantMetastasis, RegionalLymphNodesState regionalLymphNodes)
         {
-            Patient patient = _patientService.GetByIdAsync(patientId).Result;
-            Doctor doctor = _doctorService.GetByUserIdAsync(_userManager.GetUserId(HttpContext.User)).Result;
+            Patient patient = await _patientService.GetByIdAsync(patientId);
+            Doctor doctor = await _doctorService.GetByUserIdAsync(_userManager.GetUserId(HttpContext.User));
 
             Diagnose diagnose = new Diagnose()
             {
@@ -86,9 +87,9 @@ namespace CancerRegistry.Controllers
                 Timestamp = DateTime.Now
             };
 
-            int healthCheckId = _healthCheckService.CreateAsync(healthCheck).Result;
+            var healthCheckId = await _healthCheckService.CreateAsync(healthCheck);
 
-            healthCheck = _healthCheckService.GetByIdAsync(healthCheckId).Result;
+            healthCheck = await _healthCheckService.GetByIdAsync(healthCheckId);
 
             patient.ActiveDiagnoseId = healthCheck.Diagnose.Id;
 

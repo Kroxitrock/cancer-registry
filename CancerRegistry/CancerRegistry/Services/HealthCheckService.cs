@@ -33,10 +33,12 @@ namespace CancerRegistry.Services
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<int> CreateAsync(HealthCheck healthCheck)
+        public async Task<long> CreateAsync(HealthCheck healthCheck)
         {
             await _diagnoseContext.HealthChecks.AddAsync(healthCheck);
-            return await _diagnoseContext.SaveChangesAsync();
+            await _diagnoseContext.SaveChangesAsync();
+
+            return healthCheck.Id;
         }
     }
 }
