@@ -8,7 +8,7 @@
         <div class="col-12 col-md-6 col-lg-8 col-xl-8">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title d-inline-block">Моите пациенти</h4> <a href="patients.html" class="btn btn-primary float-right">Виж всички</a>
+                    <h4 class="card-title d-inline-block">Моите пациенти</h4> <a asp-controller="DoctorDashboard" asp-action="AllPatients" class="btn btn-primary float-right">Всички пациенти</a>
                 </div>
                 <div class="card-block">
                     <div class="table-responsive">
@@ -18,7 +18,7 @@
                                 {
                                 <tr>
                                     <td>
-                                        <img width="28" height="28" class="rounded-circle" src="assets/img/user.jpg" alt="">
+                                        <img width="28" height="28" class="rounded-circle" src="~/assets/img/user.jpg" alt="">
                                         <h2>@patient.Name</h2>
                                     </td>
                                     <td>+@patient.PhoneNumber</td>
@@ -29,7 +29,7 @@
                                     else
                                     {
                                         <td><a href="@Url.Action("","Diagnose", new { diagnoseId = patient.DiagnoseId, patientId = patient.Id, patientName = patient.Name })"><button class="btn btn-primary btn-primary-one float-right">Диагноза</button></a></td>
-                                    }s
+                                    }
 
                                     @if (patient.TreatmentId == -1)
                                     {

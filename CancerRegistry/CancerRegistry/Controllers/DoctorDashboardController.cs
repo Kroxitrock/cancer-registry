@@ -84,6 +84,11 @@ namespace CancerRegistry.Controllers
             return View("/Views/Dashboard/Doctor/AddPatient.cshtml", model);
         }
 
+        public async Task<IActionResult> AllPatients()
+        {
+            var patients = await _patientsService.GetAllPatients();
+            return View("/Views/Dashboard/Doctor/AllPatients.cshtml", patients);
+        }
 
         [HttpPost]
         public async Task<IActionResult> AddPatient(AddPatientModel model)
