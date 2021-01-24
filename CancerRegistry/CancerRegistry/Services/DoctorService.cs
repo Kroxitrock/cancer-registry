@@ -33,7 +33,7 @@ namespace CancerRegistry.Services
             _diagnoseContext.SaveChanges();
         }
 
-        public async Task<bool> AddPatient(string firstName, string lastName, string egn,string phoneNumber, DateTime birthDate, string gender)
+        public async Task<OperationResult> AddPatient(string firstName, string lastName, string egn,string phoneNumber, DateTime birthDate, string gender)
         {
             var patientAccount = new ApplicationUser()
             {
@@ -53,19 +53,33 @@ namespace CancerRegistry.Services
                 PhoneNumber = Convert.ToInt64(patientAccount.PhoneNumber)
             };
 
-            var temporaryPatientPassword = CreatePatientPassword(firstName, lastName, egn);
+            var temporaryPatientPassword = CreatePatientPassword(egn);
             var result = await _userManager.CreateAsync(patientAccount, temporaryPatientPassword);
-            var roleResult = await _userManager.AddToRoleAsync(patientAccount, "Patient");
             
-            if (!result.Succeeded) return false;
+            if (!result.Succeeded) return AddPatientResult(result);
+            
+            var roleResult = await _userManager.AddToRoleAsync(patientAccount, "Patient");
             
             await _diagnoseContext.Patients.AddAsync(patient);
             await _diagnoseContext.SaveChangesAsync();
             
-            return true;
+            return new OperationResult();
         }
 
-        private string CreatePatientPassword(string firstName, string lastName, string egn) 
+        private string CreatePatientPassword(string egn) 
             => string.Concat("Patient", "_", egn);
+
+        private OperationResult AddPatientResult(IdentityResult result)
+        {
+            var addPatientResult = new OperationResult();
+
+            addPatientResult.Succeeded = false;
+            addPatientResult.Errors = new List<string>();
+            foreach (var err in result.Errors)
+                addPatientResult.Errors.Add(err.Description);
+
+            return addPatientResult;
+        }
+
     }
 }

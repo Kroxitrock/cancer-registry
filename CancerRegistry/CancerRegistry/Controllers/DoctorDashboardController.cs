@@ -98,10 +98,12 @@ namespace CancerRegistry.Controllers
 
             var result = await _doctorService.AddPatient(model.FirstName, model.LastName, model.EGN, model.PhoneNumber, model.BirthDate, model.Gender);
 
-            if (result)
+            if (result.Succeeded)
                 return RedirectToAction("Index");
 
-            ModelState.AddModelError("", "Възникна грешка. Опитайте отново!");
+            foreach (var err in result.Errors)
+                ModelState.AddModelError("", err);
+
             return View("/Views/Dashboard/Doctor/AddPatient.cshtml", model);
         }
     }
