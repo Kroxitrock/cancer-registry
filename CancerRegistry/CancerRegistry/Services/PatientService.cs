@@ -51,6 +51,12 @@ namespace CancerRegistry.Services
             await _diagnoseContext.SaveChangesAsync();
         }
 
+        public async Task AddPatient(string id, string number)
+        {
+            await _diagnoseContext.Patients.AddAsync(new Patient() {UserId = id, PhoneNumber = Int64.Parse(number)});
+            await _diagnoseContext.SaveChangesAsync();
+        }
+        
         public async Task<IEnumerable<ApplicationUser>> GetAllPatients()
         {
             var patients = await _userManager.GetUsersInRoleAsync("Patient");

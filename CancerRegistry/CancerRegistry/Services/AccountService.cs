@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using CancerRegistry.Models.Accounts.Patient;
+using CancerRegistry.Models.Diagnoses;
 
 namespace CancerRegistry.Services
 {
@@ -44,6 +46,7 @@ namespace CancerRegistry.Services
         {
             var user = new ApplicationUser()
             {
+                Id = Guid.NewGuid().ToString(),
                 UserName = egn,
                 FirstName = firstName,
                 LastName = lastName,
@@ -61,6 +64,12 @@ namespace CancerRegistry.Services
             return new OperationResult();
         }
 
+        public async Task<ApplicationUser> GetUserByName(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            return user;
+        }
+        
         public async Task<ApplicationUser> GetPatient(string id)
         {
             var patient = await _userManager.FindByIdAsync(id);

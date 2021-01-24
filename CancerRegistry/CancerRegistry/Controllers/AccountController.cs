@@ -17,10 +17,12 @@ namespace CancerRegistry.Controllers
     public class AccountController : Controller
     {
         private readonly AccountService _accountService;
+        private readonly PatientService _patientService;
 
-        public AccountController(AccountService accountService)
+        public AccountController(AccountService accountService, PatientService patientService)
         {
             _accountService = accountService;
+            _patientService = patientService;
         }
 
         [HttpGet]
@@ -87,7 +89,13 @@ namespace CancerRegistry.Controllers
                 model.RegisterModel.PhoneNumber,
                 model.RegisterModel.Password);
 
-            if (result.Succeeded) return RedirectToAction("Index", "Home");
+            if (result.Succeeded)
+            {
+                var user = await _accountService.GetUserByName(model.RegisterModel.EGN);
+                await _patientService.AddPatient(user.Id, user.PhoneNumber);
+                
+                return RedirectToAction("Index", "Home");
+            }
             
             foreach (var err in result.Errors)
                 ModelState.AddModelError("", err);
