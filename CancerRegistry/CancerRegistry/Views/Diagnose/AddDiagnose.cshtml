@@ -1,0 +1,65 @@
+﻿@{
+    Layout = "_LayoutDoctor";
+}
+@model CancerRegistry.Models.Diagnoses.DiagnoseModel;
+
+<div class="content">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <h4 class="page-title">Постави диагноза</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <form asp-controller="Diagnose" asp-action="Create" method="post">
+                <div class="form-group">
+                    <label>Име на пациент</label>
+                    <h3>@Model.PatientName</h3>
+                </div>
+                <div class="form-group">
+                    <div class="form-group">
+                            <label class="col-form-label col-md-2">Primary Tumor</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="PrimaryTumor">
+                                    <option>-- Избери --</option>
+                                    <option value="T1">Tumor size ≤20 mm</option>
+                                    <option value="T2">20 mm but ≤50 mm</option>
+                                    <option value="T3">50 mm</option>
+                                    <option value="T4">Tumor of any size with direct extension to the chest wall and/or skin</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label col-md-2">Distant Metastasis</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="DistantMetastasis">
+                                    <option>-- Избери --</option>
+                                    <option value="M0">No evidence of distant metastases</option>
+                                    <option value="M1">Distant detectable metastases as determined by clinical and radiographic means</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label col-md-2">Regional Lymph Nodes</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="RegionalLymphNodes">
+                                    <option>-- Избери --</option>
+                                    <option value="N0">No regional lymph node metastases</option>
+                                    <option value="N1">Metastases to moveable ipsilateral axillary lymph nodes</option>
+                                    <option value="N2">Metastases in ipsilateral axillary lymph nodes that are clinically fixed</option>
+                                    <option value="N3">Metastases that are more extensive</option>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="hidden" name="PatientId" value="@Model.PatientId" />
+                        <div class="form-group">
+                            <input type="submit" value="Запази" class="btn btn-primary submit-btn" />
+                        </div>
+                </div>
+            </form>
+            <div class="m-t-20 text-center">
+                <a asp-controller="DoctorDashboard" asp-action="Index"  class="btn btn-primary submit-btn">ВРЪЩАНЕ НАЗАД</a>
+            </div>
+        </div>
+    </div>
+</div>

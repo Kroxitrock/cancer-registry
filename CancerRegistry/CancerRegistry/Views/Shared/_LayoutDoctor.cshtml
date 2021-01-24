@@ -15,7 +15,7 @@
 <body>
     <div class="header">
         <div class="header-left">
-            <a asp-controller="DoctorDashboard" asp-action="Home" class="logo">
+            <a asp-controller="DoctorDashboard" asp-action="Index" class="logo">
                 <img src="~/images/logo_transparent_circle.png" width="35" height="35" alt=""> <span>Здравен раков регистър</span>
             </a>
         </div>
@@ -32,7 +32,7 @@
                         <a asp-controller="DoctorDashboard" asp-action="Index"><i class="fa fa-dashboard"></i> <span>Начало</span></a>
                     </li>
                     <li>
-                        <a href="current-diagnosis-patient.html"><i class="fa fa-wheelchair"></i> <span>Пациенти</span></a>
+                        <a asp-controller="DoctorDashboard" asp-action="AllPatients"><i class="fa fa-wheelchair"></i> <span>Пациенти</span></a>
                     </li>
                     <li>
                         <a asp-controller="DoctorDashboard" asp-action="AddPatient"><i class="fa fa-edit"></i> <span>Добави пациент</span></a>

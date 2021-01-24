@@ -77,6 +77,17 @@ namespace CancerRegistry.Controllers
             return View("/Views/Dashboard/Doctor/DoctorDashboardHome.cshtml", patientsOutput);
         }
 
+        public async Task<IActionResult> AddDiagnose(string patientId)
+        {
+            var patient = await _userManager.FindByIdAsync(patientId);
+            var model = new DiagnoseModel()
+            {
+                PatientName = patient.FirstName + " " + patient.LastName,
+                PatientId = patientId,
+            };
+            return View("/Views/Diagnose/AddDiagnose.cshtml", model);
+        }
+           
         [HttpGet]
         public IActionResult AddPatient()
         {
