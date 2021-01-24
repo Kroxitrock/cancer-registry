@@ -88,29 +88,7 @@ namespace CancerRegistry.Services
             
             return outputModel;
         }
-        public async Task GetCurrentTreatment(string patientId)
-        {
-            var activeDiagnoseId = await _diagnoseContext.Patients
-                .Where(p => p.UserId == patientId)
-                .Select(x=> x.ActiveDiagnoseId)
-                .SingleOrDefaultAsync();
 
-            var treatment = await _diagnoseContext.Treatments
-                .Where(t => t.DiagnoseId == activeDiagnoseId)
-                .SingleOrDefaultAsync();
-
-            var doctor = await _userManager.FindByIdAsync(treatment.Diagnose.Doctor.UserId);
-            var patient = await _userManager.FindByIdAsync(treatment.Diagnose.Patient.UserId);
-
-            var model = new CurrentTreatmentOutputModel()
-            {
-                DoctorName = doctor.FirstName + " " + doctor.LastName,
-                PatientName = patient.FirstName + " " + patient.LastName,
-                AddedOn = treatment.Beginning.ToShortDateString(),
-                Description = ""
-            };
-        }
-        
         
         private string TranslateTumorState(PrimaryTumorState state)
         {
