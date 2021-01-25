@@ -88,6 +88,28 @@ namespace CancerRegistry.Services
             return new OperationResult();
         }
 
+        public async Task<ApplicationUser> GetUserByName(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            return user;
+        }
+
+        public async Task<bool> IsPatient(string id)
+        {
+            var patient = await _userManager.FindByIdAsync(id);
+            var result = await _userManager.IsInRoleAsync(patient, "Patient");
+
+            return result;
+        }
+
+        public async Task<bool> IsDoctor(string id)
+        {
+            var doctor = await _userManager.FindByIdAsync(id);
+            var result = await _userManager.IsInRoleAsync(doctor, "Doctor");
+
+            return result;
+        }
+
         #region Private methods
 
         private OperationResult UserNotFoundResult()

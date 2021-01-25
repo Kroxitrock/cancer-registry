@@ -33,6 +33,12 @@ namespace CancerRegistry.Services
             _diagnoseContext.SaveChanges();
         }
 
+        public async Task CreateDoctor(string id, string eik)
+        {
+            await _diagnoseContext.Doctors.AddAsync(new Doctor() { UserId = id,EIK = eik, DiplomaNum = "None"});
+            await _diagnoseContext.SaveChangesAsync();
+        }
+
         public async Task<OperationResult> AddPatient(string firstName, string lastName, string egn,string phoneNumber, DateTime birthDate, string gender)
         {
             var patientAccount = new ApplicationUser()
@@ -69,6 +75,15 @@ namespace CancerRegistry.Services
         private string CreatePatientPassword(string egn) 
             => string.Concat("Patient", "_", egn);
 
+
+        public async Task DeleteDoctor(string id)
+        {
+            var doctor = await _diagnoseContext.Doctors.SingleOrDefaultAsync(p => p.UserId == id);
+            _diagnoseContext.Doctors.Remove(doctor);
+            await _diagnoseContext.SaveChangesAsync();
+        }
+
+
         private OperationResult AddPatientResult(IdentityResult result)
         {
             var addPatientResult = new OperationResult();
@@ -80,6 +95,8 @@ namespace CancerRegistry.Services
 
             return addPatientResult;
         }
+
+
 
     }
 }

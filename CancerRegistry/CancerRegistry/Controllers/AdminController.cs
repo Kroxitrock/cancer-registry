@@ -15,9 +15,15 @@ namespace CancerRegistry.Controllers
     public class AdminController : Controller
     {
         private readonly AdministratorService _adminService;
+        private readonly DoctorService _doctorService;
+        private readonly PatientService _patientService;
 
-        public AdminController(AdministratorService adminService) 
-            => _adminService = adminService;
+        public AdminController(AdministratorService adminService, DoctorService doctorService, PatientService patientService)
+        {
+            _adminService = adminService;
+            _doctorService = doctorService;
+            _patientService = patientService;
+        }
 
         [HttpGet]
         [AllowAnonymous]
@@ -72,9 +78,13 @@ namespace CancerRegistry.Controllers
                     doctor.Gender,
                     doctor.Bulstat);
 
-            if (result.Succeeded) 
+            if (result.Succeeded)
+            {
+                var d = await _adminService.GetUserByName(doctor.UID);
+                await _doctorService.CreateDoctor(d.Id, doctor.UID);
                 return RedirectToAction("Index");
-            
+            }
+
             foreach (var error in result.Errors)
                 ModelState.AddModelError("", error);
             
@@ -99,14 +109,22 @@ namespace CancerRegistry.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteUser(string id)
         {
+            var isPatient = await _adminService.IsPatient(id);
+            var isDoctor = await _adminService.IsDoctor(id);
+
             var result = await _adminService.DeleteUser(id);
 
             if (result.Succeeded)
+            {
+                if (isPatient) await _patientService.DeletePatient(id);
+                if (isDoctor) await  _doctorService.DeleteDoctor(id);
+                
                 return RedirectToAction("Index");
+            }
 
             foreach(var err in result.Errors)
                 ModelState.AddModelError("", err);
-            //should redirect to view
+
             return View("Index");
         }
     }

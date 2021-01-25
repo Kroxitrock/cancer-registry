@@ -17,7 +17,7 @@ namespace CancerRegistry.Services
             _diagnoseContext = diagnoseContext;
         }
 
-        public async Task<Treatment> getByIdAsync(long id)
+        public async Task<Treatment> GetByIdAsync(long id)
         {
             return await _diagnoseContext.Treatments
                 .Where(treatment => treatment.Id == id)
@@ -25,10 +25,12 @@ namespace CancerRegistry.Services
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<int> CreateAsync(Treatment treatment)
+        public async Task<long> CreateAsync(Treatment treatment)
         {
-            _diagnoseContext.Treatments.Add(treatment);
-            return await _diagnoseContext.SaveChangesAsync();
+             await _diagnoseContext.Treatments.AddAsync(treatment);
+             await _diagnoseContext.SaveChangesAsync();
+
+             return treatment.Id;
         }
     }
 }

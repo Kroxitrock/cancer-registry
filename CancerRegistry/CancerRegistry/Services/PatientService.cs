@@ -53,7 +53,7 @@ namespace CancerRegistry.Services
 
         public async Task AddPatient(string id, string number)
         {
-            await _diagnoseContext.Patients.AddAsync(new Patient() {UserId = id, PhoneNumber = Int64.Parse(number)});
+            await _diagnoseContext.Patients.AddAsync(new Patient() { UserId = id, PhoneNumber = Int64.Parse(number)});
             await _diagnoseContext.SaveChangesAsync();
         }
         
@@ -61,6 +61,13 @@ namespace CancerRegistry.Services
         {
             var patients = await _userManager.GetUsersInRoleAsync("Patient");
             return patients;
+        }
+
+        public async Task DeletePatient(string id)
+        {
+           var patient = await _diagnoseContext.Patients.SingleOrDefaultAsync(p => p.UserId == id);
+            _diagnoseContext.Patients.Remove(patient);
+            await _diagnoseContext.SaveChangesAsync();
         }
         
         public async Task<CurrentDiagnoseOutputModel> GetActiveDiagnose(string patientId)
