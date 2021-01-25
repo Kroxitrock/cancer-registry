@@ -55,7 +55,8 @@ namespace CancerRegistry.Services
             if (c != DiagnosedChemeotherapy.C1) chemeotherapy += "Chemeotherapy";
             if (e != DiagnosedEndocrineTreatment.E0) endocrine += "EndocrineTreatment";
 
-            return string.Join(" ", surgery, radiation, chemeotherapy, endocrine);
+            var arr = new string[] { surgery, radiation, chemeotherapy, endocrine };
+            return string.Join("+", arr.Where(x => !string.IsNullOrEmpty(x)));
         }
 
         public static string GetTreatmentDescription(
@@ -74,7 +75,9 @@ namespace CancerRegistry.Services
             if (c != DiagnosedChemeotherapy.C1) chemeotherapy += TranslateChemeotherapy(c);
             if (e != DiagnosedEndocrineTreatment.E0) endocrine += TranslateEndocrineTreatment(e);
 
-            return string.Join(Environment.NewLine, surgery, radiation, chemeotherapy, endocrine);
+            var arr = new string[] {surgery, radiation, chemeotherapy, endocrine };
+            
+            return string.Join(Environment.NewLine, arr.Where(x=> !string.IsNullOrEmpty(x)));
         }
 
 
