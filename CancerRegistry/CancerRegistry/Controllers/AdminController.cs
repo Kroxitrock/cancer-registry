@@ -11,7 +11,7 @@ using CancerRegistry.Models.Admin;
 
 namespace CancerRegistry.Controllers
 {   
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Policy = "RequireAdministratorRole")]
     public class AdminController : Controller
     {
         private readonly AdministratorService _adminService;
@@ -82,7 +82,7 @@ namespace CancerRegistry.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AllPatient()
+        public async Task<IActionResult> AllPatients()
         {
             var patients = await _adminService.GetAllPatients();
             return View("Patients", patients);
@@ -107,7 +107,7 @@ namespace CancerRegistry.Controllers
             foreach(var err in result.Errors)
                 ModelState.AddModelError("", err);
             //should redirect to view
-            return RedirectToAction("Index");
+            return View("Index");
         }
     }
 }

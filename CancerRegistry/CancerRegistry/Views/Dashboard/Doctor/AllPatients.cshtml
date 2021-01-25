@@ -31,8 +31,7 @@
                         <td>@patient.EGN</td>
                         <td>@patient.PhoneNumber</td>
                         <td><a asp-controller="DoctorDashboard" asp-action="AddDiagnose" asp-route-patientId="@patient.Id" ><button class="btn btn-primary btn-primary-one float-right">Добави диагноза</button></a></td>
-                        <td><a href='see-exam-results.html'><button class="btn btn-primary btn-primary-two float-right">Резултати от преглед</button></a></td>
-                        <td><a href='add-treatment.html'><button class="btn btn-primary btn-primary-three float-right">Добави лечение</button></a></td>
+                        <td><a asp-controller="DoctorDashboard" asp-action="AddTreatment" asp-route-patientId="@patient.Id"><button class="btn btn-primary btn-primary-three float-right">Добави лечение</button></a></td>
                     </tr>
                 }
 
