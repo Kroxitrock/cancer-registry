@@ -50,7 +50,7 @@ namespace CancerRegistry.Services
             var chemeotherapy = "";
             var endocrine = "";
 
-            if (s != DiagnosedSurgery.S4) surgery += "Sugery";
+            if (s != DiagnosedSurgery.S4) surgery += "Surgery";
             if (r != DiagnosedRadiation.R0) radiation += "Radiation";
             if (c != DiagnosedChemeotherapy.C1) chemeotherapy += "Chemeotherapy";
             if (e != DiagnosedEndocrineTreatment.E0) endocrine += "EndocrineTreatment";
