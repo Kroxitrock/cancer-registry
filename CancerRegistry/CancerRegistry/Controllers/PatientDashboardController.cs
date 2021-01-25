@@ -30,5 +30,12 @@ namespace CancerRegistry.Controllers
             return View("/Views/Dashboard/Patient/CurrentDiagnose.cshtml", model);
         }
 
+        public async Task<IActionResult> CurrentTreatment()
+        {
+            var patientId = _accountService.GetUserId(User);
+            var model = await _patientService.GetCurrentTreatment(patientId);
+            return View("/Views/Dashboard/Patient/CurrentTreatment.cshtml", model);
+        }
+
     }
 }

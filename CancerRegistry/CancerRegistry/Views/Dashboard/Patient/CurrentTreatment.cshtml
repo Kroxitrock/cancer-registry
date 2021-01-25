@@ -1,0 +1,58 @@
+﻿@model CancerRegistry.Models.Diagnoses.Treatments.CurrentTreatmentOutputModel;
+@{
+    Layout = "_LayoutPatient";
+}
+<div class="row">
+    <div class="col-lg-8 offset-lg-2">
+        <h4 class="page-title">Поставено лечение</h4>
+    </div>
+
+</div>
+
+@if (Model == null)
+{
+    <div>Няма поставено лечение.</div>
+}
+else
+{
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="form-group">
+                <label>Име на пациент</label>
+                <input type="text" class="form-control" value="@Model.PatientName" readonly="readonly">
+            </div>
+            <div class="form-group">
+                <label>Лекуващ доктор</label>
+                <input type="text" class="form-control" value="@Model.DoctorName" readonly="readonly">
+            </div>
+            <div class="form-group">
+
+            </div>
+
+            <div class="form-group">
+                <label>Лечение</label>
+                <input type="text" class="form-control" value="@Model.Treatment" readonly="readonly">
+            </div>
+            <div class="form-group">
+                <label>Допълнително описание</label>
+                <textarea cols="30" rows="6" class="form-control" value="">@Model.Description</textarea>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label>Дата</label>
+
+                        <div class="cal-icon">
+                            <input type="text" class="form-control" value="@Model.AddedOn">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="m-t-20 text-center">
+                <a asp-controller="PatientDashboard" asp-action="Home" class="btn btn-primary submit-btn">ВРЪЩАНЕ НАЗАД</a>
+            </div>
+        </div>
+    </div>
+}
