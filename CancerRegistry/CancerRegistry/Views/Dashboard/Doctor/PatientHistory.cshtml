@@ -1,0 +1,43 @@
+﻿@model CancerRegistry.Models.Diagnoses.PatientHistoryOutputModel;
+@{
+    Layout = "_LayoutDoctor";
+}
+
+@if (Model == null)
+{
+    <div>Пациентът няма история.</div>
+}
+else
+{
+    <div class="row">
+        <div class="col-sm-4 col-3">
+            <h3>Име на пациент</h3>
+            <input type="text" class="form-control" value="@Model.PatientName" readonly="readonly">  
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-border table-striped custom-table datatable mb-0">
+                    <thead>
+                    <tr>
+                        <th>Дата и час</th>
+                        <th>Вид</th>
+                        <th>Описание</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var h in Model.History)
+                    {
+                        <tr>
+                            <td>@h.AddedOn</td>
+                            <td>@h.Type</td>
+                            <td>@h.Description</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}

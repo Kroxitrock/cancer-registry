@@ -127,5 +127,76 @@ namespace CancerRegistry.Services
 
             return model;
         }
+
+        public async Task<PatientHistoryOutputModel> GetHistory(string patientId)
+        {
+            var patient = await _userManager.FindByIdAsync(patientId);
+            
+            var diagnoses = await _diagnoseContext.Diagnoses
+                .Include(d=>d.Patient)
+                .Include(d => d.HealthChecks)
+                .Where(d => d.Patient.UserId == patientId)
+                .Select(x=>new
+                {
+                    Type = "Диагноза",
+                    AddedOn = x.HealthChecks.SingleOrDefault().Timestamp,
+                    PrimaryTumor = x.PrimaryTumor,
+                    DistantMetastasis = x.DistantMetastasis,
+                    RegionalLymphNodes = x.RegionalLymphNodes,
+                    Stage = x.Stage
+                })
+                .ToListAsync();
+            
+            
+            var treatments = await _diagnoseContext.Treatments
+                .Include(t => t.Diagnose)
+                .ThenInclude(d => d.Patient)
+                .Where(t => t.Diagnose.Patient.UserId == patientId)
+                .Select(x=>new
+                {
+                    Type = "Лечение",
+                    AddedOn = x.Beginning,
+                    Surgery = x.Surgery,
+                    Radiation = x.Radiation,
+                    Chemeotherapy = x.Chemeotherapy,
+                    EndocrineTreatment = x.EndocrineTreatment,
+                })
+                .ToListAsync();
+
+            if (treatments == null && diagnoses == null) return null;
+
+            var history = diagnoses
+                .Select(diagnose =>
+                    new PatientHistory
+                    {
+                        Type = diagnose.Type,
+                        AddedOn = diagnose.AddedOn,
+                        Description =
+                            diagnose.PrimaryTumor + ", " +
+                            diagnose.DistantMetastasis + ", " +
+                            diagnose.RegionalLymphNodes
+                    }).ToList();
+
+            history.AddRange(treatments
+                .Select(treatment =>
+                    new PatientHistory
+                    {
+                        Type = treatment.Type,
+                        AddedOn = treatment.AddedOn,
+                        Description =
+                            treatment.Chemeotherapy + ", " +
+                            treatment.Surgery + ", " +
+                            treatment.Radiation + ", " +
+                            treatment.Chemeotherapy
+                    }));
+
+            var model = new PatientHistoryOutputModel()
+            {
+                History = history.OrderBy(x => x.AddedOn),
+                PatientName = patient.FirstName + " " + patient.LastName
+            };
+            
+            return model;
+        }
     }
 }

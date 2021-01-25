@@ -106,6 +106,12 @@ namespace CancerRegistry.Controllers
             return View("/Views/Treatment/AddTreatment.cshtml", model);
         }
 
+        public async Task<IActionResult> History(string patientId)
+        {
+            var history = await _patientsService.GetHistory(patientId);
+            return View("/Views/Dashboard/Doctor/PatientHistory.cshtml", history);
+        }
+        
         [HttpGet]
         public IActionResult AddPatient()
         {

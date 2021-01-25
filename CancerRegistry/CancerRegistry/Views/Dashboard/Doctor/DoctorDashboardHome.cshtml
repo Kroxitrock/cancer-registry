@@ -30,7 +30,7 @@
                                     {
                                         <td><a href="@Url.Action("","Diagnose", new { diagnoseId = patient.DiagnoseId, patientId = patient.Id, patientName = patient.Name })"><button class="btn btn-primary btn-primary-one float-right">Диагноза</button></a></td>
                                     }
-
+                                    <td><a asp-controller="DoctorDashboard" asp-action="History" asp-route-patientId="@patient.Id" class="btn btn-primary btn-primary-one float-right">Виж история</a></td>
                                     @if (patient.TreatmentId == -1)
                                     {
                                         <td><a href="@Url.Action("","Treatment", new { diagnoseId = patient.DiagnoseId, treatmentId = patient.TreatmentId, patientId = patient.Id, patientName = patient.Name })"><button class="btn btn-primary btn-primary-three float-right">Добави лечение</button></a></td>
