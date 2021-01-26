@@ -39,7 +39,15 @@ namespace CancerRegistry.Controllers
             var loginResult = await _accountService.LoginUser(model.LoginModel.EGN, model.LoginModel.Password);
 
             if (loginResult)
-                return RedirectToAction("Home", "PatientDashboard");
+            {
+                var user = await _accountService.GetUserByName(model.LoginModel.EGN);
+                var role = await _accountService.GetUserRole(user.Id);
+                
+                if(role == "Patient")
+                    return RedirectToAction("Home", "PatientDashboard");
+
+                await _accountService.LogoutUser();
+            }
 
             ModelState.AddModelError("", "Влизането неуспешно: грешно ЕГН или парола.");
             return View("PatientSignInUp");
@@ -58,8 +66,18 @@ namespace CancerRegistry.Controllers
 
             var loginResult = await _accountService.LoginUser(doctor.UID, doctor.Password);
 
+           
             if (loginResult)
-                return RedirectToAction("", "DoctorDashboard"); //Must redirect to doctor's dashboard
+            {
+                var user = await _accountService.GetUserByName(doctor.UID);
+                var role = await _accountService.GetUserRole(user.Id);
+
+                if (role == "Doctor")
+                    return RedirectToAction("", "DoctorDashboard");
+
+                await _accountService.LogoutUser();
+            }
+                
 
             ModelState.AddModelError("", "Влизането неуспешно: грешен УИН или парола.");
             return View("DoctorSignIn");
