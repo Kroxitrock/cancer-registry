@@ -9,6 +9,9 @@ namespace CancerRegistry.Models.Diagnoses
     {
         public string Type { get; set; }
         public DateTime AddedOn { get; set; }
+        public DateTime EndsOn { get; set; }
         public string Description { get; set; }
+        
+
     }
 }

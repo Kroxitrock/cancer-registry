@@ -163,6 +163,7 @@ namespace CancerRegistry.Services
                 {
                     Type = "Лечение",
                     AddedOn = x.Beginning,
+                    EndsOn = x.End,
                     Surgery = x.Surgery,
                     Radiation = x.Radiation,
                     Chemeotherapy = x.Chemeotherapy,
@@ -194,7 +195,8 @@ namespace CancerRegistry.Services
                             treatment.Chemeotherapy + ", " +
                             treatment.Surgery + ", " +
                             treatment.Radiation + ", " +
-                            treatment.Chemeotherapy
+                            treatment.Chemeotherapy,
+                        EndsOn = treatment.EndsOn
                     }));
 
             var model = new PatientHistoryOutputModel()

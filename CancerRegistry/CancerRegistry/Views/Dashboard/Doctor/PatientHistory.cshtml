@@ -21,18 +21,27 @@ else
                 <table class="table table-border table-striped custom-table datatable mb-0">
                     <thead>
                     <tr>
-                        <th>Дата и час</th>
                         <th>Вид</th>
                         <th>Описание</th>
+                        <th>Дата и час на поставяне</th>
+                        <th>Приключва/приключил на</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach (var h in Model.History)
                     {
                         <tr>
-                            <td>@h.AddedOn</td>
                             <td>@h.Type</td>
                             <td>@h.Description</td>
+                            <td>@h.AddedOn</td>
+                            @if (h.Type == "Диагноза")
+                            {
+                                <td>-</td>
+                            }
+                            else
+                            {
+                                <td>@h.EndsOn.ToShortDateString()</td>
+                            }
                         </tr>
                     }
                     </tbody>
