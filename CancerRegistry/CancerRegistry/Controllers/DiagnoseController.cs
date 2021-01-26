@@ -71,6 +71,17 @@ namespace CancerRegistry.Controllers
             Patient patient = await _patientService.GetByIdAsync(patientId);
             Doctor doctor = await _doctorService.GetByUserIdAsync(_userManager.GetUserId(HttpContext.User));
 
+            if (patient.ActiveDiagnoseId != 0)
+            {
+                var oldDiagnose = await _diagnoseService.GetByIdAsync(patient.ActiveDiagnoseId);
+                if (oldDiagnose != null && oldDiagnose.Treatment != null)
+                {
+                    oldDiagnose.Treatment.End = DateTime.Now;
+                    await _diagnoseService.UpdateAsync();
+                }
+                    
+            }
+            
             Diagnose diagnose = new Diagnose()
             {
                 Patient = patient,
