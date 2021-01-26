@@ -40,7 +40,7 @@ namespace CancerRegistry.Controllers
             }
             else
             {
-                Treatment treatment = _treatmentService.getByIdAsync(treatmentId).Result;
+                Treatment treatment = _treatmentService.GetByIdAsync(treatmentId).Result;
 
                 treatmentModel = new TreatmentModel()
                 {
