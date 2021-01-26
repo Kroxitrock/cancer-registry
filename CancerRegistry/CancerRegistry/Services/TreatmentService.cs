@@ -32,5 +32,32 @@ namespace CancerRegistry.Services
 
              return treatment.Id;
         }
+
+        public async Task AddTreatmentToDiagnose(TreatmentModel model)
+        {
+
+            Diagnose diagnose = await _diagnoseContext.Diagnoses
+                .Where(d => d.Id == model.DiagnoseId)
+                .Include(d => d.Treatment)
+                .SingleOrDefaultAsync();
+
+            var newTreatment = new Treatment()
+            {
+                Beginning = DateTime.Now,
+                End = model.End.Value,
+                Chemeotherapy = model.Chemeotherapy,
+                EndocrineTreatment = model.EndocrineTreatment,
+                Radiation = model.Radiation,
+                Surgery = model.Surgery,
+                DiagnoseId = diagnose.Id
+            };
+
+            await _diagnoseContext.Treatments.AddAsync(newTreatment);
+
+            diagnose.Treatment = newTreatment;
+            
+            await _diagnoseContext.SaveChangesAsync();
+        }
+        
     }
 }

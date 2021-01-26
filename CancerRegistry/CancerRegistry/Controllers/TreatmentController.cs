@@ -14,12 +14,10 @@ namespace CancerRegistry.Controllers
 {
     public class TreatmentController : Controller
     {
-        private readonly DiagnoseService _diagnoseService;
         private readonly TreatmentService _treatmentService;
 
-        public TreatmentController(DiagnoseService diagnoseService, TreatmentService treatmentService)
+        public TreatmentController(TreatmentService treatmentService)
         {
-            _diagnoseService = diagnoseService;
             _treatmentService = treatmentService;
         }
 
@@ -33,6 +31,7 @@ namespace CancerRegistry.Controllers
                 treatmentModel = new TreatmentModel()
                 {
                     IsExisting = false,
+                    IsDiagnoseExisting = true,
                     DiagnoseId = diagnoseId,
                     PatientId = patientId,
                     PatientName = patientName
@@ -40,12 +39,13 @@ namespace CancerRegistry.Controllers
             }
             else
             {
-                Treatment treatment = _treatmentService.getByIdAsync(treatmentId).Result;
+                Treatment treatment = _treatmentService.GetByIdAsync(treatmentId).Result;
 
                 treatmentModel = new TreatmentModel()
                 {
                     Id = treatmentId,
                     IsExisting = true,
+                    IsDiagnoseExisting = true,
                     DiagnoseId = diagnoseId,
                     PatientId = patientId,
                     PatientName = patientName,
@@ -62,23 +62,12 @@ namespace CancerRegistry.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(long diagnoseId, DateTime end, DiagnosedChemeotherapy Chemeotherapy,
-            DiagnosedEndocrineTreatment EndocrineTreatment, DiagnosedRadiation Radiation, DiagnosedSurgery Surgery)
+        public async Task<IActionResult> CreateAsync(TreatmentModel model)
         {
-
-            Diagnose diagnose = await _diagnoseService.GetByIdAsync(diagnoseId);
-
-            diagnose.Treatment = new Treatment()
-            {
-                Beginning = DateTime.Now,
-                End = end,
-                Chemeotherapy = Chemeotherapy,
-                EndocrineTreatment = EndocrineTreatment,
-                Radiation = Radiation,
-                Surgery = Surgery
-            };
-
-            await _diagnoseService.UpdateAsync();
+            if (!ModelState.IsValid)
+                return View("/Views/Treatment/AddTreatment.cshtml",model);
+            
+            await _treatmentService.AddTreatmentToDiagnose(model);
 
             return RedirectToAction("", "DoctorDashboard");
         }
