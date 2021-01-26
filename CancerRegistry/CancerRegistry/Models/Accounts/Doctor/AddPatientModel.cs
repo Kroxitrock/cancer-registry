@@ -20,7 +20,7 @@ namespace CancerRegistry.Models.Accounts.Doctor
         [Required(ErrorMessage = "Полето \"Телефонен номер\" е задължително."), DataType(DataType.PhoneNumber)]
         public String PhoneNumber { get; set; }
 
-        [DataType(DataType.Date)]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime BirthDate { get; set; }
 
         public String Gender { get; set; }
