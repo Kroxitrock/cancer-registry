@@ -9,7 +9,7 @@
     </div>
 </div>
 
-@if (!Model.IsExisting)
+@if (!Model.IsDiagnoseExisting)
 {
     <div>Няма поставена диагноза!</div>
 }
@@ -26,7 +26,7 @@ else
                 <div class="form-group">
                     <label class="col-form-label col-md-2">Chemeotherapy</label>
                     <div class="col-md-10">
-                        <select class="form-control" name="Chemeotherapy">
+                        <select class="form-control" asp-for="Chemeotherapy">
                             <option>-- Избери --</option>
                             <option value="C1">None</option>
                             <option value="C2">
@@ -42,7 +42,7 @@ else
                 <div class="form-group">
                     <label class="col-form-label col-md-2">Endocrine Treatment</label>
                     <div class="col-md-10">
-                        <select class="form-control" name="EndocrineTreatment">
+                        <select class="form-control" asp-for="EndocrineTreatment">
                             <option>-- Избери --</option>
                             <option value="E0">
                                 None
@@ -63,7 +63,7 @@ else
                 <div class="form-group">
                     <label class="col-form-label col-md-2">Radiation Treatment</label>
                     <div class="col-md-10">
-                        <select class="form-control" name="Radiation">
+                        <select class="form-control" asp-for="Radiation">
                             <option>-- Избери --</option>
                             <option value="R0">
                                 None
@@ -86,8 +86,9 @@ else
                 <div class="form-group">
                     <label class="col-form-label col-md-2">Surgery</label>
                     <div class="col-md-10">
-                        <select class="form-control" name="Surgery">
+                        <select class="form-control" asp-for="Surgery">
                             <option>-- Избери --</option>
+                            <option selected="selected" value="S4">None</option>
                             <option value="S1">
                                 Total mastectomy ± sentinel node biopsy ± reconstruction; or lumpectomy without lymph node surgery.
                             </option>
@@ -97,7 +98,6 @@ else
                             <option value="S3">
                                 If response to pre-operative therapy, total mastectomy or lumpectomy + axillary dissection ± delayed breast reconstruction.
                             </option>
-                            <option value="S4">None</option>
                         </select>
                     </div>
                 </div>
@@ -108,23 +108,22 @@ else
 
                         <div class="form-group">
 
-                            <label>Дата</label>
+                            <label asp-for="End">Дата</label>
 
                             <div class="cal-icon">
-                                <input type="text" class="form-control datetimepicker" value="@Model.End" name="End">
+                                <input asp-for="End" type="text" class="form-control datetimepicker">
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <input type="hidden" name="DiagnoseId" value="@Model.DiagnoseId" />
+                <input type="hidden" name="IsExisting" asp-for="IsExisting" />
+                <input type="hidden" name="IsDiagnoseExisting" asp-for="IsDiagnoseExisting"/>
+                <input type="hidden" name="DiagnoseId" asp-for="DiagnoseId" />
                 <div class="form-group">
                     <input type="submit" value="Запази" class="btn btn-primary submit-btn" />
                 </div>
-
-
-
             </form>
+            <div asp-validation-summary="All"></div>
             <div class="m-t-20 text-center">
                 <a asp-controller="DoctorDashboard" asp-action="Index" class="btn btn-primary submit-btn">ВРЪЩАНЕ НАЗАД</a>
             </div>

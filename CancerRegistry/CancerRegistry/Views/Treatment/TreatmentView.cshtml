@@ -89,6 +89,7 @@
                     <div class="col-md-10">
                         <select class="form-control" name="Surgery">
                             <option>-- Избери --</option>
+                            <option value="S4">None</option>
                             <option value="S1">
                                 Total mastectomy ± sentinel node biopsy ± reconstruction; or lumpectomy without lymph node surgery.
                             </option>
@@ -98,7 +99,6 @@
                             <option value="S3">
                                 If response to pre-operative therapy, total mastectomy or lumpectomy + axillary dissection ± delayed breast reconstruction.
                             </option>
-                            <option value="S4">None</option>
                         </select>
                     </div>
                 </div>
@@ -157,6 +157,9 @@
                 </div>
             }
 
+            <input type="hidden" name="PatientName" asp-for="PatientName" />
+            <input type="hidden" name="IsExisting" asp-for="IsExisting" />
+            <input type="hidden" name="IsDiagnoseExisting" asp-for="IsDiagnoseExisting" />
             <div class="m-t-20 text-center">
                 <a href="@Url.Action("","DoctorDashboard")" class="btn btn-primary submit-btn">ВРЪЩАНЕ НАЗАД</a>
             </div>

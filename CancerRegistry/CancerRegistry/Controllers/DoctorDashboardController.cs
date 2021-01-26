@@ -102,7 +102,7 @@ namespace CancerRegistry.Controllers
             if(diagnose != null)
                 diagnoseId = diagnose.Id;
 
-            var model = new TreatmentModel() { IsExisting = diagnose != null, PatientId = patientId, DiagnoseId = diagnoseId };
+            var model = new TreatmentModel() { IsDiagnoseExisting = diagnose != null, PatientId = patientId, DiagnoseId = diagnoseId };
             return View("/Views/Treatment/AddTreatment.cshtml", model);
         }
 
